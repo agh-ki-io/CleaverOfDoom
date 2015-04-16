@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import pl.edu.agh.game.Game;
+import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.JoystickInput;
 import pl.edu.agh.game.ui.UIFactory;
 import pl.edu.agh.game.ui.UserInterface;
@@ -19,6 +19,6 @@ public class AndroidLauncher extends AndroidApplication {
 		UserInterface userInterface = new UserInterface(joystickInput);
 		joystickInput.setUserInterface(userInterface);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		initialize(new Game(userInterface), config);
+		initialize(new CleaverOfDoom(), config);
 	}
 }

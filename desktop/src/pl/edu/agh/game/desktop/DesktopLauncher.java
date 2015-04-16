@@ -2,7 +2,7 @@ package pl.edu.agh.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import pl.edu.agh.game.Game;
+import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.DesktopInputProcessor;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.input.JoystickInput;
