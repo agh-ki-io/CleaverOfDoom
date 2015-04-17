@@ -2,9 +2,15 @@ package pl.edu.agh.game.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import pl.edu.agh.game.Game;
+import com.badlogic.gdx.math.Shape2D;
+import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.input.InputState;
+import pl.edu.agh.game.logic.collisions.Collidable;
+import pl.edu.agh.game.logic.damage.Damagable;
+import pl.edu.agh.game.logic.damage.Damage;
+import pl.edu.agh.game.logic.drawable.Drawable;
+import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.Util;
 
 import java.util.Collection;
@@ -15,7 +21,7 @@ import java.util.Map;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-10
  */
-public class Player implements Updatable, Drawable {
+public class Player implements Updatable, Drawable, Damagable, Collidable {
     private float x;
     private float y;
     private float velocity = 300;
@@ -35,7 +41,9 @@ public class Player implements Updatable, Drawable {
         this.inputState = inputState;
         animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
         shotsAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"));
-        animation = animationMap.get("south-walk");
+        animation = animationMap.get("north-walk");
+        animation.setPlayMode(com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP);
+        setPosition(500, 500);
     }
 
     public void setPosition(float x, float y) {
@@ -44,13 +52,19 @@ public class Player implements Updatable, Drawable {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(animation.getCurrentFrame(), x, y, animation.getOriginX(), animation.getOriginY(), animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
+        float originX = animation.getOriginY() + 1;
+        float originY = animation.getOriginX();
+//        float originX = animation.getCurrentFrame().getRegionWidth() - animation.getOriginX();
+//        float originY = animation.getCurrentFrame().getRegionHeight() - animation.getOriginY();
+        batch.draw(animation.getCurrentFrame(), (int) x, (int) y, originX, originY, animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
+        batch.draw(Debug.pixTexture, x, y, 0, 0, 1, 1, scale, scale, 0);
         for (OneWayProjectile projectile : projectiles) {
             projectile.draw(batch);
         }
     }
 
     public void update(float deltaTime) {
+        animation.update(deltaTime);
         Direction newDirection = Direction.fromVector(inputState.getxDirection(), inputState.getyDirection());
 
         if (animation.isFinished() || animation.getPlayMode().equals(com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP) || animation.getPlayMode().equals(com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_PINGPONG) || animation.getPlayMode().equals(com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_REVERSED)) {
@@ -73,11 +87,10 @@ public class Player implements Updatable, Drawable {
             projectile.update(deltaTime);
         }
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
-        animation.update(deltaTime);
     }
 
     private void move(float dx, float dy, float deltaTime) {
-        if (Math.abs(dx) > Game.EPSILON && Math.abs(dy) > Game.EPSILON) {
+        if (Math.abs(dx) > CleaverOfDoom.EPSILON && Math.abs(dy) > CleaverOfDoom.EPSILON) {
             this.x += diagonalVelocity * deltaTime * dx;
             this.y += diagonalVelocity * deltaTime * dy;
         } else {
@@ -87,7 +100,33 @@ public class Player implements Updatable, Drawable {
     }
 
     public void attackSkill1(Direction direction) {
-        OneWayProjectile projectile = new OneWayProjectile(x, y, shotsAnimationMap.get(direction.toString()), 2000, direction.getDx(), direction.getDy());
+        OneWayProjectile projectile = new OneWayProjectile(x + animation.getOriginY(), y + animation.getOriginX(), shotsAnimationMap.get(direction.toString()), 200, direction);
         projectiles.add(projectile);
+    }
+
+    @Override
+    public boolean overlaps(Collidable collidable) {
+
+        return false;
+    }
+
+    @Override
+    public void collide(Collidable collidable) {
+
+    }
+
+    @Override
+    public Shape2D getShape() {
+        return null;
+    }
+
+    @Override
+    public void damage(Damage damage) {
+
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

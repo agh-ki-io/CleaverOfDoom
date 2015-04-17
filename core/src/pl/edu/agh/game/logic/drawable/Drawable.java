@@ -1,4 +1,4 @@
-package pl.edu.agh.game.logic;
+package pl.edu.agh.game.logic.drawable;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

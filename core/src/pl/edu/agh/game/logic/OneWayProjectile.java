@@ -1,8 +1,10 @@
 package pl.edu.agh.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import pl.edu.agh.game.Game;
+import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.graphics.Animation;
+import pl.edu.agh.game.logic.drawable.Drawable;
+import pl.edu.agh.game.stolen_assets.Debug;
 
 /**
  * @author - Lukasz Gmyrek
@@ -16,30 +18,32 @@ public class OneWayProjectile implements Updatable, Drawable {
     private float diagonalVelocity;
     private float dx;
     private float dy;
+    private int scale = 4;
 
-    public OneWayProjectile(float x, float y, Animation animation, float velocity, float dx, float dy) {
+    public OneWayProjectile(float x, float y, Animation animation, float velocity, Direction direction) {
         this.x = x;
         this.y = y;
         this.animation = animation;
         this.velocity = velocity;
-        this.dx = dx;
-        this.dy = dy;
+        this.dx = direction.getDx();
+        this.dy = direction.getDy();
         diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
     }
 
     @Override
     public void update(float deltaTime) {
-        move(dx, dy, deltaTime);
         animation.update(deltaTime);
+        move(dx, dy, deltaTime);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(animation.getCurrentFrame(), x, y, animation.getOriginX(), animation.getOriginY(), animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), 4, 4, 0);
+        batch.draw(animation.getCurrentFrame(), (int) x, (int) y, animation.getOriginX(), animation.getOriginY(), animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
+        batch.draw(Debug.pixTexture, x, y, 0, 0, 1, 1, scale, scale, 0);
     }
 
     private void move(float dx, float dy, float deltaTime) {
-        if (Math.abs(dx) > Game.EPSILON && Math.abs(dy) > Game.EPSILON) {
+        if (Math.abs(dx) > CleaverOfDoom.EPSILON && Math.abs(dy) > CleaverOfDoom.EPSILON) {
             this.x += diagonalVelocity * deltaTime * dx;
             this.y += diagonalVelocity * deltaTime * dy;
         } else {

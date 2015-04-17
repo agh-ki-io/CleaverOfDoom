@@ -1,6 +1,6 @@
 package pl.edu.agh.game.logic;
 
-import pl.edu.agh.game.Game;
+import pl.edu.agh.game.CleaverOfDoom;
 
 /**
  * @author - Lukasz Gmyrek
@@ -42,17 +42,17 @@ public enum Direction {
     }
 
     public static Direction fromVector(float x, float y) {
-        if (x > Game.EPSILON) {
-            if (y > Game.EPSILON) return NORTHEAST;
-            else if ( y < -Game.EPSILON) return SOUTHEAST;
+        if (x > CleaverOfDoom.EPSILON) {
+            if (y > CleaverOfDoom.EPSILON) return NORTHEAST;
+            else if ( y < -CleaverOfDoom.EPSILON) return SOUTHEAST;
             else return EAST;
-        } else if (x < -Game.EPSILON) {
-            if (y > Game.EPSILON) return NORTHWEST;
-            else if ( y < -Game.EPSILON) return SOUTHWEST;
+        } else if (x < -CleaverOfDoom.EPSILON) {
+            if (y > CleaverOfDoom.EPSILON) return NORTHWEST;
+            else if ( y < -CleaverOfDoom.EPSILON) return SOUTHWEST;
             else return WEST;
         } else {
-            if (y > Game.EPSILON) return NORTH;
-            else if ( y < -Game.EPSILON) return SOUTH;
+            if (y > CleaverOfDoom.EPSILON) return NORTH;
+            else if ( y < -CleaverOfDoom.EPSILON) return SOUTH;
             else return LAST;
         }
     }

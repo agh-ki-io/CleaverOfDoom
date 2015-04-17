@@ -1,7 +1,7 @@
 <projectile directions="8" collision="2.25" damage="0" speed="2">
 	<sprite scale="16" name="west">
 		<texture>projectiles/arrow.png</texture> 
-		<origin>5 5</origin> <!-- west -->
+		<origin>8 0</origin> <!-- west -->
 		<frame time="100">0 0 9 3</frame>
 		<frame time="100">0 3 9 3</frame>				
 	</sprite>
@@ -25,7 +25,7 @@
 	</sprite>
 	<sprite scale="16" name="east"> <!-- east -->
 		<texture>projectiles/arrow.png</texture>
-		<origin>5 5</origin>
+		<origin>5 0</origin>
 		<frame time="100">0 6 9 3</frame>		
 		<frame time="100">0 9 9 3</frame>				
 	</sprite>	
@@ -37,7 +37,7 @@
 	</sprite>		
 	<sprite scale="16" name="south"> <!-- south -->
 		<texture>projectiles/arrow.png</texture>
-		<origin>2 8</origin>
+		<origin>9 8</origin>
 		<frame time="100">9 0 3 9</frame>
 		<frame time="100">12 0 3 9</frame>		
 	</sprite>	

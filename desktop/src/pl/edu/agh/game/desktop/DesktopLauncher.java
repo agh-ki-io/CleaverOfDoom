@@ -7,7 +7,6 @@ import pl.edu.agh.game.input.DesktopInputProcessor;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.input.JoystickInput;
 import pl.edu.agh.game.settings.DesktopInputSettings;
-import pl.edu.agh.game.ui.UIFactory;
 import pl.edu.agh.game.ui.UserInterface;
 
 public class DesktopLauncher {
@@ -20,6 +19,6 @@ public class DesktopLauncher {
 		JoystickInput joystickInput = new JoystickInput();
 		UserInterface userInterface = new UserInterface(inputProcessor);
 		joystickInput.setUserInterface(userInterface);
-		new LwjglApplication(new Game(userInterface), config);
+		new LwjglApplication(new CleaverOfDoom(userInterface), config);
 	}
 }
