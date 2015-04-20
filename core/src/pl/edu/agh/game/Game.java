@@ -38,7 +38,7 @@ public class Game extends ApplicationAdapter {
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 
-		map = new TmxMapLoader().load("map.tmx");
+		map = new TmxMapLoader().load("untitled.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map, 1f / 57f);
 	}
 
