@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.*;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
-public class CollidableComponent {
-    private final Shape2D collisionArea;
+public class CollidableComponent<ShapeType extends Shape2D> {
+    private final ShapeType collisionArea;
 
-    public CollidableComponent(Shape2D collisionArea) {
+    public CollidableComponent(ShapeType collisionArea) {
         this.collisionArea = collisionArea;
     }
 
@@ -44,7 +44,7 @@ public class CollidableComponent {
         return false;
     }
 
-    public Shape2D getShape() {
+    public ShapeType getShape() {
         return collisionArea;
     }
 }

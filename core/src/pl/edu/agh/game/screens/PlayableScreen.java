@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -53,16 +54,16 @@ public class PlayableScreen implements Screen {
     }
 
     private ComponentPlayer getPlayer() {
-        StatsComponent statsComponent = new StatsComponent(500, 2f, 1);
+        StatsComponent statsComponent = new StatsComponent(500, 1f, 1);
         int velocity = 300;
-        MovementComponent movementComponent = new MovementComponent(300, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
         return new ComponentPlayer(
                 statsComponent,
                 movementComponent,
                 new DamageComponent(statsComponent),
-                new CollidableComponent(),
-                new DrawableComponent(statsComponent, movementComponent, animationMap),
+                new CollidableComponent(new Circle(0, 0, 3.5f * 4)),
+                new DrawableComponent(animationMap),
                 inputState
         );
     }
@@ -78,6 +79,11 @@ public class PlayableScreen implements Screen {
 
         Gdx.gl.glClearColor(0.6f, 0.6f, 0.6f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
         batch.begin();
         player.draw(batch);
         batch.end();

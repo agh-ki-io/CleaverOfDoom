@@ -1,6 +1,7 @@
 package pl.edu.agh.game.logic.entities.players;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.collisions.Collidable;
@@ -10,6 +11,7 @@ import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 import java.util.Collection;
@@ -19,12 +21,12 @@ import java.util.LinkedList;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
-public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character {
+public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Circle> {
     private final InputState inputState;
 
     Collection<OneWayProjectile> projectiles = new LinkedList<>();
 
-    public ComponentPlayer(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent collidableComponent, DrawableComponent drawableComponent, InputState inputState) {
+    public ComponentPlayer(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState) {
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent);
         this.inputState = inputState;
 
@@ -45,6 +47,8 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character {
     public void draw(SpriteBatch batch) {
         super.draw(batch);
 
+        Debug.drawCircle(collidableComponent.getShape().x, collidableComponent.getShape().y, collidableComponent.getShape().radius, batch);
+
         for (OneWayProjectile projectile : projectiles) {
             projectile.draw(batch);
         }
@@ -56,6 +60,7 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character {
 
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
+        collidableComponent.getShape().setPosition(getX(), getY());
 
         for (OneWayProjectile projectile : projectiles) {
             projectile.update(deltaTime);

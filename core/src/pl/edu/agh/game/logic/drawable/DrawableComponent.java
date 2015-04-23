@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.logic.Direction;
+import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
@@ -16,17 +17,16 @@ import java.util.Map;
  *         Created on  2015-04-16
  */
 public class DrawableComponent {
-    private final StatsComponent statsComponent;
+    private StatsComponent statsComponent;
+    private MovementComponent movementComponent;
 
     private Animation animation;
     private Direction lastUsableDirection;
-    private final MovementComponent movementComponent;
     private AnimationType animationType = AnimationType.STANDBY;
     private final Map<String, Animation> animationMap;
+    private Character character;
 
-    public DrawableComponent(StatsComponent statsComponent, MovementComponent movementComponent, Map<String, Animation> animationMap) {
-        this.statsComponent = statsComponent;
-        this.movementComponent = movementComponent;
+    public DrawableComponent(Map<String, Animation> animationMap) {
         this.animationMap = animationMap;
 
         lastUsableDirection = Direction.SOUTH;
@@ -79,5 +79,12 @@ public class DrawableComponent {
 
     public Direction getLastUsableDirection() {
         return lastUsableDirection;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+
+        this.statsComponent = character.statsComponent;
+        this.movementComponent = character.movementComponent;
     }
 }

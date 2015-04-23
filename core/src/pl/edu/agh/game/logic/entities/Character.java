@@ -18,19 +18,20 @@ import pl.edu.agh.game.logic.stats.StatsComponent;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-23
  */
-public abstract class Character implements Movable, Damagable, Collidable, Updatable, Drawable {
-    protected final StatsComponent statsComponent;
-    protected final MovementComponent movementComponent;
-    protected final DamageComponent damageComponent;
-    protected final CollidableComponent collidableComponent;
-    protected final DrawableComponent drawableComponent;
+public abstract class Character<CollidableShapeType extends Shape2D> implements Movable, Damagable, Collidable, Updatable, Drawable {
+    public final StatsComponent statsComponent;
+    public final MovementComponent movementComponent;
+    public final DamageComponent damageComponent;
+    public final CollidableComponent<CollidableShapeType> collidableComponent;
+    public final DrawableComponent drawableComponent;
 
-    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent) {
+    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent) {
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
         this.collidableComponent = collidableComponent;
         this.drawableComponent = drawableComponent;
         this.movementComponent = movementComponent;
+        this.drawableComponent.setCharacter(this);
     }
 
     @Override
