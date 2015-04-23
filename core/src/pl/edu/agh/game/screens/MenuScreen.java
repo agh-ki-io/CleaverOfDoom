@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.edu.agh.game.CleaverOfDoom;
@@ -23,21 +25,41 @@ public class MenuScreen implements Screen {
         batch = new SpriteBatch();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        Table table = new Table();
 
-//        img = new Texture("badlogic.jpg");
+
 //        Gdx.input.setInputProcessor(stage);
-        TextButton startButton = new TextButton("Start", new TextButton.TextButtonStyle(null, null, null, new BitmapFont()));
+        Skin skin = new Skin();
+        TextButton startButton = new TextButton("Begin Your Adventure!", new TextButton.TextButtonStyle(null, null, null, new BitmapFont()));
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
+                System.out.println("Begin Your Adventure! " + x + " " + y);
                 resume();
             }
         });
 
-        stage.addActor(startButton);
+        TextButton exitButton = new TextButton("Exit", new TextButton.TextButtonStyle(null, null, null, new BitmapFont()));
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Exit " + x + " " + y);
+                dispose();
+            }
+        });
 
+        table.add(startButton).row();
+        table.add(exitButton);
 
+//        table.setFillParent(true);
+        table.setPosition(stage.getWidth() / 2, stage.getHeight() * 2 / 3);
+//        table.debug();
+//        table.setPosition(stage.getWidth() / 2, stage.getHeight() / 2, 0);
+
+//        table.setBackground();
+        stage.addActor(table);
+
+        img = new Texture("MenuBackground.png");
     }
 
     @Override
@@ -51,11 +73,9 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
-        stage.draw();
-
-        //batch.draw(img, 0, 0);
+        batch.draw(img, -54, -stage.getHeight()/3 - 10);
         batch.end();
+        stage.draw();
     }
 
     @Override
@@ -80,6 +100,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        System.exit(0);
     }
 }
