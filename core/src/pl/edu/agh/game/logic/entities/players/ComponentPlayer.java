@@ -1,7 +1,6 @@
 package pl.edu.agh.game.logic.entities.players;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Shape2D;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.collisions.Collidable;
@@ -33,18 +32,8 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character {
     }
 
     @Override
-    public boolean overlaps(Collidable collidable) {
-        return false;
-    }
-
-    @Override
     public void collide(Collidable collidable) {
 
-    }
-
-    @Override
-    public Shape2D getShape() {
-        return null;
     }
 
     @Override
