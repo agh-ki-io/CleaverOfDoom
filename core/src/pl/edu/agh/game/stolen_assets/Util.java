@@ -10,7 +10,6 @@ import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.graphics.Frame;
 import pl.edu.agh.game.graphics.VariableFrameDurationAnimation;
 
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,8 +58,6 @@ public class Util {
                             Integer.valueOf(origin[1])
                             ));
                 }
-
-
 
                 result.put(animationName, new VariableFrameDurationAnimation(frams));
 

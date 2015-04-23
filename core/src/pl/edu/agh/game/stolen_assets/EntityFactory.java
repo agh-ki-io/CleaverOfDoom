@@ -3,7 +3,7 @@ package pl.edu.agh.game.stolen_assets;
 import com.badlogic.gdx.Gdx;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.logic.Direction;
-import pl.edu.agh.game.logic.OneWayProjectile;
+import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 
 import java.util.Map;
 

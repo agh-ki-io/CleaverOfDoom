@@ -1,8 +1,10 @@
-package pl.edu.agh.game.logic;
+package pl.edu.agh.game.logic.entities.projectiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.graphics.Animation;
+import pl.edu.agh.game.logic.Direction;
+import pl.edu.agh.game.logic.Updatable;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.stolen_assets.Debug;
 

@@ -10,6 +10,7 @@ import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.damage.Damagable;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.drawable.Drawable;
+import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.Util;
 
