@@ -20,11 +20,13 @@
   <tile id="3">
    <properties>
     <property name="blocked" value=""/>
+    <property name="door" value=""/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
     <property name="blocked" value=""/>
+    <property name="door" value=""/>
    </properties>
   </tile>
   <tile id="5">
