@@ -34,13 +34,17 @@ public abstract class Character implements Movable, Damagable, Collidable, Updat
     }
 
     @Override
-    public abstract boolean overlaps(Collidable collidable);
+    public boolean overlaps(Collidable collidable) {
+        return collidableComponent.overlaps(collidable);
+    }
 
     @Override
     public abstract void collide(Collidable collidable);
 
     @Override
-    public abstract Shape2D getShape();
+    public Shape2D getShape() {
+        return collidableComponent.getShape();
+    }
 
     @Override
     public void damage(Damage damage) {
