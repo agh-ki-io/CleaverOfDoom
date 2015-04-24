@@ -32,6 +32,6 @@ public class CollisionUtil {
     }
 
     public static boolean collisonGroupMatches(int onesCollisionGroup, int anothersCollisionGroup) {
-        return (onesCollisionGroup & anothersCollisionGroup) != 0;
+        return (onesCollisionGroup & anothersCollisionGroup) == 0;
     }
 }

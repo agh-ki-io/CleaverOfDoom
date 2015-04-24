@@ -15,7 +15,9 @@ import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
+import pl.edu.agh.game.logic.damage.ReductionStrategy;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.creatures.ComponentEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
@@ -100,17 +102,26 @@ public class PlayableScreen implements Screen {
         int velocity = 200;
         MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
+        DamageComponent damageComponent = new DamageComponent(statsComponent);
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
         list.add(new ComponentEnemy(
                 200, 200,
                 statsComponent,
                 movementComponent,
-                new DamageComponent(statsComponent),
+                damageComponent,
                 new CollidableComponent<>(new Circle(0, 0, 12)),
                 new DrawableComponent(animationMap),
                 inputState,
                 points,
                 level
         ));
+
+
 
         return list;
     }

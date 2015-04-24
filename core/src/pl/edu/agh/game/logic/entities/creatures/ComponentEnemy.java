@@ -50,7 +50,6 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
 
     @Override
     public void collide(Collidable collidable) {
-
     }
 
     @Override
