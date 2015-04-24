@@ -16,13 +16,18 @@ import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.entities.creatures.ComponentEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Util;
 import pl.edu.agh.game.ui.UserInterface;
 
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * Created by lgmyrek on 4/16/15.
@@ -34,6 +39,7 @@ public class PlayableScreen implements Screen {
     private final InputState inputState;
 
     private final ComponentPlayer player;
+    private final List<ComponentEnemy> enemies;
 
 
     public PlayableScreen(CleaverOfDoom game) {
@@ -51,6 +57,7 @@ public class PlayableScreen implements Screen {
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
         player = getPlayer();
+        enemies = getEnemies();
     }
 
     private ComponentPlayer getPlayer() {
@@ -59,6 +66,7 @@ public class PlayableScreen implements Screen {
         MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
         return new ComponentPlayer(
+                500, 500,
                 statsComponent,
                 movementComponent,
                 new DamageComponent(statsComponent),
@@ -67,6 +75,38 @@ public class PlayableScreen implements Screen {
                 inputState
         );
     }
+
+
+    private List<ComponentEnemy> getEnemies() {
+        List<ComponentEnemy> list = new LinkedList<>();
+        //jeden przeciwnik
+        Queue<Point>points = new LinkedList<>();
+        points.add(new Point(500,500));
+        points.add(new Point(700,500));
+        points.add(new Point(700,200));
+        points.add(new Point(600,300));
+        points.add(new Point(250,300));
+        points.add(new Point(250,200));
+        points.add(new Point(200,200));
+        StatsComponent statsComponent = new StatsComponent(500, 2f, 1);
+        int velocity = 100;
+        MovementComponent movementComponent = new MovementComponent(100, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
+        Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
+        list.add(new ComponentEnemy(
+                200, 200,
+                statsComponent,
+                movementComponent,
+                new DamageComponent(statsComponent),
+                new CollidableComponent(new Circle(0, 0, 12)),
+                new DrawableComponent(animationMap),
+                inputState,
+                points
+        ));
+
+        return list;
+    }
+
+
 
     @Override
     public void show() {
@@ -85,12 +125,16 @@ public class PlayableScreen implements Screen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         batch.begin();
+        for(ComponentEnemy enemy:this.enemies)
+            enemy.draw(batch);
         player.draw(batch);
         batch.end();
         userInterface.draw();
     }
 
     private void update(float delta) {
+        for(ComponentEnemy enemy:this.enemies)
+            enemy.update(delta);
         player.update(delta);
         userInterface.update(delta);
     }

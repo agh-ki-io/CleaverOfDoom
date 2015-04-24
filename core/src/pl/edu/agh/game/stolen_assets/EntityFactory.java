@@ -15,9 +15,15 @@ public class EntityFactory {
     static final Map<String, Animation> rangerAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
     static final Map<String, Animation> thiefAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/thief_a.xml"));
     static final Map<String, Animation> arrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"));
+    static final Map<String, Animation> enemyArrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml")); //tu trzeba zmienic grafike
+
 
     public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction) {
         return new OneWayProjectile(x, y, arrowAnimationMap.get(direction.toString()), velocity, direction);
+    }
+
+    public static OneWayProjectile getNewEnemyArrow(float x, float y, float velocity, Direction direction) {
+        return new OneWayProjectile(x, y, enemyArrowAnimationMap.get(direction.toString()), velocity, direction);
     }
 
     public static Map<String, Animation> getRangerAnimationMap() {

@@ -2,6 +2,7 @@ package pl.edu.agh.game.logic.entities.players;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.collisions.Collidable;
@@ -26,11 +27,11 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
 
     Collection<OneWayProjectile> projectiles = new LinkedList<>();
 
-    public ComponentPlayer(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState) {
+    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent collidableComponent, DrawableComponent drawableComponent, InputState inputState) {
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent);
         this.inputState = inputState;
 
-        setPosition(500, 500);
+        setPosition(x, y);
     }
 
     @Override
@@ -71,7 +72,8 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
         if (drawableComponent.isFree()) {
             if (inputState.isSkill1Used()) {
                 Direction direction = drawableComponent.getLastUsableDirection();
-                OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 200, direction);
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 700, direction);
                 projectiles.add(projectile);
             }
         }

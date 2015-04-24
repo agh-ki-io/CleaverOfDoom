@@ -87,4 +87,18 @@ public class DrawableComponent {
         this.statsComponent = character.statsComponent;
         this.movementComponent = character.movementComponent;
     }
+
+    /**
+     * Check is animation is free before setting animation.
+     * @param animationType
+     */
+    public void setAnimation(AnimationType animationType) {
+        switch (animationType) {
+            case ATTACK:
+                this.animationType = animationType;
+                animation = animationMap.get(lastUsableDirection.toString() + "-attack");
+                animation.reset();
+                animation.setPlayMode(PlayMode.NORMAL);
+        }
+    }
 }
