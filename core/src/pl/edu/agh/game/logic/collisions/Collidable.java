@@ -10,4 +10,5 @@ public interface Collidable {
     boolean overlaps(Collidable collidable);
     void collide(Collidable collidable);
     Shape2D getShape();
+    int getCollisionGroups();
 }

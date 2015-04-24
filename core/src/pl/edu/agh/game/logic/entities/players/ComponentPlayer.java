@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Circle;
 import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
+import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.DamageComponent;
@@ -24,11 +25,15 @@ import java.util.LinkedList;
  */
 public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Circle> {
     private final InputState inputState;
+    private boolean destroyed = false;
+
+    //Wszystkie poza 1
+    private int collisionGroups = 1;
 
     Collection<OneWayProjectile> projectiles = new LinkedList<>();
 
-    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent collidableComponent, DrawableComponent drawableComponent, InputState inputState) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent);
+    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
+        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
         this.inputState = inputState;
 
         setPosition(x, y);
@@ -40,8 +45,13 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
     }
 
     @Override
-    public void destroy() {
+    public int getCollisionGroups() {
+        return collisionGroups;
+    }
 
+    @Override
+    public void destroy() {
+        destroyed = true;
     }
 
     @Override
@@ -63,9 +73,9 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());
 
-        for (OneWayProjectile projectile : projectiles) {
-            projectile.update(deltaTime);
-        }
+//        for (OneWayProjectile projectile : projectiles) {
+//            projectile.update(deltaTime);
+//        }
     }
 
     private void useSkills() {
@@ -74,8 +84,14 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
                 Direction direction = drawableComponent.getLastUsableDirection();
                 drawableComponent.setAnimation(AnimationType.ATTACK);
                 OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 700, direction);
-                projectiles.add(projectile);
+                level.addCharacter(projectile);
+//     projectiles.add(projectile);
             }
         }
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return destroyed;
     }
 }

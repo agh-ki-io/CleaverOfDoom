@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.*;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-23
  */
-public class IntersectionUtil {
+public class CollisionUtil {
 
     public static boolean overlaps(Polygon polygon, Circle circle) {
         float []vertices=polygon.getTransformedVertices();
@@ -28,8 +28,10 @@ public class IntersectionUtil {
         Polygon rPoly = new Polygon(new float[] { 0, 0, r.width, 0, r.width,
                 r.height, 0, r.height });
         rPoly.setPosition(r.x, r.y);
-        if (Intersector.overlapConvexPolygons(rPoly, p))
-            return true;
-        return false;
+        return Intersector.overlapConvexPolygons(rPoly, p);
+    }
+
+    public static boolean collisonGroupMatches(int onesCollisionGroup, int anothersCollisionGroup) {
+        return (onesCollisionGroup & anothersCollisionGroup) != 0;
     }
 }

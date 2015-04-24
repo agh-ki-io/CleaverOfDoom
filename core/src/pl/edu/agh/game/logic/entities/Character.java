@@ -2,6 +2,8 @@ package pl.edu.agh.game.logic.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Shape2D;
+import pl.edu.agh.game.logic.GameEntity;
+import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.Updatable;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
@@ -18,20 +20,22 @@ import pl.edu.agh.game.logic.stats.StatsComponent;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-23
  */
-public abstract class Character<CollidableShapeType extends Shape2D> implements Movable, Damagable, Collidable, Updatable, Drawable {
+public abstract class Character<CollidableShapeType extends Shape2D> implements Movable, Damagable, Collidable, Updatable, Drawable, GameEntity {
     public final StatsComponent statsComponent;
     public final MovementComponent movementComponent;
     public final DamageComponent damageComponent;
     public final CollidableComponent<CollidableShapeType> collidableComponent;
     public final DrawableComponent drawableComponent;
+    protected Level level;
 
-    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent) {
+    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
         this.collidableComponent = collidableComponent;
         this.drawableComponent = drawableComponent;
         this.movementComponent = movementComponent;
         this.drawableComponent.setCharacter(this);
+        this.level = level;
     }
 
     @Override

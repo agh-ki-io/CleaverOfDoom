@@ -13,6 +13,7 @@ import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
+import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
@@ -41,6 +42,8 @@ public class PlayableScreen implements Screen {
     private final ComponentPlayer player;
     private final List<ComponentEnemy> enemies;
 
+    private Level level;
+
 
     public PlayableScreen(CleaverOfDoom game) {
         this.game = game;
@@ -56,12 +59,16 @@ public class PlayableScreen implements Screen {
         inputState = input.getInputState();
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
+        level = new Level(null, null);
         player = getPlayer();
         enemies = getEnemies();
+
+        level.addCharacter(player);
+        level.addCharacters(enemies);
     }
 
     private ComponentPlayer getPlayer() {
-        StatsComponent statsComponent = new StatsComponent(500, 1f, 1);
+        StatsComponent statsComponent = new StatsComponent(500, 1f, 1f);
         int velocity = 300;
         MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
@@ -70,9 +77,10 @@ public class PlayableScreen implements Screen {
                 statsComponent,
                 movementComponent,
                 new DamageComponent(statsComponent),
-                new CollidableComponent(new Circle(0, 0, 3.5f * 4)),
+                new CollidableComponent<>(new Circle(0, 0, 3.5f * 4)),
                 new DrawableComponent(animationMap),
-                inputState
+                inputState,
+                level
         );
     }
 
@@ -88,19 +96,20 @@ public class PlayableScreen implements Screen {
         points.add(new Point(250,300));
         points.add(new Point(250,200));
         points.add(new Point(200,200));
-        StatsComponent statsComponent = new StatsComponent(500, 2f, 1);
-        int velocity = 100;
-        MovementComponent movementComponent = new MovementComponent(100, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
+        StatsComponent statsComponent = new StatsComponent(500, 1f, 1);
+        int velocity = 200;
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
         list.add(new ComponentEnemy(
                 200, 200,
                 statsComponent,
                 movementComponent,
                 new DamageComponent(statsComponent),
-                new CollidableComponent(new Circle(0, 0, 12)),
+                new CollidableComponent<>(new Circle(0, 0, 12)),
                 new DrawableComponent(animationMap),
                 inputState,
-                points
+                points,
+                level
         ));
 
         return list;
@@ -125,17 +134,19 @@ public class PlayableScreen implements Screen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         batch.begin();
-        for(ComponentEnemy enemy:this.enemies)
-            enemy.draw(batch);
-        player.draw(batch);
+//        for(ComponentEnemy enemy:this.enemies)
+//            enemy.draw(batch);
+//        player.draw(batch);
+        level.draw(batch);
         batch.end();
         userInterface.draw();
     }
 
     private void update(float delta) {
-        for(ComponentEnemy enemy:this.enemies)
-            enemy.update(delta);
-        player.update(delta);
+//        for(ComponentEnemy enemy:this.enemies)
+//            enemy.update(delta);
+//        player.update(delta);
+        level.update(delta);
         userInterface.update(delta);
     }
 
