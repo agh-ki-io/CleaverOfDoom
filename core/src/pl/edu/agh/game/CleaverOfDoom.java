@@ -1,12 +1,13 @@
 package pl.edu.agh.game;
 
 import com.badlogic.gdx.Game;
+import pl.edu.agh.game.screens.MenuScreen;
 import pl.edu.agh.game.screens.PlayableScreen;
 import pl.edu.agh.game.ui.UserInterface;
 
 public class CleaverOfDoom extends Game {
 	public static final float EPSILON = 1E-2f;
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	private final UserInterface userInterface;
 
 	public CleaverOfDoom(UserInterface userInterface) {
@@ -16,7 +17,7 @@ public class CleaverOfDoom extends Game {
 
 	@Override
 	public void create () {
-        setScreen(new PlayableScreen(this));
+        setScreen(new MenuScreen(this));
 	}
 
 	@Override

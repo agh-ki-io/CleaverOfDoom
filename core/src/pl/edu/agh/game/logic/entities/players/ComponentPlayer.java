@@ -7,7 +7,8 @@ import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
+import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
@@ -32,8 +33,8 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
 
     Collection<OneWayProjectile> projectiles = new LinkedList<>();
 
-    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
+    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollideableComponent<Circle> collideableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
+        super(statsComponent, damageComponent, collideableComponent, drawableComponent, movementComponent, level);
         this.inputState = inputState;
 
         setPosition(x, y);
@@ -41,7 +42,13 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
 
     @Override
     public void collide(Collidable collidable) {
+    }
 
+    @Override
+    public void damage(Damage damage) {
+        super.damage(damage);
+        System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
+        System.out.println("Health left: " + statsComponent.getHealth());
     }
 
     @Override
@@ -58,7 +65,7 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
     public void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        Debug.drawCircle(collidableComponent.getShape().x, collidableComponent.getShape().y, collidableComponent.getShape().radius, batch);
+        Debug.drawCircle(collideableComponent.getShape().x, collideableComponent.getShape().y, collideableComponent.getShape().radius, batch);
 
         for (OneWayProjectile projectile : projectiles) {
             projectile.draw(batch);
@@ -71,7 +78,7 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
 
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
-        collidableComponent.getShape().setPosition(getX(), getY());
+        collideableComponent.getShape().setPosition(getX(), getY());
 
 //        for (OneWayProjectile projectile : projectiles) {
 //            projectile.update(deltaTime);
@@ -83,7 +90,7 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
             if (inputState.isSkill1Used()) {
                 Direction direction = drawableComponent.getLastUsableDirection();
                 drawableComponent.setAnimation(AnimationType.ATTACK);
-                OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 700, direction);
+                OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 700, direction, collideableComponent.getMap());
                 level.addCharacter(projectile);
 //     projectiles.add(projectile);
             }

@@ -12,8 +12,8 @@ import pl.edu.agh.game.ui.UserInterface;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1920;
-		config.height = 1080;
+		config.width = 1920 / 2;
+		config.height = 1080 / 2;
 
 		DesktopInputProcessor inputProcessor = new DesktopInputProcessor(new DesktopInputSettings(), new InputState());
 		JoystickInput joystickInput = new JoystickInput();

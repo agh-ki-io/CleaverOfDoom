@@ -6,7 +6,8 @@ import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
+import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
@@ -16,8 +17,6 @@ import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Queue;
 
 
@@ -30,13 +29,11 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     private boolean fire = false;
     private boolean destroyed = false;
 
-    Collection<OneWayProjectile> projectiles = new LinkedList<>();
-
     public ComponentEnemy(float x, float y,StatsComponent statsComponent, MovementComponent movementComponent,
-                          DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent,
+                          DamageComponent damageComponent, CollideableComponent<Circle> collideableComponent,
                           DrawableComponent drawableComponent, InputState inputState,
                           Queue<Point> queue, Level level) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
+        super(statsComponent, damageComponent, collideableComponent, drawableComponent, movementComponent, level);
         this.inputState = inputState;
         this.points = queue;
         this.new_pos = points.poll();
@@ -45,7 +42,7 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
 
     @Override
     public boolean overlaps(Collidable collidable) {
-        return collidableComponent.overlaps(collidable);
+        return collideableComponent.overlaps(collidable);
     }
 
     @Override
@@ -53,13 +50,19 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     }
 
     @Override
+    public void damage(Damage damage) {
+        System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
+        super.damage(damage);
+    }
+
+    @Override
     public Shape2D getShape() {
-        return collidableComponent.getShape();
+        return collideableComponent.getShape();
     }
 
     @Override
     public int getCollisionGroups() {
-        return 2 & 4;
+        return 2 | 4;
     }
 
     @Override
@@ -71,11 +74,7 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     public void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        for (OneWayProjectile projectile : projectiles) {
-            projectile.draw(batch);
-        }
-
-        Debug.drawCircle(collidableComponent.getShape().x, collidableComponent.getShape().y, collidableComponent.getShape().radius, batch);
+        Debug.drawCircle(collideableComponent.getShape().x, collideableComponent.getShape().y, collideableComponent.getShape().radius, batch);
     }
 
     @Override
@@ -113,18 +112,14 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
             this.fire=true;
         move(x, y, deltaTime);
 
-        collidableComponent.getShape().setPosition(getX(), getY());
-
-        for (OneWayProjectile projectile : projectiles) {
-            projectile.update(deltaTime);
-        }
+        collideableComponent.getShape().setPosition(getX(), getY());
     }
 
     private void attack() {
         if (drawableComponent.isFree()) {
             Direction direction = this.drawableComponent.getLastUsableDirection();
-            OneWayProjectile projectile = EntityFactory.getNewEnemyArrow(getX(), getY(), 700, direction);
-            projectiles.add(projectile);
+            OneWayProjectile projectile = EntityFactory.getNewEnemyArrow(getX(), getY(), 700, direction, collideableComponent.getMap());
+            level.addCharacter(projectile);
         }
     }
 

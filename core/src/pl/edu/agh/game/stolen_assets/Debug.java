@@ -38,4 +38,10 @@ public class Debug {
         }
         return shapeRenderer;
     }
+
+    public static void drawDot(float x, float y, int scale, SpriteBatch batch) {
+        if (CleaverOfDoom.DEBUG) {
+            batch.draw(Debug.pixTexture, x, y, 0, 0, 1, 1, scale, scale, 0);
+        }
+    }
 }

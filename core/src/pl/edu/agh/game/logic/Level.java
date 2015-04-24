@@ -26,6 +26,14 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
         characters = new ConcurrentLinkedDeque<>();
     }
 
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public TiledMapRenderer getRenderer() {
+        return renderer;
+    }
+
     public void update(float deltaTime) {
         for (T character : characters) {
             character.update(deltaTime);
@@ -65,15 +73,15 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
         }
     }
 
-    public void addCharacter(T character) {
+    public<K extends T> void addCharacter(K character) {
         characters.add(character);
     }
 
-    public void removeCharacter(T character) {
+    public<K extends T> void removeCharacter(K character) {
         characters.remove(character);
     }
 
-    public void addCharacters(Collection<? extends T> characters) {
+    public<K extends T> void addCharacters(Collection<? extends K> characters) {
         this.characters.addAll(characters);
     }
 }

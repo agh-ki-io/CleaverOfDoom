@@ -6,7 +6,7 @@ import pl.edu.agh.game.logic.GameEntity;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.Updatable;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
 import pl.edu.agh.game.logic.damage.Damagable;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
@@ -24,14 +24,14 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
     public final StatsComponent statsComponent;
     public final MovementComponent movementComponent;
     public final DamageComponent damageComponent;
-    public final CollidableComponent<CollidableShapeType> collidableComponent;
+    public final CollideableComponent<CollidableShapeType> collideableComponent;
     public final DrawableComponent drawableComponent;
     protected Level level;
 
-    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
+    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollideableComponent<CollidableShapeType> collideableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
-        this.collidableComponent = collidableComponent;
+        this.collideableComponent = collideableComponent;
         this.drawableComponent = drawableComponent;
         this.movementComponent = movementComponent;
         this.drawableComponent.setCharacter(this);
@@ -40,7 +40,7 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
 
     @Override
     public boolean overlaps(Collidable collidable) {
-        return collidableComponent.overlaps(collidable);
+        return collideableComponent.overlaps(collidable);
     }
 
     @Override
@@ -48,7 +48,7 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
 
     @Override
     public Shape2D getShape() {
-        return collidableComponent.getShape();
+        return collideableComponent.getShape();
     }
 
     @Override

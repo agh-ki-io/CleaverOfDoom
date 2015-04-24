@@ -20,7 +20,7 @@ public class MenuScreen implements Screen {
     Texture img;
     private Stage stage;
 
-    public MenuScreen(CleaverOfDoom game) {
+    public MenuScreen(final CleaverOfDoom game) {
         this.game = game;
         batch = new SpriteBatch();
         stage = new Stage();
@@ -35,7 +35,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Begin Your Adventure! " + x + " " + y);
-                resume();
+                game.setScreen(new PlayableScreen(game));
             }
         });
 
@@ -69,11 +69,11 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(img, -54, -stage.getHeight()/3 - 10);
+        batch.draw(img, 105, -stage.getHeight() / 3 + 50);
         batch.end();
         stage.draw();
     }
@@ -90,7 +90,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resume() {
-        game.setScreen(new PlayableScreen());
+
     }
 
     @Override

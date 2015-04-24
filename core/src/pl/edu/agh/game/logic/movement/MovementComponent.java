@@ -2,8 +2,7 @@ package pl.edu.agh.game.logic.movement;
 
 import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.logic.Direction;
-import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
 /**
@@ -12,7 +11,7 @@ import pl.edu.agh.game.logic.stats.StatsComponent;
  */
 public class MovementComponent {
     private final StatsComponent statsComponent;
-    private final CollidableComponent collidableComponent;
+    private final CollideableComponent collideableComponent;
     private float x;
     private float y;
     private float velocity;
@@ -23,11 +22,11 @@ public class MovementComponent {
     private float normalDiagonalVelocity;
     private Direction direction;
 
-    public MovementComponent(float velocity, float diagonalVelocity, StatsComponent statsComponent, CollidableComponent collidableComponent) {
+    public MovementComponent(float velocity, float diagonalVelocity, StatsComponent statsComponent, CollideableComponent collideableComponent) {
         this.velocity = velocity;
         this.diagonalVelocity = diagonalVelocity;
         this.statsComponent = statsComponent;
-        this.collidableComponent = collidableComponent;
+        this.collideableComponent = collideableComponent;
         normalVelocity = velocity;
         normalDiagonalVelocity = diagonalVelocity;
         this.waterVelocity = velocity / 2;
@@ -45,32 +44,32 @@ public class MovementComponent {
             newY = getY() + diagonalVelocity * deltaTime * dy * statsComponent.getMovementSpeedMultiplier();
         }
 
-        if(collidableComponent.collision(newX, newY, "blocked")) {
-            if (collidableComponent.collision(oldX, newY, "blocked")) newY = oldY;
-            if (collidableComponent.collision(newX, oldY, "blocked")) newX = oldX;
+        if(collideableComponent.collision(newX, newY, "blocked")) {
+            if (collideableComponent.collision(oldX, newY, "blocked")) newY = oldY;
+            if (collideableComponent.collision(newX, oldY, "blocked")) newX = oldX;
         }
-        if(collidableComponent.collision(newX, newY, "water")) {
-            if(!collidableComponent.collision(oldX, oldY, "stairs") && !collidableComponent.collision(oldX, oldY, "water")) {
-                if (collidableComponent.collision(oldX, newY, "water")) newY = oldY;
-                if (collidableComponent.collision(newX, oldY, "water")) newX = oldX;
+        if(collideableComponent.collision(newX, newY, "water")) {
+            if(!collideableComponent.collision(oldX, oldY, "stairs") && !collideableComponent.collision(oldX, oldY, "water")) {
+                if (collideableComponent.collision(oldX, newY, "water")) newY = oldY;
+                if (collideableComponent.collision(newX, oldY, "water")) newX = oldX;
             } else {
                 velocity = waterVelocity;
                 diagonalVelocity = waterDiagonalVelocity;
             }
         } else {
-            if (collidableComponent.collision(oldX, oldY, "water") && !collidableComponent.collision(newX, newY, "stairs")) {
-                if (!collidableComponent.collision(oldX, newY, "water")) newY = oldY;
-                if (!collidableComponent.collision(newX, oldY, "water")) newX = oldX;
+            if (collideableComponent.collision(oldX, oldY, "water") && !collideableComponent.collision(newX, newY, "stairs")) {
+                if (!collideableComponent.collision(oldX, newY, "water")) newY = oldY;
+                if (!collideableComponent.collision(newX, oldY, "water")) newX = oldX;
             } else {
                 velocity = normalVelocity;
                 diagonalVelocity = normalDiagonalVelocity;
             }
         }
-        if(collidableComponent.collision(newX, newY, "pit")) {
+        if(collideableComponent.collision(newX, newY, "pit")) {
             velocity = 0;
             diagonalVelocity = 0;
         }
-        if(collidableComponent.collision(newX, newY, "slime")) {
+        if(collideableComponent.collision(newX, newY, "slime")) {
             velocity = 0;
             diagonalVelocity = 0;
         }

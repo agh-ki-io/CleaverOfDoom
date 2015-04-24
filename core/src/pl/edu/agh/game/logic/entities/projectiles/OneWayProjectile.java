@@ -1,6 +1,7 @@
 package pl.edu.agh.game.logic.entities.projectiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Shape2D;
 import pl.edu.agh.game.CleaverOfDoom;
@@ -9,7 +10,7 @@ import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.GameEntity;
 import pl.edu.agh.game.logic.Updatable;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
 import pl.edu.agh.game.logic.collisions.CollisionUtil;
 import pl.edu.agh.game.logic.damage.Damagable;
 import pl.edu.agh.game.logic.damage.Damage;
@@ -31,22 +32,24 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
     private float dy;
     private int scale = 4;
     private boolean destroyed = false;
-    private float ttl = 1000;
+    private float ttl = 1000.5f;
+
+    private int collisionGroup;
 
     private final Damage damage = new Damage(DamageType.PHYSICAL, 100);
+    private final CollideableComponent<Circle> collideableComponent;
 
-    private final CollidableComponent<Circle> collidableComponent;
-
-    public OneWayProjectile(float x, float y, Animation animation, float velocity, Direction direction) {
+    public OneWayProjectile(float x, float y, Animation animation, float velocity, Direction direction, TiledMap map, int collisionGroup) {
         this.x = x;
         this.y = y;
         this.animation = animation;
         this.velocity = velocity;
+        this.collisionGroup = collisionGroup;
         this.dx = direction.getDx();
         this.dy = direction.getDy();
         diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
 
-        collidableComponent = new CollidableComponent<>(new Circle(x, y, 2.25f * scale));
+        collideableComponent = new CollideableComponent<>(new Circle(x, y, 2.25f * scale), map);
     }
 
     @Override
@@ -62,25 +65,32 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
         float originX = animation.getOriginX();
         float originY = animation.getOriginY();
         batch.draw(animation.getCurrentFrame(), (int) x, (int) y, originX, originY, animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
-        Debug.drawCircle(collidableComponent.getShape().x - originX, collidableComponent.getShape().y - originY, collidableComponent.getShape().radius, batch);
-        batch.draw(Debug.pixTexture, x - originX, y - originY, 0, 0, 1, 1, scale, scale, 0);
+        Debug.drawCircle(collideableComponent.getShape().x - originX, collideableComponent.getShape().y - originY, collideableComponent.getShape().radius, batch);
+        Debug.drawDot(x - originX, y - originY, scale, batch);
     }
 
     private void move(float dx, float dy, float deltaTime) {
+        float newX;
+        float newY;
+
         if (Math.abs(dx) > CleaverOfDoom.EPSILON && Math.abs(dy) > CleaverOfDoom.EPSILON) {
-            this.x += diagonalVelocity * deltaTime * dx;
-            this.y += diagonalVelocity * deltaTime * dy;
+            newX = this.x + diagonalVelocity * deltaTime * dx;
+            newY = this.y + diagonalVelocity * deltaTime * dy;
         } else {
-            this.x += velocity * deltaTime * dx;
-            this.y += velocity * deltaTime * dy;
+            newX = this.x + velocity * deltaTime * dx;
+            newY = this.y + velocity * deltaTime * dy;
         }
 
-        collidableComponent.getShape().setPosition(x, y);
+        if (!collideableComponent.collision(newX, newY, "blocked")) {
+            collideableComponent.getShape().setPosition(x, y);
+            this.x = newX;
+            this.y = newY;
+        }
     }
 
     @Override
     public boolean overlaps(Collidable collidable) {
-        return collidableComponent.overlaps(collidable);
+        return collideableComponent.overlaps(collidable);
     }
 
     @Override
@@ -88,18 +98,19 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
         if (CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
             if (collidable instanceof Damagable) {
                 ((Damagable) collidable).damage(damage);
+                this.destroyed = true;
             }
         }
     }
 
     @Override
     public Shape2D getShape() {
-        return collidableComponent.getShape();
+        return collideableComponent.getShape();
     }
 
     @Override
     public int getCollisionGroups() {
-        return 1;
+        return collisionGroup;
     }
 
     @Override

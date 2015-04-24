@@ -40,7 +40,7 @@ public class DrawableComponent {
         float y = movementComponent.getY();
         int scale = 4;
         batch.draw(animation.getCurrentFrame(), (int) x, (int) y, originX, originY, animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
-        batch.draw(Debug.pixTexture, x, y, 0, 0, 1, 1, scale, scale, 0);
+        Debug.drawDot(x, y, scale, batch);
     }
 
     public void update(float deltaTime) {

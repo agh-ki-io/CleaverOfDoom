@@ -5,16 +5,22 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import pl.edu.agh.game.CleaverOfDoom;
+import pl.edu.agh.game.graphics.AnimatedMap;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
-import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollideableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.damage.ReductionStrategy;
@@ -46,6 +52,7 @@ public class PlayableScreen implements Screen {
 
     private Level level;
 
+    private final OrthographicCamera camera;
 
     public PlayableScreen(CleaverOfDoom game) {
         this.game = game;
@@ -61,7 +68,13 @@ public class PlayableScreen implements Screen {
         inputState = input.getInputState();
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
-        level = new Level(null, null);
+        this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        TiledMap map = new TmxMapLoader().load("untitled.tmx");
+        TiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, 1.5f);
+        new AnimatedMap(map);
+
+        level = new Level(map, renderer);
         player = getPlayer();
         enemies = getEnemies();
 
@@ -70,20 +83,31 @@ public class PlayableScreen implements Screen {
     }
 
     private ComponentPlayer getPlayer() {
-        StatsComponent statsComponent = new StatsComponent(500, 1f, 1f);
+        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 0.7f);
+        CollideableComponent<Circle> collideableComponent = new CollideableComponent<>(new Circle(0, 0, 3.5f * 4), level.getMap());
         int velocity = 300;
-        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"));
+        DamageComponent damageComponent = new DamageComponent(statsComponent);
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+
         return new ComponentPlayer(
-                500, 500,
+                240, 7310,
                 statsComponent,
                 movementComponent,
-                new DamageComponent(statsComponent),
-                new CollidableComponent<>(new Circle(0, 0, 3.5f * 4)),
+                damageComponent,
+                collideableComponent,
                 new DrawableComponent(animationMap),
                 inputState,
                 level
         );
+
+
     }
 
 
@@ -100,7 +124,8 @@ public class PlayableScreen implements Screen {
         points.add(new Point(200,200));
         StatsComponent statsComponent = new StatsComponent(500, 1f, 1);
         int velocity = 200;
-        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent);
+        CollideableComponent<Circle> collideableComponent = new CollideableComponent<>(new Circle(0, 0, 12), level.getMap());
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
         Map<String, Animation> animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
         DamageComponent damageComponent = new DamageComponent(statsComponent);
         damageComponent.setReductionStrategy(new ReductionStrategy() {
@@ -114,7 +139,7 @@ public class PlayableScreen implements Screen {
                 statsComponent,
                 movementComponent,
                 damageComponent,
-                new CollidableComponent<>(new Circle(0, 0, 12)),
+                collideableComponent,
                 new DrawableComponent(animationMap),
                 inputState,
                 points,
@@ -122,6 +147,101 @@ public class PlayableScreen implements Screen {
         ));
 
 
+        points = new LinkedList<>();
+        points.add(new Point(250,200));
+        points.add(new Point(500,500));
+        points.add(new Point(700,500));
+        points.add(new Point(700,200));
+        points.add(new Point(600,300));
+        points.add(new Point(250,300));
+        points.add(new Point(200,200));
+        statsComponent = new StatsComponent(500, 1f, 1);
+        velocity = 200;
+        collideableComponent = new CollideableComponent<>(new Circle(0, 0, 12), level.getMap());
+        movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
+        animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
+        damageComponent = new DamageComponent(statsComponent);
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+        list.add(new ComponentEnemy(
+                200, 200,
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collideableComponent,
+                new DrawableComponent(animationMap),
+                inputState,
+                points,
+                level
+        ));
+
+        points = new LinkedList<>();
+        points.add(new Point(250,200));
+        points.add(new Point(500,500));
+        points.add(new Point(600,300));
+        points.add(new Point(700,500));
+        points.add(new Point(700,200));
+        points.add(new Point(250,300));
+        points.add(new Point(200,200));
+        statsComponent = new StatsComponent(500, 1f, 1);
+        velocity = 200;
+        collideableComponent = new CollideableComponent<>(new Circle(0, 0, 12), level.getMap());
+        movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
+        animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
+        damageComponent = new DamageComponent(statsComponent);
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+        list.add(new ComponentEnemy(
+                200, 200,
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collideableComponent,
+                new DrawableComponent(animationMap),
+                inputState,
+                points,
+                level
+        ));
+
+        points = new LinkedList<>();
+        points.add(new Point(250,200));
+        points.add(new Point(500,500));
+        points.add(new Point(700,500));
+        points.add(new Point(250,300));
+        points.add(new Point(700,200));
+        points.add(new Point(600,300));
+        points.add(new Point(200,200));
+        statsComponent = new StatsComponent(500, 1f, 1);
+        velocity = 200;
+        collideableComponent = new CollideableComponent<>(new Circle(0, 0, 12), level.getMap());
+        movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
+        animationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/enemy_1.xml"));
+        damageComponent = new DamageComponent(statsComponent);
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+        list.add(new ComponentEnemy(
+                200, 200,
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collideableComponent,
+                new DrawableComponent(animationMap),
+                inputState,
+                points,
+                level
+        ));
 
         return list;
     }
@@ -144,6 +264,9 @@ public class PlayableScreen implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
+        batch.setProjectionMatrix(camera.combined);
+
+        level.getRenderer().render();
         batch.begin();
 //        for(ComponentEnemy enemy:this.enemies)
 //            enemy.draw(batch);
@@ -154,6 +277,14 @@ public class PlayableScreen implements Screen {
     }
 
     private void update(float delta) {
+        if (inputState.isMenuOn())  {
+            inputState.setMenuOn(false);
+            game.setScreen(new MenuScreen(game));
+        }
+
+        camera.update();
+        camera.position.set(player.getX(), player.getY(), 0);
+        level.getRenderer().setView(camera);
 //        for(ComponentEnemy enemy:this.enemies)
 //            enemy.update(delta);
 //        player.update(delta);
