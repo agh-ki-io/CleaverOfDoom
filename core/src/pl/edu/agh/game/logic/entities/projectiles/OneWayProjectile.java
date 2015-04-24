@@ -85,7 +85,6 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
 
     @Override
     public void collide(Collidable collidable) {
-        System.out.println(collidable);
         if (CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
             if (collidable instanceof Damagable) {
                 ((Damagable) collidable).damage(damage);
