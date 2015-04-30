@@ -20,6 +20,9 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
     private TiledMap map;
     private TiledMapRenderer renderer;
 
+    private int[] backgroundLayers;
+    private int[] foregroundLayers;
+
     public Level(TiledMap map, TiledMapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
@@ -66,11 +69,27 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
 
     @Override
     public void draw(SpriteBatch batch) {
-//        renderer.render();
-
         for (T character : characters) {
             character.draw(batch);
         }
+    }
+
+    public void drawCharactersAndLayers(SpriteBatch batch) {
+        renderBackground();
+
+        batch.begin();
+        draw(batch);
+        batch.end();
+
+        renderForeground();
+    }
+
+    public void renderBackground() {
+        renderer.render(backgroundLayers);
+    }
+
+    public void renderForeground() {
+        renderer.render(foregroundLayers);
     }
 
     public<K extends T> void addCharacter(K character) {
