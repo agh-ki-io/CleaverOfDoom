@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import pl.edu.agh.game.CleaverOfDoom;
@@ -70,7 +69,7 @@ public class PlayableScreen implements Screen {
 
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        TiledMap map = new TmxMapLoader().load("untitled.tmx");
+        TiledMap map = new TmxMapLoader().load("stolen_assets/maps/untitled.tmx");
         TiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, 1.5f);
         new AnimatedMap(map);
 
