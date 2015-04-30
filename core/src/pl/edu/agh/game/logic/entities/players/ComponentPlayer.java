@@ -24,11 +24,10 @@ import java.util.LinkedList;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
-public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Circle> {
+public class ComponentPlayer extends Player {
     private final InputState inputState;
     private boolean destroyed = false;
 
-    //Wszystkie poza 1
     private int collisionGroups = 1;
 
     Collection<OneWayProjectile> projectiles = new LinkedList<>();
@@ -79,10 +78,6 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collideableComponent.getShape().setPosition(getX(), getY());
-
-//        for (OneWayProjectile projectile : projectiles) {
-//            projectile.update(deltaTime);
-//        }
     }
 
     private void useSkills() {
@@ -92,7 +87,6 @@ public class ComponentPlayer extends pl.edu.agh.game.logic.entities.Character<Ci
                 drawableComponent.setAnimation(AnimationType.ATTACK);
                 OneWayProjectile projectile = EntityFactory.getNewArrow(getX(), getY(), 700, direction, collideableComponent.getMap());
                 level.addCharacter(projectile);
-//     projectiles.add(projectile);
             }
         }
     }

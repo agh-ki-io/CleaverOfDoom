@@ -20,8 +20,8 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
     private TiledMap map;
     private TiledMapRenderer renderer;
 
-    private int[] backgroundLayers;
-    private int[] foregroundLayers;
+    private int[] backgroundLayers = {0};
+    private int[] foregroundLayers = {};
 
     public Level(TiledMap map, TiledMapRenderer renderer) {
         this.map = map;

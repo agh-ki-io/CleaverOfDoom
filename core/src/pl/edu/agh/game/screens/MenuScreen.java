@@ -35,7 +35,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Begin Your Adventure! " + x + " " + y);
-                game.setScreen(new PlayableScreen(game));
+                game.setScreen(new NewPlayableScreen(game));
             }
         });
 

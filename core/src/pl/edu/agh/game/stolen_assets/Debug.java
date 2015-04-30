@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import pl.edu.agh.game.CleaverOfDoom;
 
+import java.io.PrintStream;
+
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
@@ -16,6 +18,8 @@ public class Debug {
 
     public static final TextureRegion pixTexture = new TextureRegion(new Texture(Gdx.files.internal("pix.png")));
     public static final TextureRegion circTexture = new TextureRegion(new Texture(Gdx.files.internal("circ.png")));
+
+    private static final PrintStream logger = System.out;
 
 //    public static void drawCircle(float x, float y, float r, SpriteBatch batch) {
 //        ShapeRenderer shapeRenderer = getShapeRenderer();
@@ -43,5 +47,9 @@ public class Debug {
         if (CleaverOfDoom.DEBUG) {
             batch.draw(Debug.pixTexture, x, y, 0, 0, 1, 1, scale, scale, 0);
         }
+    }
+
+    public static void log(String message) {
+        logger.println(message);
     }
 }

@@ -21,12 +21,14 @@ import java.util.Map;
  */
 public class Util {
 
-    public static Map<String, Animation> playerAnimationFromXml(FileHandle xmlFile) {
+    public static Map<String, Animation> playerAnimationFromXml(FileHandle xmlFile, Map<String, Texture> loadedTextures, Map<String, String> attributes) {
         XmlReader reader = new XmlReader();
-        Map<String, Texture> texturePathToFile = new HashMap<String, Texture>();
         Map<String, Animation> result = new HashMap<String, Animation>();
         try {
             XmlReader.Element parsed = reader.parse(xmlFile);
+
+            attributes.put("collision", parsed.getAttribute("collision"));
+
             Array<XmlReader.Element> sprites = parsed.getChildrenByName("sprite");
 
             for (XmlReader.Element sprite : sprites) {
@@ -35,11 +37,11 @@ public class Util {
 
                 String texture = "stolen_assets" + File.separator + sprite.getChildByName("texture").getText();
 
-                if (!texturePathToFile.containsKey(texture)) {
-                    texturePathToFile.put(texture, new Texture(Gdx.files.internal(texture)));
+                if (!loadedTextures.containsKey(texture)) {
+                    loadedTextures.put(texture, new Texture(Gdx.files.internal(texture)));
                 }
 
-                Texture tx = texturePathToFile.get(texture);
+                Texture tx = loadedTextures.get(texture);
 
                 String[] origin = sprite.getChildByName("origin").getText().split(" ");
                 Array<XmlReader.Element> frames = sprite.getChildrenByName("frame");
