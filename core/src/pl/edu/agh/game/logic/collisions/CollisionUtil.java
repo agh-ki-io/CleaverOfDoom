@@ -34,4 +34,39 @@ public class CollisionUtil {
     public static boolean collisonGroupMatches(int onesCollisionGroup, int anothersCollisionGroup) {
         return (onesCollisionGroup & anothersCollisionGroup) == 0;
     }
+
+    public static boolean overlaps(Shape2D thisShape, Shape2D otherShape) {
+        if (thisShape instanceof Circle) {
+            if (otherShape instanceof Circle) {
+                return Intersector.overlaps((Circle) thisShape, (Circle) otherShape);
+            } else if (otherShape instanceof Rectangle) {
+                return Intersector.overlaps((Circle) thisShape, (Rectangle) otherShape);
+            } else if (otherShape instanceof Polygon) {
+                return CollisionUtil.overlaps((Polygon) otherShape, (Circle) thisShape);
+            }
+        } else if (thisShape instanceof Rectangle) {
+            if (otherShape instanceof Circle) {
+                return Intersector.overlaps((Circle) otherShape, (Rectangle) thisShape);
+            } else if (otherShape instanceof Rectangle) {
+                return Intersector.overlaps((Rectangle) thisShape, (Rectangle) otherShape);
+            } else if (otherShape instanceof Polygon) {
+                return CollisionUtil.overlaps((Polygon) otherShape, (Rectangle) thisShape);
+            }
+        } else if (thisShape instanceof Polygon) {
+            if (otherShape instanceof Circle) {
+                return CollisionUtil.overlaps((Polygon) thisShape, (Circle) otherShape);
+            } else if (otherShape instanceof Rectangle) {
+                return CollisionUtil.overlaps((Polygon) thisShape, (Rectangle) otherShape);
+            } else if (otherShape instanceof Polygon) {
+                return Intersector.overlapConvexPolygons((Polygon) thisShape, (Polygon) otherShape);
+            }
+        }
+        return false;
+    }
+
+    public static boolean overlaps(Collidable one, Collidable another) {
+        Shape2D thisShape = one.getShape();
+        Shape2D otherShape = another.getShape();
+        return overlaps(thisShape, otherShape);
+    }
 }

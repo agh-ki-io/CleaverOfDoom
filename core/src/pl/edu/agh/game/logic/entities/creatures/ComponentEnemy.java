@@ -6,7 +6,7 @@ import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollideableComponent;
+import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
@@ -30,10 +30,10 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     private boolean destroyed = false;
 
     public ComponentEnemy(float x, float y,StatsComponent statsComponent, MovementComponent movementComponent,
-                          DamageComponent damageComponent, CollideableComponent<Circle> collideableComponent,
+                          DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent,
                           DrawableComponent drawableComponent, InputState inputState,
                           Queue<Point> queue, Level level) {
-        super(statsComponent, damageComponent, collideableComponent, drawableComponent, movementComponent, level);
+        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
         this.inputState = inputState;
         this.points = queue;
         this.new_pos = points.poll();
@@ -42,7 +42,7 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
 
     @Override
     public boolean overlaps(Collidable collidable) {
-        return collideableComponent.overlaps(collidable);
+        return collidableComponent.overlaps(collidable);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
 
     @Override
     public Shape2D getShape() {
-        return collideableComponent.getShape();
+        return collidableComponent.getShape();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     public void draw(SpriteBatch batch) {
         super.draw(batch);
 
-        Debug.drawCircle(collideableComponent.getShape().x, collideableComponent.getShape().y, collideableComponent.getShape().radius, batch);
+        Debug.drawCircle(collidableComponent.getShape().x, collidableComponent.getShape().y, collidableComponent.getShape().radius, batch);
     }
 
     @Override
@@ -112,13 +112,13 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
             this.fire=true;
         move(x, y, deltaTime);
 
-        collideableComponent.getShape().setPosition(getX(), getY());
+        collidableComponent.getShape().setPosition(getX(), getY());
     }
 
     private void attack() {
         if (drawableComponent.isFree()) {
             Direction direction = this.drawableComponent.getLastUsableDirection();
-            OneWayProjectile projectile = EntityFactory.getNewEnemyArrow(getX(), getY(), 700, direction, collideableComponent.getMap());
+            OneWayProjectile projectile = EntityFactory.getNewEnemyArrow(getX(), getY(), 700, direction, level);
             level.addCharacter(projectile);
         }
     }

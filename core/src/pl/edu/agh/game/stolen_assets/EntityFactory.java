@@ -2,13 +2,12 @@ package pl.edu.agh.game.stolen_assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
-import pl.edu.agh.game.logic.collisions.CollideableComponent;
+import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.damage.ReductionStrategy;
@@ -39,14 +38,14 @@ public class EntityFactory {
     private static final Map<String, Animation> enemyArrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes); //tu trzeba zmienic grafike
 
 
-    public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, TiledMap map) {
+    public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, Level level) {
         velocity = 1000;
-        return new OneWayProjectile(x, y, arrowAnimationMap.get(direction.toString()), velocity, direction, map, 1);
+        return new OneWayProjectile(x, y, arrowAnimationMap.get(direction.toString()), velocity, direction, level, 1);
     }
 
-    public static OneWayProjectile getNewEnemyArrow(float x, float y, float velocity, Direction direction, TiledMap map) {
+    public static OneWayProjectile getNewEnemyArrow(float x, float y, float velocity, Direction direction, Level level) {
         velocity = 1000;
-        return new OneWayProjectile(x, y, enemyArrowAnimationMap.get(direction.toString()), velocity, direction, map, 2);
+        return new OneWayProjectile(x, y, enemyArrowAnimationMap.get(direction.toString()), velocity, direction, level, 2);
     }
 
     public static Map<String, Animation> getRangerAnimationMap() {
@@ -72,9 +71,9 @@ public class EntityFactory {
     private static ComponentPlayer getNewArcher(Level level, InputState inputState) {
         StatsComponent statsComponent = new StatsComponent(500, 1.2f, 0.7f);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
-        CollideableComponent<Circle> collideableComponent = new CollideableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
+        CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
         int velocity = 300;
-        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collideableComponent);
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
         DamageComponent damageComponent = new DamageComponent(statsComponent);
 
         damageComponent.setReductionStrategy(new ReductionStrategy() {
@@ -89,7 +88,7 @@ public class EntityFactory {
                 statsComponent,
                 movementComponent,
                 damageComponent,
-                collideableComponent,
+                collidableComponent,
                 new DrawableComponent(rangerAnimationMap),
                 inputState,
                 level

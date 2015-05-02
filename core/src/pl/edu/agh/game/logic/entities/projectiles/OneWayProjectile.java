@@ -1,16 +1,16 @@
 package pl.edu.agh.game.logic.entities.projectiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Shape2D;
 import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.GameEntity;
+import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.Updatable;
 import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.collisions.CollideableComponent;
+import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.collisions.CollisionUtil;
 import pl.edu.agh.game.logic.damage.Damagable;
 import pl.edu.agh.game.logic.damage.Damage;
@@ -32,14 +32,14 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
     private float dy;
     private int scale = 4;
     private boolean destroyed = false;
-    private float ttl = 1000.5f;
+    private float ttl = 1.5f;
 
     private int collisionGroup;
 
     private final Damage damage = new Damage(DamageType.PHYSICAL, 100);
-    private final CollideableComponent<Circle> collideableComponent;
+    private final CollidableComponent<Circle> collidableComponent;
 
-    public OneWayProjectile(float x, float y, Animation animation, float velocity, Direction direction, TiledMap map, int collisionGroup) {
+    public OneWayProjectile(float x, float y, Animation animation, float velocity, Direction direction, Level level, int collisionGroup) {
         this.x = x;
         this.y = y;
         this.animation = animation;
@@ -49,7 +49,7 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
         this.dy = direction.getDy();
         diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
 
-        collideableComponent = new CollideableComponent<>(new Circle(x, y, 2.25f * scale), map);
+        collidableComponent = new CollidableComponent<>(new Circle(x, y, 2.25f * scale), level.getMap());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
         float originX = animation.getOriginX();
         float originY = animation.getOriginY();
         batch.draw(animation.getCurrentFrame(), (int) x, (int) y, originX, originY, animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
-        Debug.drawCircle(collideableComponent.getShape().x - originX, collideableComponent.getShape().y - originY, collideableComponent.getShape().radius, batch);
+        Debug.drawCircle(collidableComponent.getShape().x - originX, collidableComponent.getShape().y - originY, collidableComponent.getShape().radius, batch);
         Debug.drawDot(x - originX, y - originY, scale, batch);
     }
 
@@ -81,8 +81,8 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
             newY = this.y + velocity * deltaTime * dy;
         }
 
-        if (!collideableComponent.collision(newX, newY, "blocked")) {
-            collideableComponent.getShape().setPosition(x, y);
+        if (!collidableComponent.collision(newX, newY, "blocked")) {
+            collidableComponent.getShape().setPosition(x, y);
             this.x = newX;
             this.y = newY;
         }
@@ -90,7 +90,7 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
 
     @Override
     public boolean overlaps(Collidable collidable) {
-        return collideableComponent.overlaps(collidable);
+        return collidableComponent.overlaps(collidable);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
 
     @Override
     public Shape2D getShape() {
-        return collideableComponent.getShape();
+        return collidableComponent.getShape();
     }
 
     @Override

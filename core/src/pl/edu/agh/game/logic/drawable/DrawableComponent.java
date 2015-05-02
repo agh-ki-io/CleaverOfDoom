@@ -99,6 +99,13 @@ public class DrawableComponent {
                 animation = animationMap.get(lastUsableDirection.toString() + "-attack");
                 animation.reset();
                 animation.setPlayMode(PlayMode.NORMAL);
+                break;
+            case CHANNELLING:
+                this.animationType = animationType;
+                animation = animationMap.get("channeling");
+                animation.reset();
+                animation.setPlayMode(PlayMode.NORMAL);
+                break;
         }
     }
 }

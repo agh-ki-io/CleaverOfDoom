@@ -6,7 +6,7 @@ import pl.edu.agh.game.ui.UserInterface;
 
 public class CleaverOfDoom extends Game {
 	public static final float EPSILON = 1E-2f;
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	private final UserInterface userInterface;
 
 	public CleaverOfDoom(UserInterface userInterface) {
