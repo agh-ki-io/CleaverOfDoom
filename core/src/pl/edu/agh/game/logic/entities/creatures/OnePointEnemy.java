@@ -75,10 +75,6 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
 
     }
 
-    private boolean compareWithEpsilon(float one, float another, float epsilon) {
-        return (one + 180 - epsilon) % 360 <= another + 180 && (one + 180 + epsilon) % 360 >= another + 180;
-    }
-
     @Override
     public void update(float deltaTime) {
         drawableComponent.update(deltaTime);
