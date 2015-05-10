@@ -12,7 +12,7 @@ import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
-import pl.edu.agh.game.logic.skills.ShootArrowSkill;
+import pl.edu.agh.game.logic.skills.MeleeAttackSkill;
 import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
@@ -81,8 +81,8 @@ public class ComponentPlayer extends Player {
         if (drawableComponent.isFree()) {
             if (inputState.isSkill1Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new ShootArrowSkill(700, level, this));
-//                skills.add(new MeleeAttackSkill(level, this));
+//                skills.add(new ShootArrowSkill(700, level, this));
+                skills.add(new MeleeAttackSkill(level, this));
             }
             else if (inputState.isSkill2Used()) {
                 drawableComponent.setAnimation(AnimationType.CHANNELLING);

@@ -13,7 +13,6 @@ public class ArrowCircleSkill extends Skill {
     private final static Direction[] directions = {Direction.EAST, Direction.NORTHEAST, Direction.NORTH, Direction.NORTHWEST, Direction.WEST, Direction.SOUTHWEST, Direction.SOUTH, Direction.SOUTHEAST};
     private final float stepDuration;
     private int arrowVelocity;
-    private final int steps;
     private int currentStep = 0;
     private float lastShotFiredTime = 0;
     private float skillDurationLeft;
@@ -22,8 +21,7 @@ public class ArrowCircleSkill extends Skill {
         super(level, skillUser);
         this.stepDuration = stepDuration;
         this.arrowVelocity = arrowVelocity;
-        steps = directions.length;
-        skillDurationLeft = stepDuration * steps;
+        skillDurationLeft = stepDuration * directions.length;
     }
 
     @Override

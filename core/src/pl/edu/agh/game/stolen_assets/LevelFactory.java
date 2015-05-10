@@ -23,7 +23,7 @@ public class LevelFactory {
 
     private static Level initializeTestMap() {
         TiledMap map = new TmxMapLoader().load("stolen_assets/maps/untitled.tmx");
-        OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, 1.5f);
+        OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map, Float.parseFloat(map.getProperties().get("scale", "1.0", String.class)));
         new AnimatedMap(map);
         return new Level(map, renderer);
     }

@@ -12,7 +12,6 @@ import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
-import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 import pl.edu.agh.game.stolen_assets.LevelFactory;
@@ -28,7 +27,7 @@ public class NewPlayableScreen implements Screen {
     private final SpriteBatch batch;
     private final InputState inputState;
 
-    private ComponentPlayer player;
+    private Player player;
 
     private Level level;
 
@@ -43,13 +42,15 @@ public class NewPlayableScreen implements Screen {
         initUI();
         Input input = userInterface.getInput();
         inputState = input.getInputState();
+        EntityFactory.player1InputState = inputState;
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         level = LevelFactory.initializeLevel("testMap");
-        player = EntityFactory.getNewPlayer(Player.Profession.ARCHER, level, inputState);
-        level.addCharacter(player);
+//        player = EntityFactory.getNewPlayer(Player.Profession.ARCHER, level);
+//        level.addCharacter(player);
+        player = level.getPlayers()[1];
     }
 
     private void initUI() {

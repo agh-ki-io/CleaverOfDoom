@@ -17,7 +17,7 @@ public class MeleeAttackSkill extends Skill {
 
     public MeleeAttackSkill(Level level, Character skillUser) {
         super(level, skillUser);
-        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f);
+        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
         level.addCharacter(attack);
     }
 
