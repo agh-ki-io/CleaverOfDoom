@@ -2,6 +2,7 @@ package pl.edu.agh.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -43,6 +44,12 @@ public class NewPlayableScreen implements Screen {
         initUI();
         Input input = userInterface.getInput();
         inputState = input.getInputState();
+        if (inputState.getMusic() != null) inputState.getMusic().dispose();
+        inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_Menace.mp3")));
+        inputState.getMusic().setLooping(true);
+        inputState.getMusic().play();
+
+//        inputState.setCurrentLevel(this);
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

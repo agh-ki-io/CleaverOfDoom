@@ -1,5 +1,8 @@
 package pl.edu.agh.game.input;
 
+import com.badlogic.gdx.audio.Music;
+import pl.edu.agh.game.screens.NewPlayableScreen;
+
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-03
@@ -7,6 +10,7 @@ package pl.edu.agh.game.input;
 public class InputState {
     private float xDirection;
     private float yDirection;
+    private Music music;
 
     private boolean menuOn;
     private boolean skill1Used;
@@ -81,4 +85,15 @@ public class InputState {
             return true;
         } else return false;
     }
+
+    public void setMusic(Music music) {
+        this.music = music;
+    }
+
+    public Music getMusic() {
+        return music;
+    }
+//    public void setCurrentLevel(NewPlayableScreen currentLevel) {
+//        this.currentLevel = currentLevel;
+//    }
 }

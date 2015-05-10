@@ -12,6 +12,7 @@ import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
+import pl.edu.agh.game.logic.skills.FinalAnnihilationSkill;
 import pl.edu.agh.game.logic.skills.ShootArrowSkill;
 import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
@@ -87,6 +88,10 @@ public class ComponentPlayer extends Player {
             else if (inputState.isSkill2Used()) {
                 drawableComponent.setAnimation(AnimationType.CHANNELLING);
                 skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
+            }
+            else if (inputState.isSkill3Used()) {
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                skills.add(new FinalAnnihilationSkill(level, this));
             }
         }
     }

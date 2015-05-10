@@ -12,9 +12,15 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.effects.Effect;
 import pl.edu.agh.game.logic.movement.Movable;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * @author - Lukasz Gmyrek
@@ -26,9 +32,11 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
     public final DamageComponent damageComponent;
     public final CollidableComponent<CollidableShapeType> collidableComponent;
     public final DrawableComponent drawableComponent;
+    public Set<Effect> effects;
     protected Level level;
 
     public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
+        this.effects = new HashSet<>();
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
         this.collidableComponent = collidableComponent;
@@ -72,6 +80,14 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
 
     @Override
     public void update(float deltaTime) {
+        List<Effect> toRemove = new Vector<>();
+        for (Effect effect : effects) {
+            if (effect.getCooldown().shouldAct())
+            effect.act(this);
+            effect.getCooldown().update(deltaTime);
+            if (effect.getCooldown().isOver()) toRemove.add(effect);
+        }
+        effects.removeAll(toRemove);
         drawableComponent.update(deltaTime);
     }
 
@@ -89,4 +105,9 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
     public float getY() {
         return movementComponent.getY();
     }
+
+    public void addEffect(Effect effect) {
+        effects.add(effect);
+    }
+
 }
