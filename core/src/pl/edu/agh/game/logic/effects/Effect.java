@@ -1,9 +1,7 @@
 package pl.edu.agh.game.logic.effects;
 
-import pl.edu.agh.game.logic.Level;
-import pl.edu.agh.game.logic.collisions.Collidable;
-import pl.edu.agh.game.logic.entities.*;
 import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.settings.GameSettings;
 
 /**
  * Created by Michal Furmanek on 2015-05-10.
@@ -15,7 +13,8 @@ public abstract class Effect {
 
     public Effect(float ttl) {
 //        this.character = character;
-        cooldown = new Cooldown(ttl);
+        GameSettings.getInstance().getEffectsToUpdate().add(this);
+        cooldown = new Cooldown(ttl, this);
     }
 
     public Cooldown getCooldown() {
@@ -24,4 +23,6 @@ public abstract class Effect {
 
     public abstract void act(Character character);
 
-}
+    public abstract void dispose();
+
+    }

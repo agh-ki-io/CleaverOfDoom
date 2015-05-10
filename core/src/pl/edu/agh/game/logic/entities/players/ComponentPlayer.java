@@ -11,10 +11,7 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
-import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
-import pl.edu.agh.game.logic.skills.FinalAnnihilationSkill;
-import pl.edu.agh.game.logic.skills.ShootArrowSkill;
-import pl.edu.agh.game.logic.skills.Skill;
+import pl.edu.agh.game.logic.skills.*;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
 
@@ -82,16 +79,19 @@ public class ComponentPlayer extends Player {
         if (drawableComponent.isFree()) {
             if (inputState.isSkill1Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new ShootArrowSkill(700, level, this));
-//                skills.add(new MeleeAttackSkill(level, this));
+//                skills.add(new ShootArrowSkill(700, level, this));
+                skills.add(new BarbarianMeleeAttackSkill(level, this));
             }
             else if (inputState.isSkill2Used()) {
-                drawableComponent.setAnimation(AnimationType.CHANNELLING);
-                skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
+//                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+//                skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                skills.add(new SpearmanMeleeAttackSkill(level, this));
             }
             else if (inputState.isSkill3Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new FinalAnnihilationSkill(level, this));
+                skills.add(new RogueMeleeAttackSkill(level, this));
+//                skills.add(new FinalAnnihilationSkill(level, this));
             }
         }
     }

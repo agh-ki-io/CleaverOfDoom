@@ -2,7 +2,6 @@ package pl.edu.agh.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,11 +12,15 @@ import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
+import pl.edu.agh.game.logic.effects.Effect;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.settings.GameSettings;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 import pl.edu.agh.game.stolen_assets.LevelFactory;
 import pl.edu.agh.game.ui.UserInterface;
+
+import java.util.List;
 
 /**
  * @author - Lukasz Gmyrek
@@ -47,6 +50,7 @@ public class NewPlayableScreen implements Screen {
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
         inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_Menace.mp3")));
         inputState.getMusic().setLooping(true);
+        inputState.getMusic().setVolume(GameSettings.getInstance().getMusicVolume());
         inputState.getMusic().play();
 
 //        inputState.setCurrentLevel(this);
@@ -93,7 +97,10 @@ public class NewPlayableScreen implements Screen {
             inputState.setMenuOn(false);
             game.setScreen(new MenuScreen(game));
         }
-
+        List<Effect> effects = GameSettings.getInstance().getEffectsToUpdate();
+        for (Effect effect : effects) {
+            effect.getCooldown().update(delta);
+        }
         camera.update();
         camera.position.set(player.getX(), player.getY(), 0);
         level.getRenderer().setView(camera);
