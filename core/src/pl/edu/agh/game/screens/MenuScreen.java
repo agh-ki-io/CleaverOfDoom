@@ -1,10 +1,7 @@
 package pl.edu.agh.game.screens;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.AudioRecorder;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.InputState;
+import pl.edu.agh.game.settings.GameSettings;
 
 public class MenuScreen implements Screen {
     private final CleaverOfDoom game;
@@ -29,8 +27,9 @@ public class MenuScreen implements Screen {
         this.game = game;
         inputState = game.getUserInterface().getInput().getInputState();
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
-        inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_You_Bastard.mp3")));
+        inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("stolen_assets/BabaYetu.mp3")));
         inputState.getMusic().setLooping(true);
+        inputState.getMusic().setVolume(GameSettings.getInstance().getMusicVolume());
         inputState.getMusic().play();
         batch = new SpriteBatch();
         stage = new Stage();
