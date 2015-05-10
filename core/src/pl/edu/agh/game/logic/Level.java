@@ -47,7 +47,8 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
             Integer gid = mapObject.getProperties().get("gid", Integer.class);
             if (gid != null) {
                 TiledMapTile tile = map.getTileSets().getTile(gid);
-                String  objectID = tile.getProperties().get("object_id", "none", String.class);
+                String objectID = tile.getProperties().get("object_id", "none", String.class);
+                int collisionGroups = Integer.parseInt(tile.getProperties().get("collision_groups", "0", String.class));
                 if (objectID.equals("none")) {
                     throw new RuntimeException("Object on map does not have object_id property.");
                 } else if (objectID.matches("player._spawn")) {
@@ -55,9 +56,8 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
                     newPlayer.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
                     addCharacter((T) newPlayer);
                     players[java.lang.Character.digit(objectID.charAt(6), 10)] = newPlayer;
-                    break;
                 } else {
-                    Character enemy  = EntityFactory.getNewEnemy(objectID, this);
+                    Character enemy  = EntityFactory.getNewEnemy(objectID, collisionGroups, this);
                     enemy.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
                     addCharacter((T) enemy);
                 }
