@@ -29,7 +29,7 @@ public class NewPlayableScreen implements Screen {
     private final SpriteBatch batch;
     private final InputState inputState;
 
-    private ComponentPlayer player;
+    private Player player;
 
     private Level level;
 
@@ -44,19 +44,20 @@ public class NewPlayableScreen implements Screen {
         initUI();
         Input input = userInterface.getInput();
         inputState = input.getInputState();
+        EntityFactory.player1InputState = inputState;
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
         inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_Menace.mp3")));
         inputState.getMusic().setLooping(true);
         inputState.getMusic().play();
-
 //        inputState.setCurrentLevel(this);
         Gdx.input.setInputProcessor(input.getInputProcessor());
 
         this.camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         level = LevelFactory.initializeLevel("testMap");
-        player = EntityFactory.getNewPlayer(Player.Profession.ARCHER, level, inputState);
-        level.addCharacter(player);
+//        player = EntityFactory.getNewPlayer(Player.Profession.ARCHER, level);
+//        level.addCharacter(player);
+        player = level.getPlayers()[1];
     }
 
     private void initUI() {

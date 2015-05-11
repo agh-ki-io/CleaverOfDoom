@@ -1,11 +1,18 @@
 package pl.edu.agh.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.drawable.Drawable;
+import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
+import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -23,10 +30,39 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
     private int[] backgroundLayers = {0};
     private int[] foregroundLayers = {};
 
+    private final Player[] players = new Player[4];
+
     public Level(TiledMap map, TiledMapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
         characters = new ConcurrentLinkedDeque<>();
+
+        initializeCharactersFromMap();
+    }
+
+    private void initializeCharactersFromMap() {
+        MapLayer objectMapLayer = map.getLayers().get("objects");
+        float scale = Float.parseFloat(map.getProperties().get("scale", "1.0", String.class));
+        for (MapObject mapObject : objectMapLayer.getObjects()) {
+            Integer gid = mapObject.getProperties().get("gid", Integer.class);
+            if (gid != null) {
+                TiledMapTile tile = map.getTileSets().getTile(gid);
+                String objectID = tile.getProperties().get("object_id", "none", String.class);
+                int collisionGroups = Integer.parseInt(tile.getProperties().get("collision_groups", "0", String.class));
+                if (objectID.equals("none")) {
+                    throw new RuntimeException("Object on map does not have object_id property.");
+                } else if (objectID.matches("player._spawn")) {
+                    ComponentPlayer newPlayer = EntityFactory.getNewPlayer(Player.Profession.ARCHER, this);
+                    newPlayer.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
+                    addCharacter((T) newPlayer);
+                    players[java.lang.Character.digit(objectID.charAt(6), 10)] = newPlayer;
+                } else {
+                    Character enemy  = EntityFactory.getNewEnemy(objectID, collisionGroups, this);
+                    enemy.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
+                    addCharacter((T) enemy);
+                }
+            }
+        }
     }
 
     public TiledMap getMap() {
@@ -102,5 +138,9 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
 
     public<K extends T> void addCharacters(Collection<? extends K> characters) {
         this.characters.addAll(characters);
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 }
