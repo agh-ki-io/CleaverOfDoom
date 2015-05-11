@@ -16,6 +16,8 @@ import pl.edu.agh.game.logic.entities.*;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.stolen_assets.Debug;
 
+import java.util.Set;
+
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-05-01
@@ -42,9 +44,15 @@ public class StaticShapedEffect implements Updatable, Drawable, Collidable, Game
 
     @Override
     public void collide(Collidable collidable) {
+//        System.out.println(CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())+" "+getCollisionGroups()+" "+collidable.getCollisionGroups());
         if (CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
-            if (collidable instanceof pl.edu.agh.game.logic.entities.Character)
-                ((Character) collidable).effects.add(effect);
+            Set<Effect> effects;
+            if (collidable instanceof pl.edu.agh.game.logic.entities.Character) {
+                effect.addToSet((Character) collidable);
+//                effects = ((Character) collidable).effects;
+//                if (effects.contains())
+//                effects.add(effect.copy());
+            }
         }
     }
 

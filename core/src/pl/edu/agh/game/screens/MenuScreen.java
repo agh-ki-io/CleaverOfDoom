@@ -27,7 +27,7 @@ public class MenuScreen implements Screen {
         this.game = game;
         inputState = game.getUserInterface().getInput().getInputState();
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
-        inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("stolen_assets/BabaYetu.mp3")));
+        inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_You_Bastard.mp3")));
         inputState.getMusic().setLooping(true);
         inputState.getMusic().setVolume(GameSettings.getInstance().getMusicVolume());
         inputState.getMusic().play();

@@ -13,11 +13,16 @@ import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
+import pl.edu.agh.game.logic.effects.Effect;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.settings.GameSettings;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 import pl.edu.agh.game.stolen_assets.LevelFactory;
 import pl.edu.agh.game.ui.UserInterface;
+
+import java.util.List;
+import java.util.Vector;
 
 /**
  * @author - Lukasz Gmyrek
@@ -47,6 +52,7 @@ public class NewPlayableScreen implements Screen {
         EntityFactory.player1InputState = inputState;
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
         inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_Menace.mp3")));
+        inputState.getMusic().setVolume(GameSettings.getInstance().getMusicVolume());
         inputState.getMusic().setLooping(true);
         inputState.getMusic().play();
 //        inputState.setCurrentLevel(this);
@@ -94,7 +100,13 @@ public class NewPlayableScreen implements Screen {
             inputState.setMenuOn(false);
             game.setScreen(new MenuScreen(game));
         }
-
+        List<Effect> effects = GameSettings.getInstance().getEffectsToUpdate();
+//        System.out.println("dupa");
+        for (Effect effect : effects) {
+            effect.getCooldown().update(delta);
+//            System.out.println(effect);
+        }
+        effects.removeAll(GameSettings.getInstance().getEffectsToDelete());
         camera.update();
         camera.position.set(player.getX(), player.getY(), 0);
         level.getRenderer().setView(camera);

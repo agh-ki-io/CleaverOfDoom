@@ -32,11 +32,11 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
     public final DamageComponent damageComponent;
     public final CollidableComponent<CollidableShapeType> collidableComponent;
     public final DrawableComponent drawableComponent;
-    public Set<Effect> effects;
+//    public Set<Effect> effects;
     protected Level level;
 
     public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
-        this.effects = new HashSet<>();
+//        this.effects = new HashSet<>();
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
         this.collidableComponent = collidableComponent;
@@ -80,14 +80,13 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
 
     @Override
     public void update(float deltaTime) {
-        List<Effect> toRemove = new Vector<>();
-        for (Effect effect : effects) {
-            if (effect.getCooldown().shouldAct())
-            effect.act(this);
-            effect.getCooldown().update(deltaTime);
-            if (effect.getCooldown().isOver()) toRemove.add(effect);
-        }
-        effects.removeAll(toRemove);
+//        List<Effect> toRemove = new Vector<>();
+//        for (Effect effect : effects) {
+//            if (effect.getCooldown().shouldAct())
+//            effect.act(this);
+//            if (effect.getCooldown().isOver()) toRemove.add(effect);
+//        }
+//        effects.removeAll(toRemove);
         drawableComponent.update(deltaTime);
     }
 
@@ -106,8 +105,8 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
         return movementComponent.getY();
     }
 
-    public void addEffect(Effect effect) {
-        effects.add(effect);
-    }
+//    public void addEffect(Effect effect) {
+//        effects.add(effect);
+//    }
 
 }

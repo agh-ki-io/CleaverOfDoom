@@ -24,7 +24,7 @@ public class FinalAnnihilationSkill extends Skill {
 
     public FinalAnnihilationSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser) {
         super(level, skillUser);
-        effect = new StaticShapedEffect(skillUser.getX(), skillUser.getY(), 300, 1, 0.2f, new FireEffect(5));
+        effect = new StaticShapedEffect(skillUser.getX(), skillUser.getY(), 300, 1, 0.2f, new FireEffect(5, true));
         attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 9000000), 1, 0.2f);
         level.addCharacter(attack);
         level.addCharacter(effect);

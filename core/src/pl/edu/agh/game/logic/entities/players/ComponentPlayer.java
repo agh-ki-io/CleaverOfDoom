@@ -10,17 +10,20 @@ import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.effects.Effect;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
 import pl.edu.agh.game.logic.skills.FinalAnnihilationSkill;
 import pl.edu.agh.game.logic.skills.ShootArrowSkill;
 import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+import pl.edu.agh.game.settings.GameSettings;
 import pl.edu.agh.game.stolen_assets.Debug;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author - Lukasz Gmyrek
@@ -100,7 +103,6 @@ public class ComponentPlayer extends Player {
         for (Skill skill : skills) {
             skill.update(deltaTime);
         }
-
         //W javie nie mozna usuwac elementow w ludzki sposob w kolekcji ;_;
         Iterator<Skill> iterator = skills.iterator();
         while (iterator.hasNext()) {

@@ -7,21 +7,36 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.entities.*;
 import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.settings.GameSettings;
+
+import javax.swing.*;
 
 /**
  * Created by Michal Furmanek on 2015-05-10.
  */
 public class FireEffect extends Effect {
-    Sound fireSound;
-    Music fireSoundStill;
+    GameSettings settings = GameSettings.getInstance();
+//    static Music fireSound;
+//    static Music fireSoundStill;
+    private float ttl;
+    private FireEffect parent;
 
-    public FireEffect(float ttl) {
+    public FireEffect(float ttl, boolean init) {
         super(ttl);
-        fireSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-        fireSound.play();
-        fireSoundStill = Gdx.audio.newMusic(Gdx.files.internal("fire2.mp3"));
-        fireSoundStill.setLooping(true);
-        fireSoundStill.play();
+//        JOptionPane.showMessageDialog(null,"Create " + this);
+        System.out.println("Create " + this);
+        this.ttl = ttl;
+//        this.silent = silent;
+//        this.parent = parent;
+        if (init) {
+            settings.fireSound.setVolume(settings.getSfxVolume());
+            if (!settings.fireSound.isPlaying())
+                settings.fireSound.play();
+            settings.fireSoundStill.setVolume(GameSettings.getInstance().getSfxVolume());
+            settings.fireSoundStill.setLooping(true);
+            if (!settings.fireSoundStill.isPlaying())
+                settings.fireSoundStill.play();
+        }
     }
 
     public void act(Character character) {
@@ -29,8 +44,22 @@ public class FireEffect extends Effect {
     }
 
     public void dispose() {
-        fireSound.dispose();
-        fireSoundStill.dispose();
+//        JOptionPane.showMessageDialog(null,"Dispose " + this);
+        System.out.println("Dispose "+this);
+        settings.fireSound.stop();
+        settings.fireSoundStill.stop();
+        settings.getEffectsToDelete().add(this);
     }
+
+//    @Override
+//    public Effect copy() {
+//        return new FireEffect(ttl, false);
+//    }
+
+    @Override
+    public void addToSet(Character character) {
+        characters.add(character);
+    }
+
 
 }
