@@ -21,7 +21,9 @@ import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.creatures.RandomWalkingEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.logic.entities.players.Spearman;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
+import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
@@ -75,6 +77,7 @@ public class EntityFactory {
             case ROGUE:
             case BARBARIAN:
             case WARRIOR:
+                return getNewSpearman(level, player1InputState);
             default:
                 throw new RuntimeException("Not implemented.");
         }
@@ -108,6 +111,41 @@ public class EntityFactory {
 
         return player;
     }
+
+    private static ComponentPlayer getNewSpearman(Level level, InputState inputState) {
+        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f);
+        float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
+        CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
+        int velocity = 300;
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
+        DamageComponent damageComponent = new DamageComponent(statsComponent);
+
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+
+        Spearman player = new Spearman(
+                240, 7310,
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collidableComponent,
+                new DrawableComponent(rangerAnimationMap),
+                inputState,
+                level
+        );
+
+        return player;
+    }
+
+    public static Weapon getNewSpear(Level level, Spearman spearman) {
+       // System.out.println(direction.toString());
+        return new Weapon(spearman.getX(),spearman.getY(),arrowAnimationMap.get(Direction.NORTH.toString()),0.02f,20.0f,level,1,spearman,100,4*4,6*6);
+    }
+//    new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
 
     public static <T extends Updatable & Drawable & Collidable & GameEntity> Character getNewEnemy(String name, int collisionGroups, Level<T> level) {
         return getOnePointEnemy(name, collisionGroups,  level);

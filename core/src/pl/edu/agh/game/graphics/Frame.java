@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Frame {
     private float frameDuration;
     private final TextureRegion frame;
+
     private float originX;
     private float originY;
 
@@ -34,4 +35,14 @@ public class Frame {
     public float getOriginY() {
         return originY;
     }
+
+
+    public void setOriginX(float originX) {
+        this.originX = originX;
+    }
+
+    public void setOriginY(float originY) {
+        this.originY = originY;
+    }
+
 }

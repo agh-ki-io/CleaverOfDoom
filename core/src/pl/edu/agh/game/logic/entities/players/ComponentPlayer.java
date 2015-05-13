@@ -30,7 +30,7 @@ import java.util.List;
  *         Created on  2015-04-16
  */
 public class ComponentPlayer extends Player {
-    private final InputState inputState;
+    protected final InputState inputState;
     private boolean destroyed = false;
 
     private int collisionGroups = 1;
@@ -81,7 +81,7 @@ public class ComponentPlayer extends Player {
         collidableComponent.getShape().setPosition(getX(), getY());
     }
 
-    private void useSkills() {
+    protected void useSkills() {
         if (drawableComponent.isFree()) {
             if (inputState.isSkill1Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);

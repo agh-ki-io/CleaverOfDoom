@@ -4,6 +4,7 @@ import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.logic.entities.players.Spearman;
 import pl.edu.agh.game.logic.entities.projectiles.StaticShapedAttack;
 
 /**
@@ -13,11 +14,12 @@ import pl.edu.agh.game.logic.entities.projectiles.StaticShapedAttack;
 public class SpearmanMeleeAttackSkill extends Skill {
     private final StaticShapedAttack attack;
     //o ile od srodka gracza w danym kierunku przesunac srodek ataku. (pixele * skala)
-    private static final float DELTA_MULTIPLIER = 6 * 7;
+    private static float DELTA_MULTIPLIER;// = 6 * 7;
 
-    public SpearmanMeleeAttackSkill(Level level, Character skillUser) {
+    public SpearmanMeleeAttackSkill(Level level, Spearman skillUser) {
         super(level, skillUser);
-        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f);
+        DELTA_MULTIPLIER = skillUser.getWeapon().getMovementMultiplier();
+        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), skillUser.getWeapon().getSize(), new Damage(DamageType.PHYSICAL, skillUser.getWeapon().getDamage().getValue()), 1, 0.2f);
         level.addCharacter(attack);
     }
 
