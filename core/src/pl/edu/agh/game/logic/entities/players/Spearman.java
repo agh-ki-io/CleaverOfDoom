@@ -1,6 +1,5 @@
 package pl.edu.agh.game.logic.entities.players;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.input.InputState;
@@ -8,14 +7,13 @@ import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
-import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.drawable.WeaponType;
 import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.*;
 import pl.edu.agh.game.logic.stats.StatsComponent;
-import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 import java.util.Collection;
@@ -41,8 +39,8 @@ public class Spearman extends ComponentPlayer {
     public Spearman(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
         super(x, y, statsComponent,  movementComponent, damageComponent, collidableComponent, drawableComponent, inputState, level);
         //Animation animation, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg
-        weapon = EntityFactory.getNewSpear(level, this);//new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
-        fist = new Weapon(x,y,null,0.1f,0.3f,level,1,this,20,2*4,5*4);
+        weapon = EntityFactory.getNewWeapon(level, this, WeaponType.SPEAR, 0.035f,30.0f,100,4*4,6*6);//new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
+        fist = EntityFactory.getNewWeapon(level, this, WeaponType.FIST, 1.0f,0.0f,20,2*2,4*5);
     }
 
     public Direction getDirection() {
@@ -60,6 +58,7 @@ public class Spearman extends ComponentPlayer {
         weapon.setSpearman(this);
         updateSkills(deltaTime);
         useSkills();
+        if (!weapon.equals(fist)) weapon.movementComponent.move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());
     }

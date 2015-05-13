@@ -16,19 +16,24 @@ import pl.edu.agh.game.logic.damage.Damagable;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.drawable.Drawable;
+import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
 
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-10
  */
+
+
 public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     private final int size;
     private final float movementMultiplier;
     private float x;
     private float y;
-    private Animation animation;
+    private DrawableComponent drawableComponent;
     private float velocity = 0;
     private float diagonalVelocity;
     private float dx;
@@ -41,27 +46,33 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
 
     private final Damage damage;
     private final CollidableComponent<Circle> collidableComponent;
+    public StatsComponent statsComponent;
+    public MovementComponent movementComponent;
 
     private float relaxation;
     private float throwVelocity;
     private boolean thrown = false;
     private Spearman spearman;
 
-    public Weapon(float x, float y, Animation animation, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg, int size, float movementMultiplier) {
+    public Weapon(float x, float y, DrawableComponent drawableComponent, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg, int size, float movementMultiplier) {
         if (spearman != null) System.out.println(x+" "+y+" "+spearman.getX()+" "+spearman.getY());
         this.x = x;
         this.y = y;
-        this.animation = animation;
+        System.out.println(x+" "+y);
+        this.drawableComponent = drawableComponent;
+        this.statsComponent = new StatsComponent(1000, movementMultiplier, movementMultiplier);
+        this.collidableComponent = new CollidableComponent<>(new Circle(x, y, size), level.getMap());
+        this.movementComponent = new MovementComponent(velocity, diagonalVelocity, statsComponent, collidableComponent);
+        this.drawableComponent.setDrawable(this);
         this.relaxation = relaxation;
         this.throwVelocity = throwVelocity;
         this.collisionGroup = collisionGroup;
         this.size = size;
         this.movementMultiplier = movementMultiplier;
+        this.spearman = spearman;
+        this.damage = new Damage(DamageType.PHYSICAL, dmg);
         level.addCharacter(this);
 
-        this.spearman = spearman;
-        damage = new Damage(DamageType.PHYSICAL, dmg);
-        collidableComponent = new CollidableComponent<>(new Circle(x, y, size), level.getMap());
     }
 
     @Override
@@ -69,9 +80,13 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
 //        if (spearman != null)
 //        System.out.println("location: "+x+" "+y+ thrown+velocity+";  player location: "+spearman.getX()+" "+spearman.getY());
 //        else
-//            System.out.println("location: "+x+" "+y+ thrown + velocity);
+        System.out.println(x+" "+ y+" "+ deltaTime);
+//            System.out.println("location: "+movementComponent.getX()+" "+movementComponent.getY()+ thrown + velocity);
         if (thrown) {
-            move(dx, dy);
+            System.out.println(dx+" "+dy+" "+deltaTime);
+//            movementComponent.move(dx, dy, deltaTime);
+            move(dx,dy,deltaTime);
+            movementComponent.setPosition(x,y);
             velocity *= (1-relaxation);
             diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
         }
@@ -81,28 +96,23 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
             thrown = false;
         }
         if (spearman != null) {
-            x = spearman.getX();
-            y = spearman.getY();
+            movementComponent.moveWeapon(spearman);
+            x=spearman.getX();
+            y=spearman.getY();
         }
-//        System.out.println(spearman);
-        if (animation != null)
-        animation.update(deltaTime);
 //        move(dx, dy, deltaTime);
 //        if (velocity > 0)
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (animation != null) {
-            float originX = animation.getOriginX();
-            float originY = animation.getOriginY();
-            batch.draw(animation.getCurrentFrame(), (int) x, (int) y, originX, originY, animation.getCurrentFrame().getRegionWidth(), animation.getCurrentFrame().getRegionHeight(), scale, scale, 0);
-            Debug.drawCircle(collidableComponent.getShape().x - originX, collidableComponent.getShape().y - originY, collidableComponent.getShape().radius, batch);
-            Debug.drawDot(x - originX, y - originY, scale, batch);
-        }
+        drawableComponent.draw(batch);
+        Debug.drawCircle(collidableComponent.getShape().x , collidableComponent.getShape().y , collidableComponent.getShape().radius, batch);
+        Debug.drawDot(x , y , scale, batch);
     }
 
-    private void move(float dx, float dy) {
+    private void move(float dx, float dy, float deltaTime) {
+
             float newX;
             float newY;
 
@@ -115,11 +125,13 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
                 newY = this.y + velocity * dy;
             }
 
-            if (!collidableComponent.collision(newX, newY, "blocked")) {
+            if (!collidableComponent.collision(newX, newY, "blocked")&&!collidableComponent.collision(newX, newY, "slime")&&!collidableComponent.collision(newX, newY, "pit")) {
                 collidableComponent.getShape().setPosition(x, y);
                 this.x = newX;
                 this.y = newY;
             }
+
+
     }
 
     public void throwThis() {

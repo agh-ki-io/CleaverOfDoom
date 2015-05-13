@@ -16,6 +16,7 @@ import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.damage.ReductionStrategy;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.drawable.WeaponType;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.creatures.RandomWalkingEnemy;
@@ -49,8 +50,13 @@ public class EntityFactory {
     private static final Map<String, Animation> thiefAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/thief_a.xml"), loadedTextures, thiefAttributes);
     private static final Map<String, Animation> arrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes);
     private static final Map<String, Animation> enemyArrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes); //tu trzeba zmienic grafike
-
+    private static Map<WeaponType,Map<String, Animation>> weaponTypes = new HashMap<>();
 //    private static final Map<String, >
+
+    private static void fillWeapons() {
+        weaponTypes.put(WeaponType.FIST,rangerAnimationMap);
+        weaponTypes.put(WeaponType.SPEAR,arrowAnimationMap);
+    }
 
     public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, Level level) {
         velocity = 1000;
@@ -141,9 +147,9 @@ public class EntityFactory {
         return player;
     }
 
-    public static Weapon getNewSpear(Level level, Spearman spearman) {
-       // System.out.println(direction.toString());
-        return new Weapon(spearman.getX(),spearman.getY(),arrowAnimationMap.get(Direction.NORTH.toString()),0.02f,20.0f,level,1,spearman,100,4*4,6*6);
+    public static Weapon getNewWeapon(Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
+       fillWeapons();
+        return new Weapon(spearman.getX(),spearman.getY(),new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
     }
 //    new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
 

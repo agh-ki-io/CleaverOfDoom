@@ -6,6 +6,7 @@ import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
@@ -107,5 +108,11 @@ public class DrawableComponent {
                 animation.setPlayMode(PlayMode.NORMAL);
                 break;
         }
+    }
+
+    public void setDrawable(Weapon weapon) {
+        System.out.println(animation.getOriginX()+" "+animation.getOriginY());
+        this.statsComponent = weapon.statsComponent;
+        this.movementComponent = weapon.movementComponent;
     }
 }
