@@ -11,7 +11,9 @@ import pl.edu.agh.game.stolen_assets.EntityFactory;
  */
 public class ShootArrowSkill extends Skill {
     private static final float cost = 20;
-    public ShootArrowSkill(float velocity, Level level, Character skillUser) {
+    private static final int baseDmg = 100;
+    private int skillLvlBonus;
+    public ShootArrowSkill(float velocity, Level level, Character skillUser,int skillLvl) {
         super(level, skillUser,cost);
         OneWayProjectile projectile = EntityFactory.getNewArrow(skillUser.getX(), skillUser.getY(), velocity, skillUser.drawableComponent.getLastUsableDirection(), level);
         level.addCharacter(projectile);

@@ -15,10 +15,12 @@ public class MeleeAttackSkill extends Skill {
     //o ile od srodka gracza w danym kierunku przesunac srodek ataku. (pixele * skala)
     private static final float DELTA_MULTIPLIER = 4 * 4;
     private static final float cost = 25;
-
-    public MeleeAttackSkill(Level level, Character skillUser) {
+    private static final int baseDmg = 200;
+    private int skillLvlBonus;
+    public MeleeAttackSkill(Level level, Character skillUser, int skillLvl) {
         super(level, skillUser, cost);
-        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
+        this.skillLvlBonus=skillLvl-1;
+        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, baseDmg+skillLvlBonus), 1, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
         level.addCharacter(attack);
     }
 

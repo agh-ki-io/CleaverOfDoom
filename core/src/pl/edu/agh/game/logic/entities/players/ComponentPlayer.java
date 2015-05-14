@@ -51,9 +51,9 @@ public class ComponentPlayer extends Player {
     @Override
     public void damage(Damage damage) {
         super.damage(damage);
-        System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
-        System.out.println("Health left: " + statsComponent.getEnergy());
-        System.out.println("maxHP:" + statsComponent.getMaxEnergy());
+        //System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
+        //System.out.println("Health left: " + statsComponent.getEnergy());
+        //System.out.println("maxHP:" + statsComponent.getMaxEnergy());
     }
 
     @Override
@@ -87,28 +87,18 @@ public class ComponentPlayer extends Player {
         if (drawableComponent.isFree()) {
             Skill n;
             if (inputState.isSkill2Used()) { //shoot arrow
-                if(this.statsComponent.getEnergy()>=cost2) {
+                //n = new ShootArrowSkill(700, level, this);
+                if(this.statsComponent.getEnergy()>=cost2/*n.getEnergyCost()*/) {
                     drawableComponent.setAnimation(AnimationType.ATTACK);
-                    n = new ShootArrowSkill(700, level, this);
+                    n = new ShootArrowSkill(700, level, this, this.statsComponent.getSkillLevel(1));
                     skills.add(n);
                     super.incMaxEnergy();
                     super.consumeEnergy(n.getEnergyCost());
                 }
-            /*
-            if (inputState.isSkill1Used()) {
-                n = new MeleeAttackSkill(level, this);
-                if(this.statsComponent.getEnergy()>=n.getEnergyCost()) {
-                    drawableComponent.setAnimation(AnimationType.ATTACK);
-                    skills.add(n);
-                    //skills.add(new ShootArrowSkill(700, level, this));
-                    super.incMaxEnergy();
-                    super.consumeEnergy(n.getEnergyCost());
-                    System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
-                }
-            */
             }
             else if (inputState.isSkill3Used()) {//special
-                if (this.statsComponent.getEnergy() >= cost3){
+                //n = new ArrowCircleSkill(level, this, 0.031f, 700);
+                if (this.statsComponent.getEnergy() >= cost3/*n.getEnergyCost()*/){
                     drawableComponent.setAnimation(AnimationType.CHANNELLING);
                     n = new ArrowCircleSkill(level, this, 0.031f, 700);
                     skills.add(n);
@@ -117,21 +107,28 @@ public class ComponentPlayer extends Player {
                 }
             }
             else if (inputState.isSkill1Used()){//melee attack
-                if(this.statsComponent.getEnergy()>=cost1) {
+                //n = new MeleeAttackSkill(level, this);
+                if(this.statsComponent.getEnergy()>=cost1/*n.getEnergyCost()*/) {
                     drawableComponent.setAnimation(AnimationType.ATTACK);
-                    n = new MeleeAttackSkill(level, this);
+                    n = new MeleeAttackSkill(level, this, this.statsComponent.getSkillLevel(0));
                     skills.add(n);
                     super.incMaxEnergy();
                     super.consumeEnergy(n.getEnergyCost());
+                    this.statsComponent.inccSkillCount(0);
+                    System.out.println("\tCurrent skill count: "+this.statsComponent.getSkillUsageCount(0)+"\n\tCurrent usage to lvl: "+this.statsComponent.getSkillNextLvl(0)+"\n\tCurrent skill lvl: "+this.statsComponent.getSkillLevel(0));
+                    if (this.statsComponent.getSkillUsageCount(0)>=this.statsComponent.getSkillNextLvl(0)) {
+                        this.statsComponent.lvlUpSkill(0);
+                        System.out.println("\tSkill MELEE lvl up!\n\tlvl: "+ this.statsComponent.getSkillLevel(0)+"\n\tto next LVL: "+this.statsComponent.getSkillNextLvl(0));
+                    }
                 }
             }
         }
     }
+
     private void updateSkills(float deltaTime) {
         for (Skill skill : skills) {
             skill.update(deltaTime);
         }
-
         //W javie nie mozna usuwac elementow w ludzki sposob w kolekcji ;_;
         Iterator<Skill> iterator = skills.iterator();
         while (iterator.hasNext()) {
