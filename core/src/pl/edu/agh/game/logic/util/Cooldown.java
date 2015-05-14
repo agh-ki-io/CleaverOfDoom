@@ -6,11 +6,11 @@ import pl.edu.agh.game.logic.Updatable;
  * @author - Lukasz Gmyrek
  *         Created on  2015-05-14
  */
-public class CoolDown implements Updatable {
+public class Cooldown implements Updatable {
     private float ttl;
     private float startingTTL;
 
-    public CoolDown(float startingTTL) {
+    public Cooldown(float startingTTL) {
         this.startingTTL = startingTTL;
     }
 

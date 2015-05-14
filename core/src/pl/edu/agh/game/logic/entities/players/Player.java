@@ -30,16 +30,16 @@ public abstract class Player extends pl.edu.agh.game.logic.entities.Character<Ci
 
     protected void useSkills() {
         if (drawableComponent.isFree()) {
-            if (inputState.isSkill1Used() && skillComponent.getSkillCoolDowns().get(0).isOver()) {
+            if (inputState.isSkill1Used() && skillComponent.getSkillCooldowns().get(0).isOver()) {
                 useSkill(0);
             }
-            else if (inputState.isSkill2Used() && skillComponent.getSkillCoolDowns().get(1).isOver()) {
+            else if (inputState.isSkill2Used() && skillComponent.getSkillCooldowns().get(1).isOver()) {
                 useSkill(1);
             }
-            else if (inputState.isSkill3Used() && skillComponent.getSkillCoolDowns().get(2).isOver()) {
+            else if (inputState.isSkill3Used() && skillComponent.getSkillCooldowns().get(2).isOver()) {
                 useSkill(2);
             }
-            else if (inputState.isSkill4Used() && skillComponent.getSkillCoolDowns().get(3).isOver()) {
+            else if (inputState.isSkill4Used() && skillComponent.getSkillCooldowns().get(3).isOver()) {
                 useSkill(3);
             }
         }
