@@ -7,9 +7,14 @@ import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
+import pl.edu.agh.game.logic.collisions.CollisionUtil;
+import pl.edu.agh.game.logic.damage.Damagable;
+import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
+import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.drawable.WeaponType;
+import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
 import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.*;
@@ -31,6 +36,9 @@ public class Spearman extends ComponentPlayer {
     private Weapon fist;
     private boolean taker = false;
     private float ttl = 0;
+    public boolean hurt = false;
+    public float multiplier = 1;
+    private final Damage damage = new Damage(DamageType.PHYSICAL, 500);
 
 //    private int collisionGroups = 1;
 
@@ -58,8 +66,8 @@ public class Spearman extends ComponentPlayer {
         weapon.setSpearman(this);
         updateSkills(deltaTime);
         useSkills();
-        if (!weapon.equals(fist)) weapon.movementComponent.move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
-        move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
+        move(inputState.getxDirection(), inputState.getyDirection(), deltaTime*multiplier);
+        if (!weapon.equals(fist)) weapon.movementComponent.move(inputState.getxDirection(), inputState.getyDirection(), deltaTime * multiplier);
         collidableComponent.getShape().setPosition(getX(), getY());
     }
 
@@ -77,7 +85,11 @@ public class Spearman extends ComponentPlayer {
             }
             else if (inputState.isSkill3Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new ShootArrowSkill(3.0f,level,this));
+                skills.add(new PoisonedKnifeSkill(level,this));
+            }
+            else if (inputState.isSkill4Used()) {
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                skills.add(new DeathRunSkill(level,this));
             }
         }
     }
@@ -111,6 +123,21 @@ public class Spearman extends ComponentPlayer {
     public void collide(Collidable collidable) {
         if (collidable instanceof Weapon && taker) {
             weapon = (Weapon)collidable;
+        }
+        if (collidable instanceof Weapon && taker) {
+            weapon = (Weapon)collidable;
+        } else if (hurt && CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
+            if (collidable instanceof Damagable) {
+                ((Damagable) collidable).damage(damage);
+            }
+        }
+        if (collidable instanceof SpearPoint && taker) {
+            Weapon tmp = ((SpearPoint)collidable).getNextSpear();
+            if (tmp!=null) {
+                weapon = ((SpearPoint)collidable).getNextSpear();
+                weapon.setSpearman(this);
+                taker = false;
+            }
         }
     }
 

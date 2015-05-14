@@ -17,6 +17,7 @@ public class GameSettings {
     private float musicVolume = 0.1f;
     private float sfxVolume = 1.0f;
     public Music fireSound = Gdx.audio.newMusic(Gdx.files.internal("fire.mp3"));
+    public Music poisonSound = Gdx.audio.newMusic(Gdx.files.internal("poison.mp3"));
     public Music fireSoundStill = Gdx.audio.newMusic(Gdx.files.internal("fire2.mp3"));
     private List<Effect> effectsToUpdate = new Vector<>();
     private List<Effect> effectsToDelete = new Vector<>();

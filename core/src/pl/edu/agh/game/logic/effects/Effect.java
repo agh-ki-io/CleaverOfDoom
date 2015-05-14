@@ -7,6 +7,7 @@ import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.settings.GameSettings;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -33,5 +34,10 @@ public abstract class Effect {
     public abstract void dispose();
 //    public abstract Effect copy();
     public abstract void addToSet(Character character);
+
+    public Character getFirst(){
+        Iterator<Character> iterator = characters.iterator();
+        return iterator.next();
+    }
 
 }

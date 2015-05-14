@@ -11,5 +11,6 @@ public enum DamageType {
     FIRE,
     EARTH,
     WATER,
-    WIND
+    WIND,
+    POISON
 }

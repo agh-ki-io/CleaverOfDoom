@@ -13,6 +13,7 @@ import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
+import pl.edu.agh.game.logic.damage.PercentageReductionStrategy;
 import pl.edu.agh.game.logic.damage.ReductionStrategy;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
@@ -24,6 +25,7 @@ import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.logic.entities.players.Spearman;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
+import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
 import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
@@ -132,6 +134,7 @@ public class EntityFactory {
                 return damage.getValue();
             }
         });
+        damageComponent.setReductionStrategy(new PercentageReductionStrategy(20));
 
         Spearman player = new Spearman(
                 240, 7310,
@@ -150,6 +153,11 @@ public class EntityFactory {
     public static Weapon getNewWeapon(Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
        fillWeapons();
         return new Weapon(spearman.getX(),spearman.getY(),new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
+    }
+
+    public static SpearPoint getNewSpearPoint(float x, float y, Level level, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier, int number) {
+        fillWeapons();
+        return new SpearPoint(x, y, thiefAnimationMap.get("north"), level, relaxation, throwVelocity, dmg, size, movementMultiplier, number);
     }
 //    new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
 
