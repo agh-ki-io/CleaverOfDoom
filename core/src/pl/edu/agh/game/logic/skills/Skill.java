@@ -12,9 +12,15 @@ import pl.edu.agh.game.logic.entities.Character;
 public abstract class Skill implements Updatable, GameEntity {
     protected final Level level;
     protected final Character skillUser;
+    protected final float skillEnergyCost;
 
-    public Skill(Level level, Character skillUser) {
+    public Skill(Level level, Character skillUser, float engc) {
         this.level = level;
         this.skillUser = skillUser;
+        this.skillEnergyCost = engc;
+    }
+
+    public float getEnergyCost(){
+        return this.skillEnergyCost;
     }
 }

@@ -17,10 +17,17 @@ public abstract class Player extends pl.edu.agh.game.logic.entities.Character<Ci
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
     }
 
-    public void incHP(){
-        super.useSkill();
+    public void incMaxEnergy(){
+        this.statsComponent.incMaxEnergy((float)0.3);
     }
 
+    public void regeneration(float reg){
+        this.statsComponent.regen(reg);
+    }
+
+    public void consumeEnergy(float energyCost){
+        this.statsComponent.consumeEnergy(energyCost);
+    }
     public enum Profession {
         ROGUE,
         BARBARIAN,

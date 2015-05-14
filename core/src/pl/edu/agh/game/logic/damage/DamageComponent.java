@@ -23,7 +23,7 @@ public class DamageComponent {
     }
 
     public void receiveDamage(Damage damage) {
-        statsComponent.incMaxHealth(1);
-        statsComponent.setHealth(statsComponent.getHealth() - reductionStrategy.reduce(damage));
+        statsComponent.incMaxEnergy((float)0.33);
+        statsComponent.setEnergy(statsComponent.getEnergy() - reductionStrategy.reduce(damage));
     }
 }

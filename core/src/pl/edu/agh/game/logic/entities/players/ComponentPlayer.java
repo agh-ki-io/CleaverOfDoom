@@ -28,15 +28,15 @@ import java.util.LinkedList;
 public class ComponentPlayer extends Player {
     private final InputState inputState;
     private boolean destroyed = false;
-
+    private float regenRate;
     private int collisionGroups = 1;
 
     Collection<Skill> skills = new LinkedList<>();
 
-    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
+    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level, float regen) {
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
         this.inputState = inputState;
-
+        this.regenRate = regen;
         setPosition(x, y);
     }
 
@@ -48,8 +48,8 @@ public class ComponentPlayer extends Player {
     public void damage(Damage damage) {
         super.damage(damage);
         System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
-        System.out.println("Health left: " + statsComponent.getHealth());
-        System.out.println("maxHP:" + statsComponent.getMaxHealth());
+        System.out.println("Health left: " + statsComponent.getEnergy());
+        System.out.println("maxHP:" + statsComponent.getMaxEnergy());
     }
 
     @Override
@@ -72,6 +72,7 @@ public class ComponentPlayer extends Player {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        super.regeneration(this.regenRate);
         updateSkills(deltaTime);
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
@@ -80,20 +81,39 @@ public class ComponentPlayer extends Player {
 
     private void useSkills() {
         if (drawableComponent.isFree()) {
-            if (inputState.isSkill1Used()) {
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-//                skills.add(new ShootArrowSkill(700, level, this));
-                super.incHP();
-                System.out.println("maxHP:" + statsComponent.getMaxHealth());
-                skills.add(new MeleeAttackSkill(level, this));
+            Skill n;
 
+            if (inputState.isSkill1Used()) {
+                if(this.statsComponent.getEnergy()>=15) {
+                    drawableComponent.setAnimation(AnimationType.ATTACK);
+                    n = new MeleeAttackSkill(level, this);
+                    skills.add(n);
+                    super.incMaxEnergy();
+                    super.consumeEnergy(n.getEnergyCost());
+                    //System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
+                }
+            /*
+            if (inputState.isSkill1Used()) {
+                n = new MeleeAttackSkill(level, this);
+                if(this.statsComponent.getEnergy()>=n.getEnergyCost()) {
+                    drawableComponent.setAnimation(AnimationType.ATTACK);
+                    skills.add(n);
+                    //skills.add(new ShootArrowSkill(700, level, this));
+                    super.incMaxEnergy();
+                    super.consumeEnergy(n.getEnergyCost());
+                    System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
+                }
+            */
             }
             else if (inputState.isSkill2Used()) {
-                drawableComponent.setAnimation(AnimationType.CHANNELLING);
-                skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
-                super.incHP();
-                System.out.println("maxHP:" + statsComponent.getMaxHealth());
-
+                n = new ArrowCircleSkill(level, this, 0.031f, 700);
+                if (this.statsComponent.getEnergy() >= n.getEnergyCost()){
+                    drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                    skills.add(n);
+                    super.incMaxEnergy();
+                    super.consumeEnergy(n.getEnergyCost());
+                    //System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
+                }
             }
         }
     }

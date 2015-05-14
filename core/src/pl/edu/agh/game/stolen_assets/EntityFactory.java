@@ -33,6 +33,11 @@ import java.util.Map;
  *         Created on  2015-04-17
  */
 public class EntityFactory {
+    private static final float archerRegen =(float) 25.5;
+    private static final float rogueRegen =(float) 35.5;
+    private static final float barbarianRegen =(float) 17.5;
+    private static final float wariiorRegen =(float) 20.5;
+
     public static InputState player1InputState;
 
     private static final Map<String, Texture> loadedTextures = new HashMap<>();
@@ -103,7 +108,8 @@ public class EntityFactory {
                 collidableComponent,
                 new DrawableComponent(rangerAnimationMap),
                 inputState,
-                level
+                level,
+                archerRegen
         );
 
         return player;

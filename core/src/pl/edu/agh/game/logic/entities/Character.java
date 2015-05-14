@@ -56,11 +56,6 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
         damageComponent.receiveDamage(damage);
         if (statsComponent.isDead()) destroy();
     }
-
-    public void useSkill(){
-        this.statsComponent.incMaxHealth(1);
-    }
-
     @Override
     public abstract void destroy();
 

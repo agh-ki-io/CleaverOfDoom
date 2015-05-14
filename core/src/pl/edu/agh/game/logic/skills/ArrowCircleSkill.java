@@ -16,9 +16,10 @@ public class ArrowCircleSkill extends Skill {
     private int currentStep = 0;
     private float lastShotFiredTime = 0;
     private float skillDurationLeft;
+    private static final float cost = 100;
 
     public ArrowCircleSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser, float stepDuration, int arrowVelocity) {
-        super(level, skillUser);
+        super(level, skillUser, cost);
         this.stepDuration = stepDuration;
         this.arrowVelocity = arrowVelocity;
         skillDurationLeft = stepDuration * directions.length;
