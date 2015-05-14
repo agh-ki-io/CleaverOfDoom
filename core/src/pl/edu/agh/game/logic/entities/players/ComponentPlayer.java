@@ -13,6 +13,7 @@ import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
 import pl.edu.agh.game.logic.skills.MeleeAttackSkill;
+import pl.edu.agh.game.logic.skills.ShootArrowSkill;
 import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
@@ -31,6 +32,9 @@ public class ComponentPlayer extends Player {
     private float regenRate;
     private int collisionGroups = 1;
 
+    private int cost1 =25;
+    private int cost2 =20;
+    private int cost3 =200;
     Collection<Skill> skills = new LinkedList<>();
 
     public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level, float regen) {
@@ -82,15 +86,13 @@ public class ComponentPlayer extends Player {
     private void useSkills() {
         if (drawableComponent.isFree()) {
             Skill n;
-
-            if (inputState.isSkill1Used()) {
-                if(this.statsComponent.getEnergy()>=15) {
+            if (inputState.isSkill2Used()) { //shoot arrow
+                if(this.statsComponent.getEnergy()>=cost2) {
                     drawableComponent.setAnimation(AnimationType.ATTACK);
-                    n = new MeleeAttackSkill(level, this);
+                    n = new ShootArrowSkill(700, level, this);
                     skills.add(n);
                     super.incMaxEnergy();
                     super.consumeEnergy(n.getEnergyCost());
-                    //System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
                 }
             /*
             if (inputState.isSkill1Used()) {
@@ -105,19 +107,26 @@ public class ComponentPlayer extends Player {
                 }
             */
             }
-            else if (inputState.isSkill2Used()) {
-                n = new ArrowCircleSkill(level, this, 0.031f, 700);
-                if (this.statsComponent.getEnergy() >= n.getEnergyCost()){
+            else if (inputState.isSkill3Used()) {//special
+                if (this.statsComponent.getEnergy() >= cost3){
                     drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                    n = new ArrowCircleSkill(level, this, 0.031f, 700);
                     skills.add(n);
                     super.incMaxEnergy();
                     super.consumeEnergy(n.getEnergyCost());
-                    //System.out.println("maxEnergy:" + statsComponent.getMaxEnergy());
+                }
+            }
+            else if (inputState.isSkill1Used()){//melee attack
+                if(this.statsComponent.getEnergy()>=cost1) {
+                    drawableComponent.setAnimation(AnimationType.ATTACK);
+                    n = new MeleeAttackSkill(level, this);
+                    skills.add(n);
+                    super.incMaxEnergy();
+                    super.consumeEnergy(n.getEnergyCost());
                 }
             }
         }
     }
-
     private void updateSkills(float deltaTime) {
         for (Skill skill : skills) {
             skill.update(deltaTime);

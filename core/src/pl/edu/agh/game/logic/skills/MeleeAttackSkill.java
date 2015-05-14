@@ -14,7 +14,7 @@ public class MeleeAttackSkill extends Skill {
     private final StaticShapedAttack attack;
     //o ile od srodka gracza w danym kierunku przesunac srodek ataku. (pixele * skala)
     private static final float DELTA_MULTIPLIER = 4 * 4;
-    private static final float cost = 15;
+    private static final float cost = 25;
 
     public MeleeAttackSkill(Level level, Character skillUser) {
         super(level, skillUser, cost);

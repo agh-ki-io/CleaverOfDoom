@@ -11,7 +11,7 @@ public class StatsComponent {
     private float attackSpeedMultiplier;
     private long startTime;
     //private long regenTimeMillis;
-    private static final long regenTimeMillis = 2000;
+    private static final long regenTimeMillis = 1000;
 
     public StatsComponent(int energy, float movementSpeedMultiplier, float attackSpeedMultiplier) {
         this.maxEnergy = energy;

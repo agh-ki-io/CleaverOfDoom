@@ -33,7 +33,7 @@ import java.util.Map;
  *         Created on  2015-04-17
  */
 public class EntityFactory {
-    private static final float archerRegen =(float) 25.5;
+    private static final float archerRegen =(float) 25.0;
     private static final float rogueRegen =(float) 35.5;
     private static final float barbarianRegen =(float) 17.5;
     private static final float wariiorRegen =(float) 20.5;
