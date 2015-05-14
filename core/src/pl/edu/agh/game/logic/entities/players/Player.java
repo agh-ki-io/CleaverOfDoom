@@ -17,6 +17,10 @@ public abstract class Player extends pl.edu.agh.game.logic.entities.Character<Ci
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
     }
 
+    public void incHP(){
+        super.useSkill();
+    }
+
     public enum Profession {
         ROGUE,
         BARBARIAN,

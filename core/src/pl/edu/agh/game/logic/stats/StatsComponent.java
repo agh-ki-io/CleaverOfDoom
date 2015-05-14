@@ -6,10 +6,12 @@ package pl.edu.agh.game.logic.stats;
  */
 public class StatsComponent {
     private int health;
+    private int maxHealth;
     private float movementSpeedMultiplier;
     private float attackSpeedMultiplier;
 
     public StatsComponent(int health, float movementSpeedMultiplier, float attackSpeedMultiplier) {
+        this.maxHealth = health;
         this.health = health;
         this.movementSpeedMultiplier = movementSpeedMultiplier;
         this.attackSpeedMultiplier = attackSpeedMultiplier;
@@ -21,6 +23,14 @@ public class StatsComponent {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return this.maxHealth;
+    }
+
+    public void incMaxHealth(int inc){
+        this.maxHealth+=inc;
     }
 
     public float getMovementSpeedMultiplier() {

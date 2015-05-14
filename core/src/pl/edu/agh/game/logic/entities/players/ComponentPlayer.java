@@ -49,6 +49,7 @@ public class ComponentPlayer extends Player {
         super.damage(damage);
         System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
         System.out.println("Health left: " + statsComponent.getHealth());
+        System.out.println("maxHP:" + statsComponent.getMaxHealth());
     }
 
     @Override
@@ -82,11 +83,17 @@ public class ComponentPlayer extends Player {
             if (inputState.isSkill1Used()) {
                 drawableComponent.setAnimation(AnimationType.ATTACK);
 //                skills.add(new ShootArrowSkill(700, level, this));
+                super.incHP();
+                System.out.println("maxHP:" + statsComponent.getMaxHealth());
                 skills.add(new MeleeAttackSkill(level, this));
+
             }
             else if (inputState.isSkill2Used()) {
                 drawableComponent.setAnimation(AnimationType.CHANNELLING);
                 skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
+                super.incHP();
+                System.out.println("maxHP:" + statsComponent.getMaxHealth());
+
             }
         }
     }
