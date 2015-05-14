@@ -6,6 +6,7 @@ import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,8 +20,8 @@ public class RandomWalkingEnemy extends OnePointEnemy {
     private float point_ttl = POINT_TTL_VALUE;
     private final static float MOVE_DELTA = 200;
 
-    public RandomWalkingEnemy(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, Level level, int collisionGroups) {
-        super(statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, level, collisionGroups);
+    public RandomWalkingEnemy(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, Level level, int collisionGroups) {
+        super(statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, skillComponent, level, collisionGroups);
     }
 
     @Override

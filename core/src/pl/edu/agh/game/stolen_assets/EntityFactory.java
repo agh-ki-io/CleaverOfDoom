@@ -23,8 +23,14 @@ import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.skills.Skill;
+import pl.edu.agh.game.logic.skills.SkillBuilder;
+import pl.edu.agh.game.logic.skills.SkillComponent;
+import pl.edu.agh.game.logic.skills.implementations.ArrowCircleSkill;
+import pl.edu.agh.game.logic.skills.implementations.ShootArrowSkill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +89,7 @@ public class EntityFactory {
     private static ComponentPlayer getNewArcher(Level level, InputState inputState) {
         StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
-        CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
+        final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
         int velocity = 300;
         MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
         DamageComponent damageComponent = new DamageComponent(statsComponent);
@@ -95,16 +101,41 @@ public class EntityFactory {
             }
         });
 
-        ComponentPlayer player = new ComponentPlayer(
-                240, 7310,
+        ArrayList<SkillBuilder> builders = new ArrayList<>();
+
+        SkillComponent skillComponent = new SkillComponent(
+                builders,
+                level,
+                null
+        );
+        final ComponentPlayer player = new ComponentPlayer(
                 statsComponent,
                 movementComponent,
                 damageComponent,
                 collidableComponent,
                 new DrawableComponent(rangerAnimationMap),
+                skillComponent,
                 inputState,
                 level
         );
+
+        skillComponent.setSkillUser(player);
+
+        player.setPosition(240, 7300);
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new ShootArrowSkill(700, level, player);
+            }
+        });
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new ArrowCircleSkill(level, player, 0.031f, 700);
+            }
+        });
 
         return player;
     }
@@ -143,6 +174,7 @@ public class EntityFactory {
                 damageComponent,
                 collidableComponent,
                 new DrawableComponent(props.animations),
+                null,
                 level,
                 collisionGroups);
 

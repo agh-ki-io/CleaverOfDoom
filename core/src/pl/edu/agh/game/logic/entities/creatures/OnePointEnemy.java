@@ -12,6 +12,7 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
 
@@ -31,8 +32,8 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
 
     public OnePointEnemy(StatsComponent statsComponent, MovementComponent movementComponent,
                          DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent,
-                         DrawableComponent drawableComponent, Level level, int collisionGroups) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
+                         DrawableComponent drawableComponent, SkillComponent skillComponent, Level level, int collisionGroups) {
+        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, skillComponent, level);
         this.collisionGroups = collisionGroups;
     }
 
@@ -127,5 +128,10 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
         newPosition.y = y;
 
         newPositionWithEpsilon.setPosition(newPosition);
+    }
+
+    @Override
+    public void useSkill(int id) {
+
     }
 }

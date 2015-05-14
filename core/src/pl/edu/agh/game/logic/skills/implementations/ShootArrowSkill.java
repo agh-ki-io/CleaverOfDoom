@@ -1,8 +1,9 @@
-package pl.edu.agh.game.logic.skills;
+package pl.edu.agh.game.logic.skills.implementations;
 
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
+import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 /**

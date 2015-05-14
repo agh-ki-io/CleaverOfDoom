@@ -11,33 +11,21 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
-import pl.edu.agh.game.logic.skills.ArrowCircleSkill;
-import pl.edu.agh.game.logic.skills.MeleeAttackSkill;
-import pl.edu.agh.game.logic.skills.Skill;
+import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
 public class ComponentPlayer extends Player {
-    private final InputState inputState;
     private boolean destroyed = false;
 
     private int collisionGroups = 1;
 
-    Collection<Skill> skills = new LinkedList<>();
-
-    public ComponentPlayer(float x , float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
-        this.inputState = inputState;
-
-        setPosition(x, y);
+    public ComponentPlayer(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, InputState inputState, Level level) {
+        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, skillComponent, level, inputState);
     }
 
     @Override
@@ -71,43 +59,37 @@ public class ComponentPlayer extends Player {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        updateSkills(deltaTime);
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());
     }
 
-    private void useSkills() {
-        if (drawableComponent.isFree()) {
-            if (inputState.isSkill1Used()) {
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-//                skills.add(new ShootArrowSkill(700, level, this));
-                skills.add(new MeleeAttackSkill(level, this));
-            }
-            else if (inputState.isSkill2Used()) {
-                drawableComponent.setAnimation(AnimationType.CHANNELLING);
-                skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
-            }
-        }
-    }
-
-    private void updateSkills(float deltaTime) {
-        for (Skill skill : skills) {
-            skill.update(deltaTime);
-        }
-
-        //W javie nie mozna usuwac elementow w ludzki sposob w kolekcji ;_;
-        Iterator<Skill> iterator = skills.iterator();
-        while (iterator.hasNext()) {
-            Skill skill = iterator.next();
-            if (skill.isDestroyed()) {
-                iterator.remove();
-            }
-        }
-    }
-
     @Override
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    @Override
+    public void useSkill(int id) {
+        switch (id) {
+            case 0:
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                skillComponent.useSkill(0);
+                break;
+            case 1:
+                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                skillComponent.useSkill(1);
+                break;
+            case 2:
+                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                skillComponent.useSkill(2);
+                break;
+            case 3:
+                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                skillComponent.useSkill(3);
+                break;
+                default:
+                    throw new RuntimeException("Character does not have skill of given id.");
+        }
     }
 }

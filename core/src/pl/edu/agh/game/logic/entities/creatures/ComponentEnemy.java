@@ -12,6 +12,7 @@ import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
@@ -32,8 +33,9 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     public ComponentEnemy(float x, float y,StatsComponent statsComponent, MovementComponent movementComponent,
                           DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent,
                           DrawableComponent drawableComponent, InputState inputState,
+                          SkillComponent skillComponent,
                           Queue<Point> queue, Level level) {
-        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
+        super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, skillComponent, level);
         this.inputState = inputState;
         this.points = queue;
         this.new_pos = points.poll();
@@ -126,5 +128,10 @@ public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Cir
     @Override
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    @Override
+    public void useSkill(int id) {
+
     }
 }
