@@ -29,6 +29,7 @@ import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.skills.implementations.ArrowCircleSkill;
 import pl.edu.agh.game.logic.skills.implementations.ShootArrowSkill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+import pl.edu.agh.game.logic.util.CoolDown;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,9 +103,11 @@ public class EntityFactory {
         });
 
         ArrayList<SkillBuilder> builders = new ArrayList<>();
+        ArrayList<CoolDown> coolDowns = new ArrayList<>();
 
         SkillComponent skillComponent = new SkillComponent(
                 builders,
+                coolDowns,
                 level,
                 null
         );
@@ -130,12 +133,16 @@ public class EntityFactory {
             }
         });
 
+        coolDowns.add(new CoolDown(0));
+
         builders.add(new SkillBuilder() {
             @Override
             public Skill build(Level level, Character skillUser) {
                 return new ArrowCircleSkill(level, player, 0.031f, 700);
             }
         });
+
+        coolDowns.add(new CoolDown(3));
 
         return player;
     }
