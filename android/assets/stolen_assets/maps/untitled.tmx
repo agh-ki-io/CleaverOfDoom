@@ -490,7 +490,7 @@
   </data>
  </layer>
  <objectgroup name="objects">
-  <object id="24" gid="129" x="1245" y="3072"/>
+  <object id="24" gid="129" x="100" y="100"/>
   <object id="25" gid="130" x="1440" y="3078"/>
   <object id="26" gid="130" x="1342" y="3167"/>
   <object id="27" gid="130" x="1225" y="3166"/>

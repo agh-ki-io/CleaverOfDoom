@@ -34,6 +34,7 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
                          DrawableComponent drawableComponent, Level level, int collisionGroups) {
         super(statsComponent, damageComponent, collidableComponent, drawableComponent, movementComponent, level);
         this.collisionGroups = collisionGroups;
+
     }
 
     @Override

@@ -23,7 +23,9 @@ import java.util.Queue;
 public class ComponentEnemy extends pl.edu.agh.game.logic.entities.Character<Circle> {
     private final InputState inputState;
     private final Queue<Point> points;
+
     private Point new_pos = new Point();
+
     private final float vers = 1f;
     private final float Eps = 2*vers;
     private boolean fire = false;

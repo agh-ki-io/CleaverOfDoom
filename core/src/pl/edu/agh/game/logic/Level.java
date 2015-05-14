@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
@@ -24,24 +25,30 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class Level<T extends Updatable & Drawable & Collidable & GameEntity> implements Updatable, Drawable{
     private final Collection<T> characters;
 
+    private final Collection<OnePointEnemy> enemies = new ConcurrentLinkedDeque<>();
+
     private TiledMap map;
+
     private TiledMapRenderer renderer;
-
     private int[] backgroundLayers = {0};
-    private int[] foregroundLayers = {};
 
+    private int[] foregroundLayers = {};
     private final Player[] players = new Player[4];
+
+    public Collection<OnePointEnemy> getEnemies() {
+        return enemies;
+    }
 
     public Level(TiledMap map, TiledMapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
         characters = new ConcurrentLinkedDeque<>();
-
         initializeCharactersFromMap();
     }
 
     private void initializeCharactersFromMap() {
         MapLayer objectMapLayer = map.getLayers().get("objects");
+
         float scale = Float.parseFloat(map.getProperties().get("scale", "1.0", String.class));
         for (MapObject mapObject : objectMapLayer.getObjects()) {
             Integer gid = mapObject.getProperties().get("gid", Integer.class);
@@ -60,6 +67,7 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
                     Character enemy  = EntityFactory.getNewEnemy(objectID, collisionGroups, this);
                     enemy.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
                     addCharacter((T) enemy);
+                    enemies.add((OnePointEnemy) enemy);
                 }
             }
         }
