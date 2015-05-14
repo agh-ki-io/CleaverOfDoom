@@ -11,6 +11,7 @@ public class IndexedNodeImplementation implements IndexedNode {
 
     int x;
     int y;
+    int index;
 
     Array<Connection> connections = new Array<>();
 
@@ -22,14 +23,15 @@ public class IndexedNodeImplementation implements IndexedNode {
         return y;
     }
 
-    public IndexedNodeImplementation(int x, int y) {
+    public IndexedNodeImplementation(int index, int x, int y) {
+        this.index = index;
         this.x = x;
         this.y = y;
     }
 
     @Override
     public int getIndex() {
-        return x/50 + y/50*100;
+        return index;
     }
 
     @Override

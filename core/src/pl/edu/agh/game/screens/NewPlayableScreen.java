@@ -2,9 +2,7 @@ package pl.edu.agh.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.DefaultConnection;
-import com.badlogic.gdx.ai.pfa.Graph;
 import com.badlogic.gdx.ai.pfa.Heuristic;
 import com.badlogic.gdx.ai.pfa.indexed.DefaultIndexedGraph;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
@@ -72,6 +70,7 @@ public class NewPlayableScreen implements Screen {
         CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, 1), level.getMap());
         final MovementComponent movementComponent = new MovementComponent(1, 1, statsComponent, collidableComponent);
 
+
         Heuristic<IndexedNodeImplementation> heuristic = new Heuristic<IndexedNodeImplementation>() {
             @Override
             public float estimate(IndexedNodeImplementation node, IndexedNodeImplementation endNode) {
@@ -81,34 +80,34 @@ public class NewPlayableScreen implements Screen {
 
 
 
-        Graph<Integer[]> graph = new Graph<Integer[]>() {
-            @Override
-            public Array<Connection<Integer[]>> getConnections(Integer[] fromNode) {
-
-                Array<Connection<Integer[]>> array = new Array<>();
-                movementComponent.move(fromNode[0] - 50, fromNode[1], 0);
-                array.add(new DefaultConnection(new Integer[]{fromNode[0] - 50, fromNode[1]}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
-
-                movementComponent.move(fromNode[0], fromNode[1] + 50, 0);
-                array.add(new DefaultConnection(new Integer[]{fromNode[0], fromNode[1] + 50}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
-
-                movementComponent.move(fromNode[0] + 50, fromNode[1], 0);
-                array.add(new DefaultConnection(new Integer[]{fromNode[0] + 50, fromNode[1]}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
-
-                movementComponent.move(fromNode[0], fromNode[1] - 50, 0);
-                array.add(new DefaultConnection(new Integer[]{fromNode[0], fromNode[1] + 50}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
-
-                return array;
-            }
-        };
-
+//        Graph<Integer[]> graph = new Graph<Integer[]>() {
+//            @Override
+//            public Array<Connection<Integer[]>> getConnections(Integer[] fromNode) {
+//
+//                Array<Connection<Integer[]>> array = new Array<>();
+//                movementComponent.move(fromNode[0] - 50, fromNode[1], 0);
+//                array.add(new DefaultConnection(new Integer[]{fromNode[0] - 50, fromNode[1]}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
+//
+//                movementComponent.move(fromNode[0], fromNode[1] + 50, 0);
+//                array.add(new DefaultConnection(new Integer[]{fromNode[0], fromNode[1] + 50}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
+//
+//                movementComponent.move(fromNode[0] + 50, fromNode[1], 0);
+//                array.add(new DefaultConnection(new Integer[]{fromNode[0] + 50, fromNode[1]}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
+//
+//                movementComponent.move(fromNode[0], fromNode[1] - 50, 0);
+//                array.add(new DefaultConnection(new Integer[]{fromNode[0], fromNode[1] + 50}, new Integer[]{(int) movementComponent.getX(), (int) movementComponent.getY()}));
+//
+//                return array;
+//            }
+//        };
+        int height = ((TiledMapTileLayer)level.getMap().getLayers().get("background")).getHeight();
 
 
         Array<IndexedNodeImplementation> array = new Array<>();
 
         for (int y = 0; y < ((TiledMapTileLayer)level.getMap().getLayers().get("background")).getHeight(); y++)
             for (int x = 0; x < ((TiledMapTileLayer)level.getMap().getLayers().get("background")).getWidth(); x++) {
-                array.add(new IndexedNodeImplementation(x * 50, y * 50));
+                array.add(new IndexedNodeImplementation(height*y + x, x * 50, y * 50));
         }
 
         int index = 0;
@@ -181,7 +180,7 @@ public class NewPlayableScreen implements Screen {
 
         IndexedAStarPathFinder indexedAStarPathFinder = new IndexedAStarPathFinder(defaultIndexedGraph);
 
-        System.out.println(indexedAStarPathFinder.searchConnectionPath(new IndexedNodeImplementation(100, 100), new IndexedNodeImplementation(150, 150), heuristic, null));
+        System.out.println(indexedAStarPathFinder.searchNodePath(array.get(102), array.get(202), heuristic, null));
 
 //        HierarchicalPathFinder<Integer[]> = new HierarchicalPathFinder<>(graph,x null);
 
