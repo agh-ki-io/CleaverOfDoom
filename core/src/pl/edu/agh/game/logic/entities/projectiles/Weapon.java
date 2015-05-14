@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Shape2D;
 import pl.edu.agh.game.CleaverOfDoom;
-import pl.edu.agh.game.graphics.Animation;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.GameEntity;
 import pl.edu.agh.game.logic.Level;
@@ -80,13 +79,31 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
 //        if (spearman != null)
 //        System.out.println("location: "+x+" "+y+ thrown+velocity+";  player location: "+spearman.getX()+" "+spearman.getY());
 //        else
-        System.out.println(x+" "+ y+" "+ deltaTime);
+//        System.out.println(x+" "+ y+" "+ deltaTime);
 //            System.out.println("location: "+movementComponent.getX()+" "+movementComponent.getY()+ thrown + velocity);
+
+        //Ustawienie direction
+        Direction direction;
         if (thrown) {
-            System.out.println(dx+" "+dy+" "+deltaTime);
-//            movementComponent.move(dx, dy, deltaTime);
-            move(dx,dy,deltaTime);
-            movementComponent.setPosition(x,y);
+             direction = Direction.fromVector(dx, dy);
+        } else {
+            if (spearman == null) {
+                direction = Direction.LAST;
+            } else {
+                direction = spearman.getDirection();
+            }
+        }
+        //Wyzerowanei movementu bo strzaly nie maja animacji
+        movementComponent.move(0, 0, 0);
+        //Chamskie ustawienie direction w drawablu
+        if(!direction.equals(Direction.LAST)) drawableComponent.setLastUsableDirection(direction);
+        //zapomniales updatnac drawabla
+        drawableComponent.update(deltaTime);
+        if (thrown) {
+            move(dx, dy, deltaTime);
+            System.out.println(dx + " " + dy + " " + deltaTime);
+            System.out.println(drawableComponent.getLastUsableDirection());
+            movementComponent.setPosition(x, y);
             velocity *= (1-relaxation);
             diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
         }
@@ -100,8 +117,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
             x=spearman.getX();
             y=spearman.getY();
         }
-//        move(dx, dy, deltaTime);
-//        if (velocity > 0)
     }
 
     @Override
@@ -116,7 +131,7 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
             float newX;
             float newY;
 
-//        System.out.println(dx+" "+dy+" "+this.x + " "+velocity + " "+ deltaTime +" "+ dx + "      "+x+" "+y);
+        System.out.println(dx+" "+dy+" "+this.x + " "+velocity + " "+ deltaTime +" "+ dx + "      "+x+" "+y);
             if (Math.abs(dx) > CleaverOfDoom.EPSILON && Math.abs(dy) > CleaverOfDoom.EPSILON) {
                 newX = this.x + diagonalVelocity * dx;
                 newY = this.y + diagonalVelocity * dy;
@@ -130,7 +145,7 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
                 this.x = newX;
                 this.y = newY;
             }
-
+//        movementComponent.move(dx, dy, deltaTime);
 
     }
 

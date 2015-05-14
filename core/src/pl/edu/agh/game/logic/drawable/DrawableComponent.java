@@ -110,6 +110,10 @@ public class DrawableComponent {
         }
     }
 
+    public void setLastUsableDirection(Direction lastUsableDirection) {
+        this.lastUsableDirection = lastUsableDirection;
+    }
+
     public void setDrawable(Weapon weapon) {
         System.out.println(animation.getOriginX()+" "+animation.getOriginY());
         this.statsComponent = weapon.statsComponent;
