@@ -1,10 +1,11 @@
-package pl.edu.agh.game.logic.skills;
+package pl.edu.agh.game.logic.skills.implementations;
 
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.projectiles.StaticShapedAttack;
+import pl.edu.agh.game.logic.skills.Skill;
 
 /**
  * @author - Lukasz Gmyrek
@@ -16,8 +17,12 @@ public class MeleeAttackSkill extends Skill {
     private static final float DELTA_MULTIPLIER = 4 * 4;
 
     public MeleeAttackSkill(Level level, Character skillUser) {
+        this(level, skillUser, skillUser.getCollisionGroups());
+    }
+
+    public MeleeAttackSkill(Level level, Character skillUser, int collisionGroups) {
         super(level, skillUser);
-        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
+        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), collisionGroups, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
         level.addCharacter(attack);
     }
 

@@ -14,29 +14,35 @@ import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.Movable;
 import pl.edu.agh.game.logic.movement.MovementComponent;
+import pl.edu.agh.game.logic.skills.SkillComponent;
+import pl.edu.agh.game.logic.skills.SkillUser;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-23
  */
-public abstract class Character<CollidableShapeType extends Shape2D> implements Movable, Damagable, Collidable, Updatable, Drawable, GameEntity {
+public abstract class Character<CollidableShapeType extends Shape2D> implements SkillUser, Movable, Damagable, Collidable, Updatable, Drawable, GameEntity {
     public final StatsComponent statsComponent;
     public final MovementComponent movementComponent;
     public final DamageComponent damageComponent;
     public final CollidableComponent<CollidableShapeType> collidableComponent;
     public final DrawableComponent drawableComponent;
+    public final SkillComponent skillComponent;
     protected Level level;
 
-    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, Level level) {
+    public Character(StatsComponent statsComponent, DamageComponent damageComponent, CollidableComponent<CollidableShapeType> collidableComponent, DrawableComponent drawableComponent, MovementComponent movementComponent, SkillComponent skillComponent, Level level) {
         this.statsComponent = statsComponent;
         this.damageComponent = damageComponent;
         this.collidableComponent = collidableComponent;
         this.drawableComponent = drawableComponent;
         this.movementComponent = movementComponent;
+        this.skillComponent = skillComponent;
         this.drawableComponent.setCharacter(this);
         this.level = level;
     }
+
+
 
     @Override
     public boolean overlaps(Collidable collidable) {
@@ -72,6 +78,7 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
 
     @Override
     public void update(float deltaTime) {
+        skillComponent.update(deltaTime);
         drawableComponent.update(deltaTime);
     }
 
