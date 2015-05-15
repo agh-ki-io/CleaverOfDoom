@@ -29,6 +29,8 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
     private boolean destroyed = false;
     private final int collisionGroups;
 
+//    private final Queue<Point> points;
+
     public OnePointEnemy(StatsComponent statsComponent, MovementComponent movementComponent,
                          DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent,
                          DrawableComponent drawableComponent, Level level, int collisionGroups) {
