@@ -54,13 +54,12 @@ public class SpearPoint implements Updatable, Drawable, Collidable, GameEntity {
         this.movementMultiplier = movementMultiplier;
         this.number = number;
         collidableComponent = new CollidableComponent<>(new Circle(x, y, 5.0f * scale), level.getMap());
-        level.addCharacter(this);
     }
 
     public Weapon getNextSpear() {
         if (number > 0) {
             number--;
-            return EntityFactory.getNewWeapon(level, null, WeaponType.SPEAR, relaxation, throwVelocity, dmg, size, movementMultiplier);
+            return EntityFactory.getNewWeapon(x,y,level, null, WeaponType.SPEAR, relaxation, throwVelocity, dmg, size, movementMultiplier);
         } else return null;
     }
 
@@ -80,12 +79,6 @@ public class SpearPoint implements Updatable, Drawable, Collidable, GameEntity {
 
     @Override
     public void collide(Collidable collidable) {
-        if (CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
-            if (collidable instanceof Damagable) {
-                ((Damagable) collidable).damage(damage);
-                this.destroyed = true;
-            }
-        }
     }
 
     @Override

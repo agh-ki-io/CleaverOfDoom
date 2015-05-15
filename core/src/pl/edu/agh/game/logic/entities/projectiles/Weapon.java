@@ -54,7 +54,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     private Spearman spearman;
 
     public Weapon(float x, float y, DrawableComponent drawableComponent, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg, int size, float movementMultiplier) {
-        if (spearman != null) System.out.println(x+" "+y+" "+spearman.getX()+" "+spearman.getY());
         this.x = x;
         this.y = y;
         System.out.println(x+" "+y);
@@ -150,6 +149,7 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     }
 
     public void throwThis() {
+        System.out.println(spearman);
         dx = spearman.drawableComponent.getLastUsableDirection().getDx();
         dy = spearman.drawableComponent.getLastUsableDirection().getDy();
         velocity = throwVelocity;

@@ -45,10 +45,10 @@ public class Spearman extends ComponentPlayer {
     Collection<Skill> skills = new LinkedList<>();
 
     public Spearman(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
-        super(x, y, statsComponent,  movementComponent, damageComponent, collidableComponent, drawableComponent, inputState, level);
+        super(x, y, statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, inputState, level);
         //Animation animation, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg
-        weapon = EntityFactory.getNewWeapon(level, this, WeaponType.SPEAR, 0.035f,30.0f,100,4*4,6*6);//new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
-        fist = EntityFactory.getNewWeapon(level, this, WeaponType.FIST, 1.0f,0.0f,20,2*2,4*5);
+        weapon = EntityFactory.getNewWeapon(getX(),getY(),level, this, WeaponType.SPEAR, 0.035f,30.0f,100,4*4,6*6);//new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
+        fist = EntityFactory.getNewWeapon(getX(),getY(),level, this, WeaponType.FIST, 1.0f,0.0f,20,2*2,4*5);
     }
 
     public Direction getDirection() {
@@ -123,9 +123,7 @@ public class Spearman extends ComponentPlayer {
     public void collide(Collidable collidable) {
         if (collidable instanceof Weapon && taker) {
             weapon = (Weapon)collidable;
-        }
-        if (collidable instanceof Weapon && taker) {
-            weapon = (Weapon)collidable;
+            weapon.setSpearman(this);
         } else if (hurt && CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
             if (collidable instanceof Damagable) {
                 ((Damagable) collidable).damage(damage);

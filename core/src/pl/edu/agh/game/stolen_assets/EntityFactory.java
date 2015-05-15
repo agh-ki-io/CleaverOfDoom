@@ -56,7 +56,7 @@ public class EntityFactory {
 //    private static final Map<String, >
 
     private static void fillWeapons() {
-        weaponTypes.put(WeaponType.FIST,rangerAnimationMap);
+        weaponTypes.put(WeaponType.FIST,arrowAnimationMap);
         weaponTypes.put(WeaponType.SPEAR,arrowAnimationMap);
     }
 
@@ -150,9 +150,9 @@ public class EntityFactory {
         return player;
     }
 
-    public static Weapon getNewWeapon(Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
+    public static Weapon getNewWeapon(float x, float y, Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
        fillWeapons();
-        return new Weapon(spearman.getX(),spearman.getY(),new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
+        return new Weapon(x,y,new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
     }
 
     public static SpearPoint getNewSpearPoint(float x, float y, Level level, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier, int number) {

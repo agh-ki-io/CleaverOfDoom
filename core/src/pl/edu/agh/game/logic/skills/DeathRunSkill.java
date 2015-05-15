@@ -15,9 +15,9 @@ public class DeathRunSkill extends Skill {
     private final StaticShapedEffect effect;
     public DeathRunSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser) {
         super(level, skillUser);
-        EntityFactory.getNewSpearPoint(skillUser.getX(), skillUser.getY(), level, 0.035f, 30.0f, 100, 4 * 4, 6 * 6, 10);
         effect = new StaticShapedEffect(skillUser.getX(), skillUser.getY(), 2 * 2, 16, 0.2f, new DeathRunEffect(2));
         level.addCharacter(effect);
+        level.addCharacter(EntityFactory.getNewSpearPoint(skillUser.getX(), skillUser.getY(), level, 0.035f, 30.0f, 100, 4 * 4, 6 * 6, 10));
     }
     @Override
     public boolean isDestroyed() {
