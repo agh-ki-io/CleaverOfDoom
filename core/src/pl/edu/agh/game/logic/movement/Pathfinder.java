@@ -124,15 +124,15 @@ public class Pathfinder {
 
         GraphPath<IndexedNodeImplementation> graphPath = new DefaultGraphPath<>();
 
-        System.out.println(indexedAStarPathFinder.searchNodePath(indexedGraph.getNodes().get(fromIndex), indexedGraph.getNodes().get(toIndex), heuristic, graphPath));
+//        System.out.println(indexedAStarPathFinder.searchNodePath(indexedGraph.getNodes().get(fromIndex), indexedGraph.getNodes().get(toIndex), heuristic, graphPath));
 
 //        System.out.println("From: " + indexedGraph.getNodes().get(1145 / 75 + ((3519 / 75) * 100)).getX() + " : " + indexedGraph.getNodes().get(1145 / 75 + ((3519 / 75) * 100)).getY() + " to " + indexedGraph.getNodes().get((2250 / 75 + ((2775 / 75) * 100))).getX() + " : " + indexedGraph.getNodes().get((2250 / 75 + ((2775 / 75) * 100))).getY());
 
-        for (IndexedNodeImplementation node : graphPath) {
-
-            System.out.println(node.getX() + " " + node.getY());
-
-        }
+//        for (IndexedNodeImplementation node : graphPath) {
+//
+//            System.out.println(node.getX() + " " + node.getY());
+//
+//        }
 
         return graphPath;
     }
