@@ -85,7 +85,7 @@ public class NewPlayableScreen implements Screen {
 
 
         Array<IndexedNodeImplementation> array = new Array<>();
-        float tileSize = Float.parseFloat(level.getMap().getProperties().get("scale", "1.0", String.class)) * 50;
+        float tileSize = Float.parseFloat(level.getMap().getProperties().get("scale", "1.0", String.class)) * 25;
         System.out.println("tileSize " + tileSize);
         for (int y = 0; y < ((TiledMapTileLayer)level.getMap().getLayers().get("background")).getHeight() ; y++)
             for (int x = 0; x < ((TiledMapTileLayer)level.getMap().getLayers().get("background")).getWidth() ; x++) {
