@@ -36,7 +36,7 @@ public class IndexedNodeImplementation implements IndexedNode {
 
     @Override
     public Array<Connection> getConnections() {
-        return null;
+        return connections;
     }
 
     public void addConnection(Connection connection) {

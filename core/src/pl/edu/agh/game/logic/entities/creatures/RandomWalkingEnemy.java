@@ -31,7 +31,7 @@ public class RandomWalkingEnemy extends OnePointEnemy {
         if (point_ttl <= 0) {
             point_ttl += POINT_TTL_VALUE;
             setNewDestination(getX() + getRandom(), getY() + getRandom());
-            System.out.println(newPosition);
+//            System.out.println(newPosition);
         }
     }
 
