@@ -157,7 +157,8 @@ public class EntityFactory {
         Util.loadEnemy(name, Gdx.files.internal("stolen_assets/actors/" + name + ".xml"), loadedTextures, loadedProperties);
         CharacterProperties props = loadedProperties.get(name);
 
-        String behavior = props.properties.getOrDefault("behavior", "melee");
+//        String behavior = props.properties.getOrDefault("behavior", "melee");
+        String behavior = "melee";
 
         ArrayList<SkillBuilder> skillBuilders = new ArrayList<>();
         ArrayList<Cooldown> cooldowns = new ArrayList<>();
