@@ -55,9 +55,9 @@ public class OneWayProjectile implements Updatable, Drawable, Collidable, GameEn
     @Override
     public void update(float deltaTime) {
         animation.update(deltaTime);
-        move(dx, dy, deltaTime);
         ttl -= deltaTime;
         if (ttl < 0) destroyed = true;
+        else move(dx, dy, deltaTime);
     }
 
     @Override

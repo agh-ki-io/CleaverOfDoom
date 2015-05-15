@@ -11,10 +11,14 @@ import pl.edu.agh.game.stolen_assets.EntityFactory;
  *         Created on  2015-04-30
  */
 public class ShootArrowSkill extends Skill {
-    public ShootArrowSkill(float velocity, Level level, Character skillUser) {
+    public ShootArrowSkill(float velocity, Level level, Character skillUser, int collisionGroups) {
         super(level, skillUser);
-        OneWayProjectile projectile = EntityFactory.getNewArrow(skillUser.getX(), skillUser.getY(), velocity, skillUser.drawableComponent.getLastUsableDirection(), level);
+        OneWayProjectile projectile = EntityFactory.getNewArrow(skillUser.getX(), skillUser.getY(), velocity, skillUser.drawableComponent.getLastUsableDirection(), level, collisionGroups);
         level.addCharacter(projectile);
+    }
+
+    public ShootArrowSkill(float velocity, Level level, Character skillUser) {
+        this(velocity, level, skillUser, skillUser.getCollisionGroups());
     }
 
     @Override

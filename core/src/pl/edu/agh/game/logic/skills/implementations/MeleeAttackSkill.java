@@ -17,8 +17,12 @@ public class MeleeAttackSkill extends Skill {
     private static final float DELTA_MULTIPLIER = 4 * 4;
 
     public MeleeAttackSkill(Level level, Character skillUser) {
+        this(level, skillUser, skillUser.getCollisionGroups());
+    }
+
+    public MeleeAttackSkill(Level level, Character skillUser, int collisionGroups) {
         super(level, skillUser);
-        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), 1, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
+        attack = new StaticShapedAttack(skillUser.getX(), skillUser.getY(), 4 * 4, new Damage(DamageType.PHYSICAL, 200), collisionGroups, 0.2f / skillUser.statsComponent.getAttackSpeedMultiplier());
         level.addCharacter(attack);
     }
 

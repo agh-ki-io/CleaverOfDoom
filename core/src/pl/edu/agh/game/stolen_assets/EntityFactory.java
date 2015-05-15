@@ -27,6 +27,7 @@ import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.skills.SkillBuilder;
 import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.skills.implementations.ArrowCircleSkill;
+import pl.edu.agh.game.logic.skills.implementations.MeleeAttackSkill;
 import pl.edu.agh.game.logic.skills.implementations.ShootArrowSkill;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.logic.util.Cooldown;
@@ -57,9 +58,9 @@ public class EntityFactory {
 
 //    private static final Map<String, >
 
-    public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, Level level) {
+    public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, Level level, int collisionGroups) {
         velocity = 1000;
-        return new OneWayProjectile(x, y, arrowAnimationMap.get(direction.toString()), velocity, direction, level, 1);
+        return new OneWayProjectile(x, y, arrowAnimationMap.get(direction.toString()), velocity, direction, level, collisionGroups);
     }
 
     public static OneWayProjectile getNewEnemyArrow(float x, float y, float velocity, Direction direction, Level level) {
@@ -129,7 +130,7 @@ public class EntityFactory {
         builders.add(new SkillBuilder() {
             @Override
             public Skill build(Level level, Character skillUser) {
-                return new ShootArrowSkill(700, level, player);
+                return new ShootArrowSkill(700, level, skillUser);
             }
         });
 
@@ -138,7 +139,7 @@ public class EntityFactory {
         builders.add(new SkillBuilder() {
             @Override
             public Skill build(Level level, Character skillUser) {
-                return new ArrowCircleSkill(level, player, 0.031f, 700);
+                return new ArrowCircleSkill(level, skillUser, 0.031f, 700);
             }
         });
 
@@ -155,6 +156,44 @@ public class EntityFactory {
     public static OnePointEnemy getOnePointEnemy(String name, int collisionGroups, Level level) {
         Util.loadEnemy(name, Gdx.files.internal("stolen_assets/actors/" + name + ".xml"), loadedTextures, loadedProperties);
         CharacterProperties props = loadedProperties.get(name);
+
+        String behavior = props.properties.getOrDefault("behavior", "melee");
+
+        ArrayList<SkillBuilder> skillBuilders = new ArrayList<>();
+        ArrayList<Cooldown> cooldowns = new ArrayList<>();
+
+
+        switch (behavior) {
+            case "melee":
+                skillBuilders.add(new SkillBuilder() {
+                    @Override
+                    public Skill build(Level level, Character skillUser) {
+                        return new MeleeAttackSkill(level, skillUser);
+                    }
+                });
+                cooldowns.add(new Cooldown(0));
+                break;
+            case "ranged":
+                skillBuilders.add(new SkillBuilder() {
+                    @Override
+                    public Skill build(Level level, Character skillUser) {
+                        return new ShootArrowSkill(700, level, skillUser);
+                    }
+                });
+                cooldowns.add(new Cooldown(0.1f));
+                break;
+            case "composite":
+                break;
+            default:
+                throw new RuntimeException("Unknown monster behavior.");
+        }
+
+        SkillComponent skillComponent = new SkillComponent(
+                skillBuilders,
+                cooldowns,
+                level,
+                null
+        );
 
         StatsComponent statsComponent = new StatsComponent(
                 Integer.parseInt(props.properties.get("hp")),
@@ -181,9 +220,11 @@ public class EntityFactory {
                 damageComponent,
                 collidableComponent,
                 new DrawableComponent(props.animations),
-                null,
+                skillComponent,
                 level,
                 collisionGroups);
+
+        skillComponent.setSkillUser(enemy);
 
         return enemy;
     }

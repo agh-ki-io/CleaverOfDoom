@@ -17,13 +17,21 @@ public class ArrowCircleSkill extends Skill {
     private int currentStep = 0;
     private float lastShotFiredTime = 0;
     private float skillDurationLeft;
+    private final int collisionGroups;
 
-    public ArrowCircleSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser, float stepDuration, int arrowVelocity) {
+    public ArrowCircleSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser, float stepDuration, int arrowVelocity, int collisionGroups) {
         super(level, skillUser);
         this.stepDuration = stepDuration;
         this.arrowVelocity = arrowVelocity;
+        this.collisionGroups = collisionGroups;
         skillDurationLeft = stepDuration * directions.length;
     }
+
+    public ArrowCircleSkill(Level level, pl.edu.agh.game.logic.entities.Character skillUser, float stepDuration, int arrowVelocity) {
+        this(level, skillUser, stepDuration, arrowVelocity, skillUser.getCollisionGroups());
+    }
+
+
 
     @Override
     public boolean isDestroyed() {
@@ -36,7 +44,7 @@ public class ArrowCircleSkill extends Skill {
         lastShotFiredTime += deltaTime;
         if (lastShotFiredTime > stepDuration) {
             lastShotFiredTime -= stepDuration;
-            OneWayProjectile projectile = EntityFactory.getNewArrow(skillUser.getX(), skillUser.getY(), arrowVelocity, directions[currentStep], level);
+            OneWayProjectile projectile = EntityFactory.getNewArrow(skillUser.getX(), skillUser.getY(), arrowVelocity, directions[currentStep], level, collisionGroups);
             level.addCharacter(projectile);
             currentStep++;
         }
