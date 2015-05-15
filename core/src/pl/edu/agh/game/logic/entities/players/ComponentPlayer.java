@@ -15,11 +15,16 @@ import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
 /**
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
 public class ComponentPlayer extends Player {
+    private final InputState inputState;
     private boolean destroyed = false;
 
     private int collisionGroups = 1;
@@ -62,6 +67,35 @@ public class ComponentPlayer extends Player {
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());
+    }
+
+    private void useSkills() {
+        if (drawableComponent.isFree()) {
+            if (inputState.isSkill1Used()) {
+                drawableComponent.setAnimation(AnimationType.ATTACK);
+                skills.add(new ShootArrowSkill(700, level, this));
+//                skills.add(new MeleeAttackSkill(level, this));
+            }
+            else if (inputState.isSkill2Used()) {
+                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+                skills.add(new ArrowCircleSkill(level, this, 0.031f, 700));
+            }
+        }
+    }
+
+    private void updateSkills(float deltaTime) {
+        for (Skill skill : skills) {
+            skill.update(deltaTime);
+        }
+
+        //W javie nie mozna usuwac elementow w ludzki sposob w kolekcji ;_;
+        Iterator<Skill> iterator = skills.iterator();
+        while (iterator.hasNext()) {
+            Skill skill = iterator.next();
+            if (skill.isDestroyed()) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override

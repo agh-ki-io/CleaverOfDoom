@@ -12,11 +12,15 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.effects.Effect;
 import pl.edu.agh.game.logic.movement.Movable;
 import pl.edu.agh.game.logic.movement.MovementComponent;
-import pl.edu.agh.game.logic.skills.SkillComponent;
-import pl.edu.agh.game.logic.skills.SkillUser;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * @author - Lukasz Gmyrek
@@ -41,8 +45,6 @@ public abstract class Character<CollidableShapeType extends Shape2D> implements 
         this.drawableComponent.setCharacter(this);
         this.level = level;
     }
-
-
 
     @Override
     public boolean overlaps(Collidable collidable) {

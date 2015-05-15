@@ -13,15 +13,23 @@ import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageComponent;
+import pl.edu.agh.game.logic.damage.PercentageReductionStrategy;
 import pl.edu.agh.game.logic.damage.ReductionStrategy;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
+import pl.edu.agh.game.logic.drawable.WeaponType;
+import pl.edu.agh.game.logic.entities.Character;
+import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
+import pl.edu.agh.game.logic.entities.creatures.RandomWalkingEnemy;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.creatures.RandomWalkingEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.logic.entities.players.Spearman;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
+import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
+import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.Skill;
 import pl.edu.agh.game.logic.skills.SkillBuilder;
@@ -55,8 +63,13 @@ public class EntityFactory {
     private static final Map<String, Animation> thiefAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/thief_a.xml"), loadedTextures, thiefAttributes);
     private static final Map<String, Animation> arrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes);
     private static final Map<String, Animation> enemyArrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes); //tu trzeba zmienic grafike
-
+    private static Map<WeaponType,Map<String, Animation>> weaponTypes = new HashMap<>();
 //    private static final Map<String, >
+
+    private static void fillWeapons() {
+        weaponTypes.put(WeaponType.FIST,arrowAnimationMap);
+        weaponTypes.put(WeaponType.SPEAR,arrowAnimationMap);
+    }
 
     public static OneWayProjectile getNewArrow(float x, float y, float velocity, Direction direction, Level level, int collisionGroups) {
         velocity = 1000;
@@ -83,13 +96,14 @@ public class EntityFactory {
             case ROGUE:
             case BARBARIAN:
             case WARRIOR:
+                return getNewSpearman(level, player1InputState);
             default:
                 throw new RuntimeException("Not implemented.");
         }
     }
 
     private static ComponentPlayer getNewArcher(Level level, InputState inputState) {
-        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f);
+        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 0.7f);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
         int velocity = 300;
@@ -226,6 +240,87 @@ public class EntityFactory {
                 collisionGroups);
 
         skillComponent.setSkillUser(enemy);
+
+        return enemy;
+    }
+
+    private static ComponentPlayer getNewSpearman(Level level, InputState inputState) {
+        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f);
+        float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
+        CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
+        int velocity = 300;
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
+        DamageComponent damageComponent = new DamageComponent(statsComponent);
+
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+        damageComponent.setReductionStrategy(new PercentageReductionStrategy(20));
+
+        Spearman player = new Spearman(
+                240, 7310,
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collidableComponent,
+                new DrawableComponent(rangerAnimationMap),
+                inputState,
+                level
+        );
+
+        return player;
+    }
+
+    public static Weapon getNewWeapon(float x, float y, Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
+       fillWeapons();
+        return new Weapon(x,y,new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
+    }
+
+    public static SpearPoint getNewSpearPoint(float x, float y, Level level, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier, int number) {
+        fillWeapons();
+        return new SpearPoint(x, y, thiefAnimationMap.get("north"), level, relaxation, throwVelocity, dmg, size, movementMultiplier, number);
+    }
+//    new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
+
+    public static <T extends Updatable & Drawable & Collidable & GameEntity> Character getNewEnemy(String name, int collisionGroups, Level<T> level) {
+        return getOnePointEnemy(name, collisionGroups,  level);
+//        throw new RuntimeException(name + " not found or failed to initialize.");
+    }
+
+    public static OnePointEnemy getOnePointEnemy(String name, int collisionGroups, Level level) {
+        Util.loadEnemy(name, Gdx.files.internal("stolen_assets/actors/" + name + ".xml"), loadedTextures, loadedProperties);
+        CharacterProperties props = loadedProperties.get(name);
+
+        StatsComponent statsComponent = new StatsComponent(
+                Integer.parseInt(props.properties.get("hp")),
+                Float.parseFloat(props.properties.get("speed")),
+                1f);
+
+        float collisionRange = Float.valueOf(props.properties.get("collision"));
+
+        CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
+        int velocity = 300;
+        MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
+        DamageComponent damageComponent = new DamageComponent(statsComponent);
+
+        damageComponent.setReductionStrategy(new ReductionStrategy() {
+            @Override
+            public int reduce(Damage damage) {
+                return damage.getValue();
+            }
+        });
+
+        OnePointEnemy enemy = new RandomWalkingEnemy(
+                statsComponent,
+                movementComponent,
+                damageComponent,
+                collidableComponent,
+                new DrawableComponent(props.animations),
+                level,
+                collisionGroups);
 
         return enemy;
     }
