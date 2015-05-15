@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import pl.edu.agh.game.logic.collisions.Collidable;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.entities.Character;
-import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
@@ -51,7 +50,7 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
                 if (objectID.equals("none")) {
                     throw new RuntimeException("Object on map does not have object_id property.");
                 } else if (objectID.matches("player._spawn")) {
-                    ComponentPlayer newPlayer = EntityFactory.getNewPlayer(Player.Profession.WARRIOR, this);
+                    ComponentPlayer newPlayer = EntityFactory.getNewPlayer(Player.Profession.ARCHER, this);
                     newPlayer.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
                     addCharacter((T) newPlayer);
                     players[java.lang.Character.digit(objectID.charAt(6), 10)] = newPlayer;

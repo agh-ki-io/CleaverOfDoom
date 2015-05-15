@@ -1,4 +1,4 @@
-package pl.edu.agh.game.logic.skills;
+package pl.edu.agh.game.logic.skills.implementations;
 
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.damage.Damage;

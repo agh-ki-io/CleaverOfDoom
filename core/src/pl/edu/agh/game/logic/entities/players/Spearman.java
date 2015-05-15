@@ -44,8 +44,9 @@ public class Spearman extends ComponentPlayer {
 
     Collection<Skill> skills = new LinkedList<>();
 
-    public Spearman(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, InputState inputState, Level level) {
-        super(x, y, statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, inputState, level);
+    public Spearman(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, InputState inputState, Level level) {
+        super(statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, skillComponent, inputState, level);
+        super.setPosition(x, y);
         //Animation animation, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg
         weapon = EntityFactory.getNewWeapon(getX(),getY(),level, this, WeaponType.SPEAR, 0.035f,30.0f,100,4*4,6*6);//new Weapon(x,y,arrowAnimationMap.get(direction.toString()),0.1f,2.0f,level,1,this,100,4*4,6*6);
         fist = EntityFactory.getNewWeapon(getX(),getY(),level, this, WeaponType.FIST, 1.0f,0.0f,20,2*2,4*5);
