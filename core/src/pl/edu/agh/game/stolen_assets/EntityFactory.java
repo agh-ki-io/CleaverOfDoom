@@ -20,7 +20,7 @@ import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.drawable.WeaponType;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
-import pl.edu.agh.game.logic.entities.creatures.RandomWalkingEnemy;
+import pl.edu.agh.game.logic.entities.creatures.FollowingPlayerEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
 import pl.edu.agh.game.logic.entities.players.Spearman;
@@ -268,7 +268,7 @@ public class EntityFactory {
             }
         });
 
-        OnePointEnemy enemy = new RandomWalkingEnemy(
+        OnePointEnemy enemy = new FollowingPlayerEnemy(
                 statsComponent,
                 movementComponent,
                 damageComponent,

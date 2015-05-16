@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -39,7 +37,7 @@ public class MenuScreen implements Screen {
 
 
 //        Gdx.input.setInputProcessor(stage);
-        Skin skin = new Skin();
+//        Skin skin = new Skin();
         TextButton startButton = new TextButton("Begin Your Adventure!", new TextButton.TextButtonStyle(null, null, null, new BitmapFont()));
         startButton.addListener(new ClickListener() {
             @Override
@@ -61,7 +59,7 @@ public class MenuScreen implements Screen {
         table.add(startButton).row();
         table.add(exitButton);
 
-        stage.addActor(new Image());
+//        stage.addActor(new Image());
 //        table.setFillParent(true);
         table.setPosition(stage.getWidth() / 2, stage.getHeight() * 2 / 3);
 //        table.debug();

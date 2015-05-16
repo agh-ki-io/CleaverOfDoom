@@ -15,13 +15,29 @@ public class MovementComponent {
     private final CollidableComponent collidableComponent;
     private float x;
     private float y;
+
     private float velocity;
-    private float diagonalVelocity;
+
     private float waterVelocity;
+
     private float waterDiagonalVelocity;
     private float normalVelocity;
     private float normalDiagonalVelocity;
     private Direction direction;
+    private float diagonalVelocity;
+
+    public float getVelocity() {
+        return velocity;
+    }
+
+    public float getDiagonalVelocity() {
+        return diagonalVelocity;
+    }
+
+    public void setVelocity(float velocity, float diagonalVelocity) {
+        this.velocity = velocity;
+        this.diagonalVelocity = diagonalVelocity;
+    }
 
     public MovementComponent(float velocity, float diagonalVelocity, StatsComponent statsComponent, CollidableComponent collidableComponent) {
         this.velocity = velocity;

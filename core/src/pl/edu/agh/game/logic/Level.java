@@ -12,6 +12,7 @@ import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.logic.movement.PathFinder;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
 import java.util.Collection;
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-24
  */
-public class Level<T extends Updatable & Drawable & Collidable & GameEntity> implements Updatable, Drawable{
+public class Level<T extends Updatable & Drawable & Collidable & GameEntity> implements Updatable, Drawable {
     private final Collection<T> characters;
 
     private TiledMap map;
@@ -31,9 +32,12 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
     private int[] foregroundLayers = {};
     private final Player[] players = new Player[4];
 
+    private PathFinder pathFinder;
+
     public Level(TiledMap map, TiledMapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
+        pathFinder = new PathFinder(map);
         characters = new ConcurrentLinkedDeque<>();
         initializeCharactersFromMap();
     }
@@ -69,6 +73,10 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
 
     public TiledMapRenderer getRenderer() {
         return renderer;
+    }
+
+    public PathFinder getPathFinder() {
+        return pathFinder;
     }
 
     public void update(float deltaTime) {

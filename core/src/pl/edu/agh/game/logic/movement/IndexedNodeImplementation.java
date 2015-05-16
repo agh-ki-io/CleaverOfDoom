@@ -9,21 +9,21 @@ import com.badlogic.gdx.utils.Array;
  */
 public class IndexedNodeImplementation implements IndexedNode {
 
-    int x;
-    int y;
+    float x;
+    float y;
     int index;
 
     Array<Connection> connections = new Array<>();
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public IndexedNodeImplementation(int index, int x, int y) {
+    public IndexedNodeImplementation(int index, float x, float y) {
         this.index = index;
         this.x = x;
         this.y = y;

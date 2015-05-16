@@ -2,7 +2,6 @@ package pl.edu.agh.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,16 +13,14 @@ import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.effects.Effect;
-import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
-import pl.edu.agh.game.logic.movement.Pathfinder;
+import pl.edu.agh.game.logic.movement.PathFinder;
 import pl.edu.agh.game.settings.GameSettings;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 import pl.edu.agh.game.stolen_assets.LevelFactory;
 import pl.edu.agh.game.ui.UserInterface;
 
 import java.util.List;
-import java.util.Vector;
 
 /**
  * @author - Lukasz Gmyrek
@@ -66,10 +63,13 @@ public class NewPlayableScreen implements Screen {
         player = level.getPlayers()[1];
         camera.position.set(player.getX(), player.getY(), 0);
 
+//        labelXY.setPosi
+        PathFinder pathFinder = new PathFinder(level.getMap());
 
-        Pathfinder pathfinder = new Pathfinder(level.getMap());
+//        678.5365 3474.5952
+//        371.49826 2401.8855
+        pathFinder.findPath(678, 3474, 371, 2401);
 
-        pathfinder.findPath(2250, 2775, 1145, 3519);
 
     }
 
@@ -77,8 +77,11 @@ public class NewPlayableScreen implements Screen {
         OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         Stage stage = new Stage(viewport, batch);
+
+//        labelXY.setPosition(player.getX(), player.getY());
         userInterface.setStage(stage);
         stage.addActor(userInterface);
+
     }
 
     @Override
@@ -108,14 +111,14 @@ public class NewPlayableScreen implements Screen {
             game.setScreen(new MenuScreen(game));
         }
         List<Effect> effects = GameSettings.getInstance().getEffectsToUpdate();
-//        System.out.println("dupa");
         for (Effect effect : effects) {
             effect.getCooldown().update(delta);
-//            System.out.println(effect);
         }
         effects.removeAll(GameSettings.getInstance().getEffectsToDelete());
         camera.update();
 
+
+//        lauserInterface.addActor(labelXY);elXY.setPosition(camera.position.x, camera.position.y);
 
 //        System.out.println(player.getX() + " " + player.getY());
 
