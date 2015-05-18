@@ -35,8 +35,8 @@ public class ComponentPlayer extends Player {
     @Override
     public void damage(Damage damage) {
         super.damage(damage);
-        System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
-        System.out.println("Health left: " + statsComponent.getHealth());
+        //System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
+        //System.out.println("Health left: " + statsComponent.getHealth());
     }
 
     @Override
@@ -59,6 +59,7 @@ public class ComponentPlayer extends Player {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        super.regenerate();
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());

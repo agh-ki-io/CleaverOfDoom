@@ -28,19 +28,32 @@ public abstract class Player extends pl.edu.agh.game.logic.entities.Character<Ci
         WARRIOR,
     }
 
+    protected void regenerate(){
+        this.statsComponent.regenerate();
+    }
+
     protected void useSkills() {
         if (drawableComponent.isFree()) {
-            if (inputState.isSkill1Used() && skillComponent.getSkillCooldowns().get(0).isOver()) {
+            if (inputState.isSkill1Used() && statsComponent.getHealth() >= skillComponent.getSkillCosts(0) && skillComponent.getSkillCooldowns().get(0).isOver()) {
+                this.statsComponent.setHealth(this.statsComponent.getHealth() - this.skillComponent.getSkillCosts(0));
+                this.statsComponent.incEnergy(0.2f);
                 useSkill(0);
-            }
-            else if (inputState.isSkill2Used() && skillComponent.getSkillCooldowns().get(1).isOver()) {
+                //System.out.println("\n\tCurrent health: " + this.statsComponent.getHealth() + "\n\tMax health: " + this.statsComponent.getMaxHealth());
+            } else if (inputState.isSkill2Used() && statsComponent.getHealth() >= skillComponent.getSkillCosts(1) && skillComponent.getSkillCooldowns().get(1).isOver()) {
+                this.statsComponent.setHealth(this.statsComponent.getHealth() - this.skillComponent.getSkillCosts(1));
+                this.statsComponent.incEnergy(0.22f);
                 useSkill(1);
-            }
-            else if (inputState.isSkill3Used() && skillComponent.getSkillCooldowns().get(2).isOver()) {
+                //System.out.println("\n\tCurrent health: " + this.statsComponent.getHealth() + "\n\tMax health: " + this.statsComponent.getMaxHealth());
+            } else if (inputState.isSkill3Used() && statsComponent.getHealth() >= skillComponent.getSkillCosts(2) && skillComponent.getSkillCooldowns().get(2).isOver()) {
+                this.statsComponent.setHealth(this.statsComponent.getHealth() - this.skillComponent.getSkillCosts(2));
+                this.statsComponent.incEnergy(0.33f);
                 useSkill(2);
-            }
-            else if (inputState.isSkill4Used() && skillComponent.getSkillCooldowns().get(3).isOver()) {
+                //System.out.println("\n\tCurrent health: " + this.statsComponent.getHealth() + "\n\tMax health: " + this.statsComponent.getMaxHealth());
+            } else if (inputState.isSkill4Used() && statsComponent.getHealth() >= skillComponent.getSkillCosts(3) && skillComponent.getSkillCooldowns().get(3).isOver()) {
+                this.statsComponent.setHealth(this.statsComponent.getHealth() - this.skillComponent.getSkillCosts(3));
+                this.statsComponent.incEnergy(0.5f);
                 useSkill(3);
+                //System.out.println("\n\tCurrent health: " + this.statsComponent.getHealth() + "\n\tMax health: " + this.statsComponent.getMaxHealth());
             }
         }
     }

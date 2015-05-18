@@ -115,7 +115,7 @@ public class DrawableComponent {
     }
 
     public void setDrawable(Weapon weapon) {
-        System.out.println(animation.getOriginX()+" "+animation.getOriginY());
+        //System.out.println(animation.getOriginX()+" "+animation.getOriginY());
         this.statsComponent = weapon.statsComponent;
         this.movementComponent = weapon.movementComponent;
     }

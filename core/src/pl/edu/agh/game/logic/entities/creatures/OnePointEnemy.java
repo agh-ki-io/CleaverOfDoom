@@ -52,7 +52,7 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
 
     @Override
     public void damage(Damage damage) {
-        System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
+        //System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
         super.damage(damage);
     }
 

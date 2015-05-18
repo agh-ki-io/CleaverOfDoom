@@ -38,6 +38,7 @@ import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.logic.util.Cooldown;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +48,15 @@ import java.util.Map;
  */
 public class EntityFactory {
     public static InputState player1InputState;
+
+    private static final float archerRegenRatio = 25;
+    private static final float archerStartEnergy = 500;
+    private static final int[] archerSkillsUsageToLvl={7,5,5,5};
+    private static final ArrayList<Integer> archerSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{25, 200, 30, 40}));
+
+    private static final int[] enemySkillsUsageToLvl={100,100,100,100};
+    private static final ArrayList<Integer> enemySkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{0, 0, 0, 0}));
+
 
     private static final Map<String, Texture> loadedTextures = new HashMap<>();
 
@@ -100,7 +110,7 @@ public class EntityFactory {
     }
 
     private static ComponentPlayer getNewArcher(Level level, InputState inputState) {
-        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 0.7f);
+        StatsComponent statsComponent = new StatsComponent(archerStartEnergy, 1.2f, 0.7f, archerRegenRatio);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
         int velocity = 300;
@@ -116,12 +126,13 @@ public class EntityFactory {
 
         ArrayList<SkillBuilder> builders = new ArrayList<>();
         ArrayList<Cooldown> cooldowns = new ArrayList<>();
-
         SkillComponent skillComponent = new SkillComponent(
                 builders,
                 cooldowns,
                 level,
-                null
+                null,
+                archerSkillCosts,
+                archerSkillsUsageToLvl
         );
         final ComponentPlayer player = new ComponentPlayer(
                 statsComponent,
@@ -165,7 +176,7 @@ public class EntityFactory {
     }
 
     private static ComponentPlayer getNewSpearman(Level level, InputState inputState) {
-        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f);
+        StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f, archerRegenRatio);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
         int velocity = 300;
@@ -187,7 +198,7 @@ public class EntityFactory {
                 damageComponent,
                 collidableComponent,
                 new DrawableComponent(rangerAnimationMap),
-                new SkillComponent(null, null, level, null),
+                new SkillComponent(null, null, level, null, null, null),
                 inputState,
                 level
         );
@@ -246,13 +257,16 @@ public class EntityFactory {
                 skillBuilders,
                 cooldowns,
                 level,
-                null
+                null,
+                enemySkillCosts,
+                enemySkillsUsageToLvl
         );
 
         StatsComponent statsComponent = new StatsComponent(
                 Integer.parseInt(props.properties.get("hp")),
                 Float.parseFloat(props.properties.get("speed")),
-                1f);
+                1f,
+                10);
 
         float collisionRange = Float.valueOf(props.properties.get("collision"));
 

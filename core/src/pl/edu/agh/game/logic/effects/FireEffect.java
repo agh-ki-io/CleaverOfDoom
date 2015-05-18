@@ -24,7 +24,7 @@ public class FireEffect extends Effect {
     public FireEffect(float ttl, boolean init) {
         super(ttl);
 //        JOptionPane.showMessageDialog(null,"Create " + this);
-        System.out.println("Create " + this);
+        //System.out.println("Create " + this);
         this.ttl = ttl;
 //        this.silent = silent;
 //        this.parent = parent;
@@ -45,7 +45,7 @@ public class FireEffect extends Effect {
 
     public void dispose() {
 //        JOptionPane.showMessageDialog(null,"Dispose " + this);
-        System.out.println("Dispose "+this);
+        //System.out.println("Dispose "+this);
         settings.fireSound.stop();
         settings.fireSoundStill.stop();
         settings.getEffectsToDelete().add(this);

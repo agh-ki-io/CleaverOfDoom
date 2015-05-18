@@ -42,7 +42,7 @@ public class SpearPoint implements Updatable, Drawable, Collidable, GameEntity {
     private final CollidableComponent<Circle> collidableComponent;
 
     public SpearPoint(float x, float y, Animation animation, Level level, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier, int number) {
-        System.out.println("Spear point at: "+x+" "+y+" animation: "+ animation);
+        //System.out.println("Spear point at: "+x+" "+y+" animation: "+ animation);
         this.x = x;
         this.y = y;
         this.animation = animation;

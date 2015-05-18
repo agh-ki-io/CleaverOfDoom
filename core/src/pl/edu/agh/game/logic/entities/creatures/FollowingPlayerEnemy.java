@@ -38,7 +38,7 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
             playerX = level.getPlayers()[1].getX();
             playerY = level.getPlayers()[1].getY();
 
-            System.out.println(playerX + " " + playerY);
+            //System.out.println(playerX + " " + playerY);
 
             graphPath = level.getPathFinder().findPath((int) getX(), (int) getY(), (int) playerX, (int) playerY);
 

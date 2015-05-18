@@ -31,7 +31,7 @@ public class PathFinder {
 
     public PathFinder(TiledMap map) {
 
-        StatsComponent statsComponent = new StatsComponent(0, 1, 0);
+        StatsComponent statsComponent = new StatsComponent(0, 1, 0,0);
 //        float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, 1), map);
         final MovementComponent movementComponent = new MovementComponent(1, 1, statsComponent, collidableComponent);
@@ -108,10 +108,10 @@ public class PathFinder {
         GraphPath<IndexedNodeImplementation> graphPath = new DefaultGraphPath<>();
 
 //        System.out.println(indexedAStarPathFinder.search(new PathFinderRequest(indexedGraph.getNodes().get(fromIndex), indexedGraph.getNodes().get(toIndex), heuristic, graphPath), 2000));
-        System.out.println(indexedAStarPathFinder.searchNodePath(indexedGraph.getNodes().get(fromIndex), indexedGraph.getNodes().get(toIndex), heuristic, graphPath));
+        indexedAStarPathFinder.searchNodePath(indexedGraph.getNodes().get(fromIndex), indexedGraph.getNodes().get(toIndex), heuristic, graphPath);
 
 
-        System.out.println("From: " + indexedGraph.getNodes().get(fromIndex).getX() + " : " + indexedGraph.getNodes().get(fromIndex).getY() + " to " + indexedGraph.getNodes().get(toIndex).getX() + " : " + indexedGraph.getNodes().get(toIndex).getY());
+        //System.out.println("From: " + indexedGraph.getNodes().get(fromIndex).getX() + " : " + indexedGraph.getNodes().get(fromIndex).getY() + " to " + indexedGraph.getNodes().get(toIndex).getX() + " : " + indexedGraph.getNodes().get(toIndex).getY());
 
 //        for (IndexedNodeImplementation node : graphPath) {
 //
