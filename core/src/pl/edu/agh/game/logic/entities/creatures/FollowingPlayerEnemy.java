@@ -13,8 +13,6 @@ import pl.edu.agh.game.logic.stats.StatsComponent;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static java.lang.Math.abs;
-
 public class FollowingPlayerEnemy extends OnePointEnemy {
     private final static float POINT_TTL_VALUE = 3f;
     private float point_ttl = POINT_TTL_VALUE;
@@ -48,17 +46,28 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
                 setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
         }
 
-        if (index + 1 < graphPath.getCount() && (abs((int)getX() - (int)graphPath.get(index).getX()) < 15) && (abs((int)getY() - (int)graphPath.get(index).getY())) < 15) {
-            index++;
-            setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
+        if (graphPath.getCount() == 0) {
+            point_ttl -= deltaTime;
+            if (point_ttl <= 0) {
+                point_ttl += POINT_TTL_VALUE;
+                setNewDestination(getX() + getRandom(), getY() + getRandom());
+                useSkill(0);
+            }
         }
+        else if (index + 1 < graphPath.getCount()) {
+            if (Math.abs((int) getX() - (int) graphPath.get(index).getX()) < 15 && Math.abs((int) getY() - (int) graphPath.get(index).getY()) < 15) {
+//            if (getX() == graphPath.get(index).getX() && getY() == graphPath.get(index).getY()) {
+                index++;
+                setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
+//                System.out.println("New destination " + graphPath.get(index).getX() + " " + graphPath.get(index).getY());
+            }
+//            else
+//                System.out.println(getX() + " " + getY());
+        }
+        else
+            useSkill(0);
 
-//        point_ttl -= deltaTime;
-//        if (point_ttl <= 0) {
-//            point_ttl += POINT_TTL_VALUE;
-//            setNewDestination(getX() + getRandom(), getY() + getRandom());
-//            useSkill(0);
-//        }
+
     }
 
     private float getRandom() {
