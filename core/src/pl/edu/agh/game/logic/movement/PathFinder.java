@@ -50,17 +50,35 @@ public class PathFinder {
         for (IndexedNodeImplementation fromNode : array) {
             int index = fromNode.getIndex();
 
-            if (canMove(fromNode, movementComponent, -tileSize, 0, mapSize))
-                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 1)));
+            boolean canMoveNorth = canMove(fromNode, movementComponent, 0, tileSize, mapSize);
+            boolean canMoveSouth = canMove(fromNode, movementComponent, 0, -tileSize, mapSize);
+            boolean canMoveEast = canMove(fromNode, movementComponent, tileSize, 0, mapSize);
+            boolean canMoveWest = canMove(fromNode, movementComponent, -tileSize, 0, mapSize);
 
-            if (canMove(fromNode, movementComponent, 0, tileSize, mapSize))
+            if (canMoveNorth)
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100)));
 
-            if (canMove(fromNode, movementComponent, tileSize, 0, mapSize))
+            if (canMoveSouth)
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100)));
+
+            if (canMoveWest)
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 1)));
+
+            if (canMoveEast)
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 1)));
 
-            if (canMove(fromNode, movementComponent, 0, -tileSize, mapSize))
-                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100)));
+            if (canMoveNorth && canMoveWest && canMove(fromNode, movementComponent, -tileSize, tileSize, mapSize))
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100 - 1)));
+
+            if (canMoveNorth && canMoveEast && canMove(fromNode, movementComponent, tileSize, tileSize, mapSize))
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100 + 1)));
+
+            if (canMoveSouth && canMoveWest && canMove(fromNode, movementComponent, -tileSize, -tileSize, mapSize))
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100 - 1)));
+
+            if (canMoveSouth && canMoveEast && canMove(fromNode, movementComponent, tileSize, -tileSize, mapSize))
+                fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100 + 1)));
+
         }
 
         heuristic = new Heuristic<IndexedNodeImplementation>() {
@@ -69,10 +87,6 @@ public class PathFinder {
                 return Math.abs(endNode.getX() - node.getX()) + Math.abs(endNode.getY() - node.getY());
             }
         };
-
-
-//        movementComponent.setPosition(3750, 0);
-//        movementComponent.move(3750, 0 + 50, 1);
 
 
 //        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getCell(1, 1).getTile().getId());
@@ -100,10 +114,6 @@ public class PathFinder {
         int toIndex = (int) (toX / 75 + ((toY / 75) * 100));
 
         IndexedAStarPathFinder indexedAStarPathFinder = new IndexedAStarPathFinder(indexedGraph);
-//
-
-//        System.out.println("5202 getX " + indexedGraph.getNodes().get(9999).getX());
-//        System.out.println("5202 getY " + indexedGraph.getNodes().get(9999).getY());
 
         GraphPath<IndexedNodeImplementation> graphPath = new DefaultGraphPath<>();
 
