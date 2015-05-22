@@ -28,12 +28,8 @@ import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
 import pl.edu.agh.game.logic.entities.projectiles.Weapon;
 import pl.edu.agh.game.logic.movement.MovementComponent;
-import pl.edu.agh.game.logic.skills.Skill;
-import pl.edu.agh.game.logic.skills.SkillBuilder;
-import pl.edu.agh.game.logic.skills.SkillComponent;
-import pl.edu.agh.game.logic.skills.implementations.ArrowCircleSkill;
-import pl.edu.agh.game.logic.skills.implementations.MeleeAttackSkill;
-import pl.edu.agh.game.logic.skills.implementations.ShootArrowSkill;
+import pl.edu.agh.game.logic.skills.*;
+import pl.edu.agh.game.logic.skills.implementations.*;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.logic.util.Cooldown;
 
@@ -52,7 +48,9 @@ public class EntityFactory {
     private static final float archerRegenRatio = 25;
     private static final float archerStartEnergy = 500;
     private static final int[] archerSkillsUsageToLvl={7,5,5,5};
+    private static final int[] wariorSkillsUsageToLvl={7,5,5,5};
     private static final ArrayList<Integer> archerSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{25, 200, 30, 40}));
+    private static final ArrayList<Integer> wariorSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{20, 20, 200, 300}));
 
     private static final int[] enemySkillsUsageToLvl={100,100,100,100};
     private static final ArrayList<Integer> enemySkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{0, 0, 0, 0}));
@@ -179,7 +177,7 @@ public class EntityFactory {
         StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f, archerRegenRatio);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
-        int velocity = 300;
+        int velocity = 230;
         MovementComponent movementComponent = new MovementComponent(velocity, (float) (Math.sqrt(2) / 2 * velocity), statsComponent, collidableComponent);
         DamageComponent damageComponent = new DamageComponent(statsComponent);
 
@@ -191,6 +189,17 @@ public class EntityFactory {
         });
         damageComponent.setReductionStrategy(new PercentageReductionStrategy(20));
 
+        ArrayList<SkillBuilder> builders = new ArrayList<>();
+        ArrayList<Cooldown> cooldowns = new ArrayList<>();
+        SkillComponent skillComponent = new SkillComponent(
+                builders,
+                cooldowns,
+                level,
+                null,
+                wariorSkillCosts,
+                wariorSkillsUsageToLvl
+        );
+
         Spearman player = new Spearman(
                 240, 7310,
                 statsComponent,
@@ -198,10 +207,51 @@ public class EntityFactory {
                 damageComponent,
                 collidableComponent,
                 new DrawableComponent(rangerAnimationMap),
-                new SkillComponent(null, null, level, null, null, null),
+                skillComponent,
                 inputState,
                 level
         );
+
+        skillComponent.setSkillUser(player);
+
+        player.setPosition(240, 7300);
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new SpearmanMeleeAttackSkill(level, (Spearman) skillUser);
+            }
+        });
+
+        cooldowns.add(new Cooldown(0));
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new ThrowAndTakeSkill(level, (Spearman)skillUser);
+            }
+        });
+
+        cooldowns.add(new Cooldown(0));
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new PoisonedKnifeSkill(level, skillUser);
+            }
+        });
+
+        cooldowns.add(new Cooldown(3));
+
+        builders.add(new SkillBuilder() {
+            @Override
+            public Skill build(Level level, Character skillUser) {
+                return new DeathRunSkill(level, skillUser);
+            }
+        });
+
+        cooldowns.add(new Cooldown(5));
+
 
         return player;
     }

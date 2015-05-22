@@ -58,6 +58,7 @@ public class ComponentPlayer extends Player {
 
     @Override
     public void update(float deltaTime) {
+        if (movementComponent.getVelocity()==-1) destroy();
         super.update(deltaTime);
         super.regenerate();
         useSkills();

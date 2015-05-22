@@ -1,4 +1,4 @@
-package pl.edu.agh.game.logic.skills;
+package pl.edu.agh.game.logic.skills.implementations;
 
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.damage.Damage;
@@ -7,6 +7,7 @@ import pl.edu.agh.game.logic.effects.PoisonEffect;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.projectiles.StaticShapedAttack;
 import pl.edu.agh.game.logic.entities.projectiles.StaticShapedEffect;
+import pl.edu.agh.game.logic.skills.Skill;
 
 /**
  * @author - Lukasz Gmyrek
