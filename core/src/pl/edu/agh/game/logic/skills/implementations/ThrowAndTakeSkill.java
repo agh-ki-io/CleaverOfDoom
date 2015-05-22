@@ -1,7 +1,8 @@
-package pl.edu.agh.game.logic.skills;
+package pl.edu.agh.game.logic.skills.implementations;
 
 import pl.edu.agh.game.logic.Level;
 import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.skills.Skill;
 
 /**
  * Created by Admin on 2015-05-13.

@@ -56,7 +56,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     public Weapon(float x, float y, DrawableComponent drawableComponent, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg, int size, float movementMultiplier) {
         this.x = x;
         this.y = y;
-        //System.out.println(x+" "+y);
         this.drawableComponent = drawableComponent;
         this.statsComponent = new StatsComponent(1000, movementMultiplier, movementMultiplier,0);
         this.collidableComponent = new CollidableComponent<>(new Circle(x, y, size), level.getMap());
@@ -75,12 +74,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
 
     @Override
     public void update(float deltaTime) {
-//        if (spearman != null)
-//        System.out.println("location: "+x+" "+y+ thrown+velocity+";  player location: "+spearman.getX()+" "+spearman.getY());
-//        else
-//        System.out.println(x+" "+ y+" "+ deltaTime);
-//            System.out.println("location: "+movementComponent.getX()+" "+movementComponent.getY()+ thrown + velocity);
-
         //Ustawienie direction
         Direction direction;
         if (thrown) {
@@ -100,8 +93,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
         drawableComponent.update(deltaTime);
         if (thrown) {
             move(dx, dy, deltaTime);
-            //System.out.println(dx + " " + dy + " " + deltaTime);
-            //System.out.println(drawableComponent.getLastUsableDirection());
             movementComponent.setPosition(x, y);
             velocity *= (1-relaxation);
             diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
@@ -130,7 +121,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
             float newX;
             float newY;
 
-        //System.out.println(dx+" "+dy+" "+this.x + " "+velocity + " "+ deltaTime +" "+ dx + "      "+x+" "+y);
             if (Math.abs(dx) > CleaverOfDoom.EPSILON && Math.abs(dy) > CleaverOfDoom.EPSILON) {
                 newX = this.x + diagonalVelocity * dx;
                 newY = this.y + diagonalVelocity * dy;
@@ -149,7 +139,6 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     }
 
     public void throwThis() {
-        //System.out.println(spearman);
         dx = spearman.drawableComponent.getLastUsableDirection().getDx();
         dy = spearman.drawableComponent.getLastUsableDirection().getDy();
         velocity = throwVelocity;

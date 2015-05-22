@@ -83,12 +83,12 @@ public class MovementComponent {
             }
         }
         if(collidableComponent.collision(newX, newY, "pit")) {
-            velocity = 0;
-            diagonalVelocity = 0;
+            velocity = -1;
+            diagonalVelocity = -1;
         }
         if(collidableComponent.collision(newX, newY, "slime")) {
-            velocity = 0;
-            diagonalVelocity = 0;
+            velocity = -1;
+            diagonalVelocity = -1;
         }
         setPosition(newX,newY);
 

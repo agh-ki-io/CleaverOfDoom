@@ -72,28 +72,28 @@ public class Spearman extends ComponentPlayer {
         collidableComponent.getShape().setPosition(getX(), getY());
     }
 
-    @Override
-    protected void useSkills() {
-        if (drawableComponent.isFree()) {
-            if (inputState.isSkill1Used()) {
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new SpearmanMeleeAttackSkill(level, this));
-//                skills.add(new MeleeAttackSkill(level, this));
-            }
-            else if (inputState.isSkill2Used()) {
-                drawableComponent.setAnimation(AnimationType.CHANNELLING);
-                skills.add(new ThrowAndTakeSkill(level, this));
-            }
-            else if (inputState.isSkill3Used()) {
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new PoisonedKnifeSkill(level,this));
-            }
-            else if (inputState.isSkill4Used()) {
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-                skills.add(new DeathRunSkill(level,this));
-            }
-        }
-    }
+//    @Override
+//    protected void useSkills() {
+////        if (drawableComponent.isFree()) {
+////            if (inputState.isSkill1Used()) {
+////                drawableComponent.setAnimation(AnimationType.ATTACK);
+////                skills.add(new SpearmanMeleeAttackSkill(level, this));
+//////                skills.add(new MeleeAttackSkill(level, this));
+////            }
+////            else if (inputState.isSkill2Used()) {
+////                drawableComponent.setAnimation(AnimationType.CHANNELLING);
+////                skills.add(new ThrowAndTakeSkill(level, this));
+////            }
+////            else if (inputState.isSkill3Used()) {
+////                drawableComponent.setAnimation(AnimationType.ATTACK);
+////                skills.add(new PoisonedKnifeSkill(level,this));
+////            }
+////            else if (inputState.isSkill4Used()) {
+////                drawableComponent.setAnimation(AnimationType.ATTACK);
+////                skills.add(new DeathRunSkill(level,this));
+////            }
+////        }
+//    }
 
     private void updateSkills(float deltaTime) {
         for (Skill skill : skills) {

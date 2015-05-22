@@ -75,11 +75,11 @@ public class PathFinder {
 //        movementComponent.move(3750, 0 + 50, 1);
 
 
-        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getCell(1, 1).getTile().getId());
-
-
-        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getWidth());
-        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getHeight());
+//        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getCell(1, 1).getTile().getId());
+//
+//
+//        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getWidth());
+//        System.out.println(((TiledMapTileLayer) map.getLayers().get("background")).getHeight());
 
         indexedGraph = new BetterDefaultIndexedGraph(array);
 
