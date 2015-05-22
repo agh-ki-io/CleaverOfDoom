@@ -42,7 +42,7 @@ public class MenuScreen implements Screen {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Begin Your Adventure! " + x + " " + y);
+//                System.out.println("Begin Your Adventure! " + x + " " + y);
                 game.setScreen(new NewPlayableScreen(game));
             }
         });
@@ -51,7 +51,7 @@ public class MenuScreen implements Screen {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Exit " + x + " " + y);
+//                System.out.println("Exit " + x + " " + y);
                 dispose();
             }
         });

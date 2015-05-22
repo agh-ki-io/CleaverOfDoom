@@ -23,7 +23,7 @@ public class PathFinder {
             movementComponent.setVelocity(1, 1);
             movementComponent.move(moveX, moveY, 1);
             if (fromNode.getX() + moveX == movementComponent.getX() && fromNode.getY() + moveY == movementComponent.getY()
-                    && movementComponent.getVelocity() != 0 && movementComponent.getDiagonalVelocity() != 0)
+                    && movementComponent.getVelocity() != -1 && movementComponent.getDiagonalVelocity() != -1)
                 return true;
         }
         return false;
