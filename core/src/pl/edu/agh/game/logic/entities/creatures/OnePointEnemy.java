@@ -24,6 +24,7 @@ import pl.edu.agh.game.stolen_assets.Debug;
 public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circle> {
     private final static float MOVE_EPSILON = 5;
     private final static float TURN_EPSILON = 1.4f;
+    private final static float TELEPORT_EPSILON = 1f;
     private final static float DIRECTION_VALUE = 1;
     protected final Vector2 newPosition = new Vector2();
     protected final Vector2 currentPosition = new Vector2();
@@ -84,36 +85,41 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
     public void update(float deltaTime) {
         drawableComponent.update(deltaTime);
         skillComponent.update(deltaTime);
-        if (!collidableComponent.getShape().contains(newPositionWithEpsilon)) {
-            float x, dx;
-            float y, dy;
+        if (drawableComponent.isFree()) {
+            if (!collidableComponent.getShape().contains(newPositionWithEpsilon)) {
+                float x, dx;
+                float y, dy;
 
-            x = this.newPosition.x - getX();
-            y = this.newPosition.y - getY();
+                x = this.newPosition.x - getX();
+                y = this.newPosition.y - getY();
 
-            if (x > 0)
-                dx = DIRECTION_VALUE;
-            else if (x < 0)
-                dx = -DIRECTION_VALUE;
-            else dx = 0f;
+                if (x > 0)
+                    dx = DIRECTION_VALUE;
+                else if (x < 0)
+                    dx = -DIRECTION_VALUE;
+                else dx = 0f;
 
-            if (y > 0)
-                dy = DIRECTION_VALUE;
-            else if (y < 0)
-                dy = -DIRECTION_VALUE;
-            else dy = 0f;
+                if (y > 0)
+                    dy = DIRECTION_VALUE;
+                else if (y < 0)
+                    dy = -DIRECTION_VALUE;
+                else dy = 0f;
 
-            move(dx, dy, deltaTime);
+                move(dx, dy, deltaTime);
 
-            if (Math.abs(x) < TURN_EPSILON && Math.abs(y) < TURN_EPSILON) move(0, 0, 0);
-            else if (Math.abs(x) < TURN_EPSILON) move(0, dy, 0);
-            else if (Math.abs(y) < TURN_EPSILON) move(dx, 0, 0);
+                if (Math.abs(x) < TURN_EPSILON && Math.abs(y) < TURN_EPSILON) move(0, 0, 0);
+                else if (Math.abs(x) < TURN_EPSILON) move(0, dy, 0);
+                else if (Math.abs(y) < TURN_EPSILON) move(dx, 0, 0);
 
-            collidableComponent.getShape().setPosition(getX(), getY());
-        } else {
-            if (!movementComponent.getDirection().equals(Direction.LAST)) move(0, 0, deltaTime);
+                if (Math.abs(x) < TELEPORT_EPSILON) movementComponent.setPosition(newPosition.x, getY());
+                if (Math.abs(y) < TELEPORT_EPSILON) movementComponent.setPosition(getX(), newPosition.y);
+
+                collidableComponent.getShape().setPosition(getX(), getY());
+                currentPosition.set(getX(), getY());
+            } else {
+                if (!movementComponent.getDirection().equals(Direction.LAST)) move(0, 0, deltaTime);
+            }
         }
-        currentPosition.set(getX(), getY());
     }
 
     @Override
@@ -139,8 +145,9 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
     public void useSkill(int id) {
         switch (id) {
             case 0:
-                drawableComponent.setAnimation(AnimationType.ATTACK);
-                skillComponent.useSkill(0);
+                if (skillComponent.useSkill(0)) {
+                    drawableComponent.setAnimation(AnimationType.ATTACK);
+                }
                 break;
             default:
                 throw new RuntimeException("Character does not have skill of given id.");

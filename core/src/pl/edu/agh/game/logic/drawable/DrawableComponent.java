@@ -53,7 +53,7 @@ public class DrawableComponent {
                 animation.update(deltaTime * statsComponent.getAttackSpeedMultiplier());
                 break;
             default:
-                animation.update(deltaTime);
+                animation.update(deltaTime * statsComponent.getMovementSpeedMultiplier());
         }
 
         Direction direction = movementComponent.getDirection();

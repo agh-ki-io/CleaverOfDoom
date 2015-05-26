@@ -54,13 +54,14 @@ public class SkillComponent implements Updatable {
         return 1;
     }
     
-    public void useSkill(int id) {
+    public boolean useSkill(int id) {
         Cooldown cooldown = skillCooldowns.get(id);
         if (cooldown.isOver()) {
             skills.add(skillBuilders.get(id).build(level, skillUser));
             tryToLvlUpSkill(id);
             cooldown.reset();
-        }
+            return true;
+        } else return false;
     }
 
     public void tryToLvlUpSkill(int id){

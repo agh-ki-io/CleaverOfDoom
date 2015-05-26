@@ -286,7 +286,7 @@ public class EntityFactory {
                         return new MeleeAttackSkill(level, skillUser);
                     }
                 });
-                cooldowns.add(new Cooldown(0));
+                cooldowns.add(new Cooldown(0.4f));
                 break;
             case "ranged":
                 skillBuilders.add(new SkillBuilder() {

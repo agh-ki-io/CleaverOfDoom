@@ -45,7 +45,6 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
             if (index < graphPath.getCount())
                 setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
         }
-
         if (graphPath.getCount() == 0) {
             point_ttl -= deltaTime;
             if (point_ttl <= 0) {
@@ -53,10 +52,13 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
                 setNewDestination(getX() + getRandom(), getY() + getRandom());
                 useSkill(0);
             }
-        }
-        else if (index + 1 < graphPath.getCount()) {
-            if (Math.abs((int) getX() - (int) graphPath.get(index).getX()) < 15 && Math.abs((int) getY() - (int) graphPath.get(index).getY()) < 15) {
-//            if (getX() == graphPath.get(index).getX() && getY() == graphPath.get(index).getY()) {
+        } else if (index + 1 < graphPath.getCount()) {
+            float dx = getX() - graphPath.get(index).getX();
+            float dy = getY() - graphPath.get(index).getY();
+
+            int MAGIC_NUMBER = 15;
+//            System.out.println("i: " + index + " " + dx + " " + dy);
+            if (Math.abs(dx) < MAGIC_NUMBER && Math.abs(dy) < MAGIC_NUMBER) {
                 index++;
                 setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
 //                System.out.println("New destination " + graphPath.get(index).getX() + " " + graphPath.get(index).getY());
@@ -64,8 +66,12 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
 //            else
 //                System.out.println(getX() + " " + getY());
         }
-        else
-            useSkill(0);
+
+        float pdx = Math.abs(playerX - getX());
+        float pdy = Math.abs(playerY - getY());
+        float ATTACK_DISTANCE = 40;
+
+        if (pdx < ATTACK_DISTANCE && pdy < ATTACK_DISTANCE) useSkill(0);
 
 
     }
