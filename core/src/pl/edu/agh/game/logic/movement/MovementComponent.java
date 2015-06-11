@@ -3,7 +3,7 @@ package pl.edu.agh.game.logic.movement;
 import pl.edu.agh.game.CleaverOfDoom;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
-import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.entities.players.Warrior;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
 /**
@@ -113,7 +113,7 @@ public class MovementComponent {
         } else return Direction.LAST;
     }
 
-    public void moveWeapon(Spearman spearman) {
-        this.setPosition(spearman.getX(),spearman.getY());
+    public void moveWeapon(Warrior warrior) {
+        this.setPosition(warrior.getX(), warrior.getY());
     }
 }

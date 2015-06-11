@@ -16,7 +16,7 @@ import pl.edu.agh.game.logic.damage.Damage;
 import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.drawable.DrawableComponent;
-import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.entities.players.Warrior;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 import pl.edu.agh.game.stolen_assets.Debug;
@@ -51,9 +51,9 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     private float relaxation;
     private float throwVelocity;
     private boolean thrown = false;
-    private Spearman spearman;
+    private Warrior warrior;
 
-    public Weapon(float x, float y, DrawableComponent drawableComponent, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg, int size, float movementMultiplier) {
+    public Weapon(float x, float y, DrawableComponent drawableComponent, float relaxation, float throwVelocity, Level level, int collisionGroup, Warrior warrior, int dmg, int size, float movementMultiplier) {
         this.x = x;
         this.y = y;
         this.drawableComponent = drawableComponent;
@@ -66,7 +66,7 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
         this.collisionGroup = collisionGroup;
         this.size = size;
         this.movementMultiplier = movementMultiplier;
-        this.spearman = spearman;
+        this.warrior = warrior;
         this.damage = new Damage(DamageType.PHYSICAL, dmg);
         level.addCharacter(this);
 
@@ -79,10 +79,10 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
         if (thrown) {
              direction = Direction.fromVector(dx, dy);
         } else {
-            if (spearman == null) {
+            if (warrior == null) {
                 direction = Direction.LAST;
             } else {
-                direction = spearman.getDirection();
+                direction = warrior.getDirection();
             }
         }
         //Wyzerowanei movementu bo strzaly nie maja animacji
@@ -102,10 +102,10 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
             diagonalVelocity = 0;
             thrown = false;
         }
-        if (spearman != null) {
-            movementComponent.moveWeapon(spearman);
-            x=spearman.getX();
-            y=spearman.getY();
+        if (warrior != null) {
+            movementComponent.moveWeapon(warrior);
+            x= warrior.getX();
+            y= warrior.getY();
         }
     }
 
@@ -139,14 +139,14 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
     }
 
     public void throwThis() {
-        dx = spearman.drawableComponent.getLastUsableDirection().getDx();
-        dy = spearman.drawableComponent.getLastUsableDirection().getDy();
+        dx = warrior.drawableComponent.getLastUsableDirection().getDx();
+        dy = warrior.drawableComponent.getLastUsableDirection().getDy();
         velocity = throwVelocity;
         diagonalVelocity = (float) (velocity * Math.sqrt(2)/2);
         thrown = true;
 
 //        t
-        spearman = null;
+        warrior = null;
     }
 
     @Override
@@ -192,8 +192,8 @@ public class Weapon implements Updatable, Drawable, Collidable, GameEntity {
         return damage;
     }
 
-    public void setSpearman(Spearman spearman) {
-        this.spearman = spearman;
+    public void setWarrior(Warrior warrior) {
+        this.warrior = warrior;
     }
 
 }

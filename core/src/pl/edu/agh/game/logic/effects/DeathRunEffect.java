@@ -1,9 +1,7 @@
 package pl.edu.agh.game.logic.effects;
 
-import pl.edu.agh.game.logic.damage.Damage;
-import pl.edu.agh.game.logic.damage.DamageType;
 import pl.edu.agh.game.logic.entities.Character;
-import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.entities.players.Warrior;
 import pl.edu.agh.game.settings.GameSettings;
 
 /**
@@ -22,17 +20,17 @@ public class DeathRunEffect extends Effect {
     }
 
     public void dispose() {
-        ((Spearman) getFirst()).multiplier = 1;
-        ((Spearman) getFirst()).hurt = false;
+        ((Warrior) getFirst()).multiplier = 1;
+        ((Warrior) getFirst()).hurt = false;
         settings.getEffectsToDelete().add(this);
     }
 
     @Override
     public void addToSet(Character character) {
-        if (character instanceof Spearman) {
+        if (character instanceof Warrior) {
             characters.add(character);
-            ((Spearman) character).multiplier = 3;
-            ((Spearman) character).hurt = true;
+            ((Warrior) character).multiplier = 3;
+            ((Warrior) character).hurt = true;
         }
     }
 }

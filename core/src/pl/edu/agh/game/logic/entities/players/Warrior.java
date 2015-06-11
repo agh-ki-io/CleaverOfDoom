@@ -1,7 +1,6 @@
 package pl.edu.agh.game.logic.entities.players;
 
 import com.badlogic.gdx.math.Circle;
-import pl.edu.agh.game.graphics.AnimationType;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.logic.Direction;
 import pl.edu.agh.game.logic.Level;
@@ -29,7 +28,7 @@ import java.util.LinkedList;
  * @author - Lukasz Gmyrek
  *         Created on  2015-04-16
  */
-public class Spearman extends ComponentPlayer {
+public class Warrior extends ComponentPlayer {
 //    private final InputState inputState;
 //    private boolean destroyed = false;
     private Weapon weapon;
@@ -44,7 +43,7 @@ public class Spearman extends ComponentPlayer {
 
     Collection<Skill> skills = new LinkedList<>();
 
-    public Spearman(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, InputState inputState, Level level) {
+    public Warrior(float x, float y, StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, InputState inputState, Level level) {
         super(statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, skillComponent, inputState, level);
         super.setPosition(x, y);
         //Animation animation, float relaxation, float throwVelocity, Level level, int collisionGroup, Spearman spearman, int dmg
@@ -64,7 +63,7 @@ public class Spearman extends ComponentPlayer {
             taker = false;
         }
         super.update(deltaTime);
-        weapon.setSpearman(this);
+        weapon.setWarrior(this);
         updateSkills(deltaTime);
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime*multiplier);
@@ -124,7 +123,7 @@ public class Spearman extends ComponentPlayer {
     public void collide(Collidable collidable) {
         if (collidable instanceof Weapon && taker) {
             weapon = (Weapon)collidable;
-            weapon.setSpearman(this);
+            weapon.setWarrior(this);
         } else if (hurt && CollisionUtil.collisonGroupMatches(getCollisionGroups(), collidable.getCollisionGroups())) {
             if (collidable instanceof Damagable) {
                 ((Damagable) collidable).damage(damage);
@@ -134,7 +133,7 @@ public class Spearman extends ComponentPlayer {
             Weapon tmp = ((SpearPoint)collidable).getNextSpear();
             if (tmp!=null) {
                 weapon = ((SpearPoint)collidable).getNextSpear();
-                weapon.setSpearman(this);
+                weapon.setWarrior(this);
                 taker = false;
             }
         }

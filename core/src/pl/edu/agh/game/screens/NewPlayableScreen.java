@@ -71,6 +71,7 @@ public class NewPlayableScreen implements Screen {
         pathFinder.findPath(678, 3474, 371, 2401);
 
 
+
     }
 
     private void initUI() {

@@ -17,7 +17,14 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
     private final static float POINT_TTL_VALUE = 3f;
     private float point_ttl = POINT_TTL_VALUE;
     private final static float MOVE_DELTA = 200;
-
+    
+    // At least this following two should depend on type of enemy.
+    private final int CHASE_RANGE = 500;
+    private final int ATTACK_DISTANCE = 40;
+    private final int POSITION_INACCURACY = 15;
+    
+    private final int CHASE_RANGE_IN_TILES = (int)(Math.sqrt(2) * CHASE_RANGE / 75); // 75 should be taken from map.
+            
     GraphPath<IndexedNodeImplementation> graphPath;
 
     int index;
@@ -32,20 +39,32 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (playerX != level.getPlayers()[1].getX() || playerY != level.getPlayers()[1].getY()) {
-            playerX = level.getPlayers()[1].getX();
-            playerY = level.getPlayers()[1].getY();
+        float currentPlayerX = level.getPlayers()[1].getX();
+        float currentPlayerY = level.getPlayers()[1].getY();
+
+        double distanceToPlayer = Math.hypot(getX() - currentPlayerX, getY() - currentPlayerY);
+
+        if ((playerX != currentPlayerX || playerY != currentPlayerY) &&
+                distanceToPlayer < CHASE_RANGE) {
+            playerX = currentPlayerX;
+            playerY = currentPlayerY;
 
             //System.out.println(playerX + " " + playerY);
 
             graphPath = level.getPathFinder().findPath((int) getX(), (int) getY(), (int) playerX, (int) playerY);
+            
+            if (graphPath.getCount() == 0 || graphPath.getCount() > CHASE_RANGE_IN_TILES)
+                graphPath = null;
+            else {
+                index = 1;
 
-            index = 1;
-
-            if (index < graphPath.getCount())
-                setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
+                if (index < graphPath.getCount())
+                    setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
+            }
         }
-        if (graphPath.getCount() == 0) {
+
+        // If hero is no longer in range it will try to chase him anyway.
+        if (graphPath == null) {
             point_ttl -= deltaTime;
             if (point_ttl <= 0) {
                 point_ttl += POINT_TTL_VALUE;
@@ -53,12 +72,10 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
                 useSkill(0);
             }
         } else if (index + 1 < graphPath.getCount()) {
-            float dx = getX() - graphPath.get(index).getX();
-            float dy = getY() - graphPath.get(index).getY();
 
-            int MAGIC_NUMBER = 15;
+
 //            System.out.println("i: " + index + " " + dx + " " + dy);
-            if (Math.abs(dx) < MAGIC_NUMBER && Math.abs(dy) < MAGIC_NUMBER) {
+            if (Math.hypot(getX() - graphPath.get(index).getX(), getY() - graphPath.get(index).getY()) < POSITION_INACCURACY) {
                 index++;
                 setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
 //                System.out.println("New destination " + graphPath.get(index).getX() + " " + graphPath.get(index).getY());
@@ -66,12 +83,10 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
 //            else
 //                System.out.println(getX() + " " + getY());
         }
+        else if (distanceToPlayer >= CHASE_RANGE)
+            graphPath = null;
 
-        float pdx = Math.abs(playerX - getX());
-        float pdy = Math.abs(playerY - getY());
-        float ATTACK_DISTANCE = 40;
-
-        if (pdx < ATTACK_DISTANCE && pdy < ATTACK_DISTANCE) useSkill(0);
+        if (distanceToPlayer < ATTACK_DISTANCE) useSkill(0);
 
 
     }

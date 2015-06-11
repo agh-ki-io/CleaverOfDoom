@@ -23,7 +23,7 @@ import pl.edu.agh.game.logic.entities.creatures.OnePointEnemy;
 import pl.edu.agh.game.logic.entities.creatures.FollowingPlayerEnemy;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
-import pl.edu.agh.game.logic.entities.players.Spearman;
+import pl.edu.agh.game.logic.entities.players.Warrior;
 import pl.edu.agh.game.logic.entities.projectiles.OneWayProjectile;
 import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
 import pl.edu.agh.game.logic.entities.projectiles.Weapon;
@@ -53,7 +53,7 @@ public class EntityFactory {
     private static final ArrayList<Integer> wariorSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{20, 20, 200, 300}));
 
     private static final int[] enemySkillsUsageToLvl={100,100,100,100};
-    private static final ArrayList<Integer> enemySkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{0, 0, 0, 0}));
+    private static final ArrayList<Integer> enemySkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{30, 0, 0, 0}));
 
 
     private static final Map<String, Texture> loadedTextures = new HashMap<>();
@@ -101,7 +101,7 @@ public class EntityFactory {
             case ROGUE:
             case BARBARIAN:
             case WARRIOR:
-                return getNewSpearman(level, player1InputState);
+                return getNewWarrior(level, player1InputState);
             default:
                 throw new RuntimeException("Not implemented.");
         }
@@ -173,7 +173,7 @@ public class EntityFactory {
 //        throw new RuntimeException(name + " not found or failed to initialize.");
     }
 
-    private static ComponentPlayer getNewSpearman(Level level, InputState inputState) {
+    private static ComponentPlayer getNewWarrior(Level level, InputState inputState) {
         StatsComponent statsComponent = new StatsComponent(500, 1.2f, 2.7f, archerRegenRatio);
         float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, collisionRange * 4), level.getMap());
@@ -200,7 +200,7 @@ public class EntityFactory {
                 wariorSkillsUsageToLvl
         );
 
-        Spearman player = new Spearman(
+        Warrior player = new Warrior(
                 240, 7310,
                 statsComponent,
                 movementComponent,
@@ -219,7 +219,7 @@ public class EntityFactory {
         builders.add(new SkillBuilder() {
             @Override
             public Skill build(Level level, Character skillUser) {
-                return new SpearmanMeleeAttackSkill(level, (Spearman) skillUser);
+                return new WarriorMeleeAttackSkill(level, (Warrior) skillUser);
             }
         });
 
@@ -228,7 +228,7 @@ public class EntityFactory {
         builders.add(new SkillBuilder() {
             @Override
             public Skill build(Level level, Character skillUser) {
-                return new ThrowAndTakeSkill(level, (Spearman)skillUser);
+                return new ThrowAndTakeSkill(level, (Warrior)skillUser);
             }
         });
 
@@ -256,9 +256,9 @@ public class EntityFactory {
         return player;
     }
 
-    public static Weapon getNewWeapon(float x, float y, Level level, Spearman spearman, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
+    public static Weapon getNewWeapon(float x, float y, Level level, Warrior warrior, WeaponType type, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier) {
        fillWeapons();
-        return new Weapon(x,y,new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1,spearman,dmg,size,movementMultiplier);
+        return new Weapon(x,y,new DrawableComponent(weaponTypes.get(type)),relaxation,throwVelocity,level,1, warrior,dmg,size,movementMultiplier);
     }
 
     public static SpearPoint getNewSpearPoint(float x, float y, Level level, float relaxation, float throwVelocity, int dmg, int size, float movementMultiplier, int number) {
@@ -316,7 +316,7 @@ public class EntityFactory {
                 Integer.parseInt(props.properties.get("hp")),
                 Float.parseFloat(props.properties.get("speed")),
                 1f,
-                10);
+                2);
 
         float collisionRange = Float.valueOf(props.properties.get("collision"));
 
