@@ -71,7 +71,7 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
             if (point_ttl <= 0) {
                 point_ttl += POINT_TTL_VALUE;
                 setNewDestination(getX() + getRandom(), getY() + getRandom());
-                useSkill(0);
+//                useSkill(0);
             }
         } else if (index + 1 < graphPath.getCount()) {
 
