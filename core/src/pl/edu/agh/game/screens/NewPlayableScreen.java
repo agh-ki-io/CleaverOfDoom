@@ -61,6 +61,9 @@ public class NewPlayableScreen implements Screen {
         level = LevelFactory.initializeLevel("testMap");
 
         player = level.getPlayers()[1];
+        System.out.println(camera);
+        System.out.println(camera.position);
+        System.out.println(player);
         camera.position.set(player.getX(), player.getY(), 0);
 
 //        labelXY.setPosi
