@@ -21,18 +21,20 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
     // At least this following two should depend on type of enemy.
     private final int CHASE_RANGE = 500;
     private int ATTACK_DISTANCE = 40;
-    private final int POSITION_INACCURACY = 15;
-    
     private final int CHASE_RANGE_IN_TILES = (int)(Math.sqrt(2) * CHASE_RANGE / 75); // 75 should be taken from map.
-            
+
     GraphPath<IndexedNodeImplementation> graphPath;
 
     int index;
-    float playerX;
-    float playerY;
+
+    private float playerX;
+    private float playerY;
+
+    private float collisionRadius;
 
     public FollowingPlayerEnemy(StatsComponent statsComponent, MovementComponent movementComponent, DamageComponent damageComponent, CollidableComponent<Circle> collidableComponent, DrawableComponent drawableComponent, SkillComponent skillComponent, Level level, int collisionGroups) {
         super(statsComponent, movementComponent, damageComponent, collidableComponent, drawableComponent, skillComponent, level, collisionGroups);
+        collisionRadius = collidableComponent.getShape().radius;
     }
 
     @Override
@@ -75,7 +77,7 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
 
 
 //            System.out.println("i: " + index + " " + dx + " " + dy);
-            if (Math.hypot(getX() - graphPath.get(index).getX(), getY() - graphPath.get(index).getY()) < POSITION_INACCURACY) {
+            if (Math.hypot(getX() - graphPath.get(index).getX(), getY() - graphPath.get(index).getY()) < collisionRadius) {
                 index++;
                 setNewDestination(graphPath.get(index).getX(), graphPath.get(index).getY());
 //                System.out.println("New destination " + graphPath.get(index).getX() + " " + graphPath.get(index).getY());

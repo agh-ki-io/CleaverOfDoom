@@ -31,7 +31,7 @@ public class PathFinder {
 
     public PathFinder(TiledMap map) {
 
-        StatsComponent statsComponent = new StatsComponent(0, 1, 0,0);
+        StatsComponent statsComponent = new StatsComponent(0, 1, 0, 0);
 //        float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
         final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, 1), map);
         final MovementComponent movementComponent = new MovementComponent(1, 1, statsComponent, collidableComponent);
