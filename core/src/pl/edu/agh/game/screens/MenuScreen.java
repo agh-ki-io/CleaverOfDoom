@@ -40,7 +40,8 @@ public class MenuScreen implements Screen {
         inputState.getMusic().setVolume(GameSettings.getInstance().getMusicVolume());
         inputState.getMusic().play();
         batch = new SpriteBatch();
-
+        stage = new Stage();
+        Gdx.input.setInputProcessor(input.getInputProcessor());
         Table table = new Table();
 
 
