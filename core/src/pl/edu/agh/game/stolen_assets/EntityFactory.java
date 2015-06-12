@@ -353,6 +353,7 @@ public class EntityFactory {
 
         skillComponent.setSkillUser(enemy);
         if (distances.containsKey(name))
+
         ((FollowingPlayerEnemy) enemy).setATTACK_DISTANCE(distances.get(name));
 
         return enemy;
