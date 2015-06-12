@@ -12,6 +12,7 @@ import pl.edu.agh.game.logic.drawable.Drawable;
 import pl.edu.agh.game.logic.entities.Character;
 import pl.edu.agh.game.logic.entities.players.ComponentPlayer;
 import pl.edu.agh.game.logic.entities.players.Player;
+import pl.edu.agh.game.logic.entities.projectiles.SpearPoint;
 import pl.edu.agh.game.logic.movement.PathFinder;
 import pl.edu.agh.game.stolen_assets.EntityFactory;
 
@@ -58,6 +59,9 @@ public class Level<T extends Updatable & Drawable & Collidable & GameEntity> imp
                     newPlayer.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);
                     addCharacter((T) newPlayer);
                     players[java.lang.Character.digit(objectID.charAt(6), 10)] = newPlayer;
+                } else if (objectID.matches("spearpoint")) {
+                    SpearPoint spearPoint = EntityFactory.getNewSpearPoint(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale,this, 0.035f, 30.0f, 100, 4 * 4, 6 * 6, 10);
+                    addCharacter((T) spearPoint);
                 } else {
                     Character enemy  = EntityFactory.getNewEnemy(objectID, collisionGroups, this);
                     enemy.setPosition(mapObject.getProperties().get("x", Float.class) * scale, mapObject.getProperties().get("y", Float.class) * scale);

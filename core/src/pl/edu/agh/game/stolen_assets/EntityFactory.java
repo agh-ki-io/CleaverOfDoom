@@ -63,16 +63,19 @@ public class EntityFactory {
     private static final Map<String, String> rangerAttributes = new HashMap<>();
     private static final Map<String, String> thiefAttributes = new HashMap<>();
     private static final Map<String, String> arrowAttributes = new HashMap<>();
+    private static final Map<String, String> fistAttributes = new HashMap<>();
 
     private static final Map<String, Animation> rangerAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/ranger_c.xml"), loadedTextures, rangerAttributes);
     private static final Map<String, Animation> thiefAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/actors/player/thief_a.xml"), loadedTextures, thiefAttributes);
     private static final Map<String, Animation> arrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes);
+    private static final Map<String, Animation> fistAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/fist.xml"), loadedTextures, fistAttributes);
+    private static final Map<String, Animation> spearpointAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/maps/spearpoint.xml"), loadedTextures, fistAttributes);
     private static final Map<String, Animation> enemyArrowAnimationMap = Util.playerAnimationFromXml(Gdx.files.internal("stolen_assets/projectiles/player_arrow_1.xml"), loadedTextures, arrowAttributes); //tu trzeba zmienic grafike
     private static Map<WeaponType,Map<String, Animation>> weaponTypes = new HashMap<>();
 //    private static final Map<String, >
 
     private static void fillWeapons() {
-        weaponTypes.put(WeaponType.FIST,arrowAnimationMap);
+        weaponTypes.put(WeaponType.FIST,fistAnimationMap);
         weaponTypes.put(WeaponType.SPEAR,arrowAnimationMap);
     }
 
