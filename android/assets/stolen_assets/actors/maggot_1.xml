@@ -1,9 +1,9 @@
 <actor collision="6" behavior="ranged" minimap="menus/minimap.xml:enemy">
 	<behavior>
 		<dictionary>
-			<entry name="hp"><int>30</int></entry>
+			<entry name="hp"><int>500</int></entry>
 			<entry name="projectile"><string>projectiles/enemy_maggot_1.xml</string></entry>
-			<entry name="speed"><float>0.2</float></entry>
+			<entry name="speed"><float>0.35</float></entry>
 			<entry name="range"><float>5</float></entry>
 			<entry name="aggro-range"><float>6</float></entry>
 			<entry name="max-range"><float>20</float></entry>

@@ -3,7 +3,7 @@
 		<dictionary>
 			<entry name="hp"><int>40</int></entry>
 			<entry name="dmg"><int>20</int></entry>
-			<entry name="speed"><float>0.4</float></entry>
+			<entry name="speed"><float>0.5</float></entry>
 			<entry name="aggro-range"><float>10</float></entry>
 			<entry name="max-range"><float>20</float></entry>
 			<entry name="death-snd"><string>sound/monsters.xml:death_skeleton</string></entry>

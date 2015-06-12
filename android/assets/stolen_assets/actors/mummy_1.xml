@@ -1,9 +1,9 @@
 <actor collision="3.5" behavior="melee" minimap="menus/minimap.xml:enemy">
 	<behavior>
 		<dictionary>
-			<entry name="hp"><int>65</int></entry>
+			<entry name="hp"><int>200</int></entry>
 			<entry name="dmg"><int>25</int></entry>
-			<entry name="speed"><float>0.4</float></entry>
+			<entry name="speed"><float>0.9</float></entry>
 			<entry name="aggro-range"><float>10</float></entry>
 			<entry name="max-range"><float>20</float></entry>
 			<entry name="death-snd"><string>sound/monsters.xml:death_mummy</string></entry>

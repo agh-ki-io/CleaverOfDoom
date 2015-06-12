@@ -1,12 +1,12 @@
 <actor collision="6" behavior="ranged" minimap="menus/minimap.xml:enemy">
 	<behavior>
 		<dictionary>
-			<entry name="hp"><int>80</int></entry>
+			<entry name="hp"><int>800</int></entry>
 			<entry name="multiplayer-scale-hp"><bool>true</bool></entry>
 			<entry name="projectile"><string>projectiles/enemy_maggot_1.xml</string></entry>
 			<entry name="num-projectiles"><int>3</int></entry>
 			<entry name="projectile-span"><int>15</int></entry>
-			<entry name="speed"><float>0.25</float></entry>
+			<entry name="speed"><float>0.45</float></entry>
 			<entry name="range"><float>4</float></entry>
 			<entry name="aggro-range"><float>6</float></entry>
 			<entry name="max-range"><float>20</float></entry>

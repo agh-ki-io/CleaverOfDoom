@@ -1,7 +1,7 @@
 <actor collision="3.5" behavior="caster" minimap="menus/minimap.xml:enemy">
 	<behavior>
 		<dictionary>
-			<entry name="hp"><int>80</int></entry>
+			<entry name="hp"><int>1200</int></entry>
 			<entry name="speed"><float>0.6</float></entry>
 			<entry name="aggro-range"><float>16</float></entry>
 			<entry name="range"><float>7</float></entry>			
