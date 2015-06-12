@@ -531,7 +531,7 @@
   </data>
  </layer>
  <objectgroup name="objects">
-  <object id="583" gid="131" x="4636.64" y="4890.56"/>
+  <object id="583" gid="131" x="4636.64" y="4773.98"/>
   <object id="584" gid="129" x="4414.81" y="4689.78"/>
   <object id="585" gid="129" x="4466.63" y="4738.36"/>
   <object id="586" gid="129" x="4864.94" y="4694.64"/>
