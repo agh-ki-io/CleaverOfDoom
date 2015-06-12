@@ -1,0 +1,230 @@
+<actor collision="3.5" behavior="composite" minimap="menus/minimap.xml:enemy">
+	<behavior>
+		<dictionary>
+			<entry name="hp"><int>150</int></entry>
+			<float name="aggro-range">10</float>
+			<float name="max-range">20</float>
+			<entry name="gib"><string>effects/gibs/gib_lich_desert_3.xml</string></entry>
+			<dictionary name="movement">
+				<string name="type">melee</string>
+				<float name="speed">0.4</float>
+			</dictionary>
+			
+			<array name="skills">
+				<dictionary>
+					<string name="type">hit</string>
+					<string name="anim-set">attack</string>
+					<int name="cooldown">150</int>
+					<float name="range">2</float>
+					<string name="sound">sound/monsters.xml:lich_seeker</string>
+					<int name="dmg">10</int>					
+				</dictionary>
+				<dictionary>
+					<string name="type">heal</string>
+					<string name="anim-set">attack</string>
+					<int name="cooldown">1500</int>
+					<float name="range">40</float>
+					<string name="sound">sound/monsters.xml:lich_heal</string>
+					<int name="heal">20</int>
+					<float name="cast-range">10</float>
+					<string name="particle">effects/particles.xml:player_heal</string>
+				</dictionary>
+			</array>
+			
+			<array name="pskills">		
+				<dictionary>
+					<string name="type">armor</string>
+					<string name="sound">sound/monsters.xml:skill_enemy_magicshield</string>
+					<string name="effect">effects/misc.xml:magicshield</string>						
+					<int name="chance">50</int>
+					<int name="dmg-sub">0</int>
+					<float name="dmg-mul">0</float>
+				</dictionary>
+			</array>						
+			
+			<entry name="death-snd"><string>sound/monsters.xml:death_lich</string></entry>
+			<entry name="hit-effect"><string>effects/particles.xml:robe-green-hit</string></entry>
+			<entry name="hit-particle"><string>effects/particles.xml:robe-green-particle</string></entry>
+			
+			<dictionary name="loot">
+				<string name="origin">0 0</string>
+				<float name="spread">0.33</float>
+					<array name="loot">
+						<array>	
+							<int>500</int><string>actors/tower_banner_3.xml</string>
+						</array>														
+						<array>
+							<int>20</int><string>items/mana_1.xml</string>
+						</array>					
+					</array>
+			</dictionary>				
+			
+		</dictionary>
+	</behavior>
+
+
+	<!-- Idle -->
+	<sprite scale="16" name="east">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>0 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>24 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>48 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>72 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>96 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>120 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>144 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame>168 0 24 24</frame>
+	</sprite>
+	
+	
+	<!-- Walk -->
+	<sprite scale="16" name="east-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">0 24 24 24</frame>
+		<frame time="125">0 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">24 24 24 24</frame>
+		<frame time="125">24 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">48 24 24 24</frame>
+		<frame time="125">48 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">72 24 24 24</frame>
+		<frame time="125">72 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">96 24 24 24</frame>
+		<frame time="125">96 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">120 24 24 24</frame>
+		<frame time="125">120 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">144 24 24 24</frame>
+		<frame time="125">144 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-walk">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">168 24 24 24</frame>
+		<frame time="125">168 48 24 24</frame>
+	</sprite>
+	
+
+	<!-- Attack -->
+	<sprite scale="16" name="east-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">0 72 24 24</frame>
+		<frame time="150">0 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">24 72 24 24</frame>
+		<frame time="150">24 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">48 72 24 24</frame>
+		<frame time="150">48 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">72 72 24 24</frame>
+		<frame time="150">72 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">96 72 24 24</frame>
+		<frame time="150">96 96 24 24</frame>		
+	</sprite>
+	
+	<sprite scale="16" name="southwest-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">120 72 24 24</frame>
+		<frame time="150">120 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">144 72 24 24</frame>
+		<frame time="150">144 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-attack">
+		<texture>actors/lich_desert_3.png</texture>
+		<origin>12 14</origin>
+		<frame time="150">168 72 24 24</frame>
+		<frame time="150">168 96 24 24</frame>
+	</sprite>
+</actor>

@@ -1,0 +1,196 @@
+<actor collision="3.5" behavior="caster" minimap="menus/minimap.xml:enemy">
+	<behavior>
+		<dictionary>
+			<entry name="hp"><int>80</int></entry>
+			<entry name="speed"><float>0.6</float></entry>
+			<entry name="aggro-range"><float>16</float></entry>
+			<entry name="range"><float>7</float></entry>			
+			<entry name="death-snd"><string>sound/monsters.xml:death_lich</string></entry>
+			<entry name="attack-snd"><string>sound/monsters.xml:attack_lich1</string></entry>			
+			<entry name="hit-effect"><string>effects/particles.xml:robe-green-hit</string></entry>		
+			<entry name="hit-particle"><string>effects/particles.xml:robe-green-particle</string></entry>		
+			<entry name="gib"><string>effects/gibs/gib_lich_3.xml</string></entry>
+			<dictionary name="summon">
+				<entry name="actor"><string>actors/skeleton_3.xml</string></entry>
+				<entry name="timer"><int>2000</int></entry>
+				<entry name="parts"><int>3</int></entry>
+				<entry name="effect"><string>effects/particles.xml:flash_summon</string></entry>
+				<entry name="sound"><string>sound/monsters.xml:lich_summon</string></entry>
+			</dictionary>
+			
+			<dictionary name="blink">
+				<entry name="timer"><int>5000</int></entry>
+				<entry name="range"><float>2.5</float></entry>
+				<entry name="dist"><float>5</float></entry>
+				<entry name="effect"><string>effects/particles.xml:flash</string></entry>
+				<entry name="sound"><string>sound/misc.xml:spawn_tele</string></entry>
+			</dictionary>
+		</dictionary>
+	</behavior>
+
+
+	<!-- Idle -->
+	<sprite scale="16" name="east">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>0 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>24 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>48 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>72 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>96 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>120 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>144 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame>168 0 24 24</frame>
+	</sprite>
+	
+	
+	<!-- Walk -->
+	<sprite scale="16" name="east-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">0 24 24 24</frame>
+		<frame time="125">0 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">24 24 24 24</frame>
+		<frame time="125">24 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">48 24 24 24</frame>
+		<frame time="125">48 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">72 24 24 24</frame>
+		<frame time="125">72 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">96 24 24 24</frame>
+		<frame time="125">96 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">120 24 24 24</frame>
+		<frame time="125">120 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">144 24 24 24</frame>
+		<frame time="125">144 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-walk">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">168 24 24 24</frame>
+		<frame time="125">168 48 24 24</frame>
+	</sprite>
+	
+
+	<!-- Attack -->
+	<sprite scale="16" name="east-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">0 72 24 24</frame>
+		<frame time="500">0 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">24 72 24 24</frame>
+		<frame time="500">24 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">48 72 24 24</frame>
+		<frame time="500">48 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">72 72 24 24</frame>
+		<frame time="500">72 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">96 72 24 24</frame>
+		<frame time="500">96 96 24 24</frame>		
+	</sprite>
+	
+	<sprite scale="16" name="southwest-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">120 72 24 24</frame>
+		<frame time="500">120 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">144 72 24 24</frame>
+		<frame time="500">144 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-attack">
+		<texture>actors/boss.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">168 72 24 24</frame>
+		<frame time="500">168 96 24 24</frame>
+	</sprite>
+</actor>
