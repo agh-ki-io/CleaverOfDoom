@@ -47,6 +47,10 @@ public class ComponentPlayer extends Player {
     @Override
     public void destroy() {
         destroyed = true;
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {}
+        inputState.showMenu();
     }
 
     @Override
@@ -58,12 +62,12 @@ public class ComponentPlayer extends Player {
 
     @Override
     public void update(float deltaTime) {
-        if (movementComponent.getVelocity()==-1) destroy();
         super.update(deltaTime);
         super.regenerate();
         useSkills();
         move(inputState.getxDirection(), inputState.getyDirection(), deltaTime);
         collidableComponent.getShape().setPosition(getX(), getY());
+        if (movementComponent.getVelocity()==-1) destroy();
     }
 
     @Override

@@ -40,4 +40,8 @@ public interface InputSettings {
     int getMenuKey();
 
     void setMenuKey(int menuKey);
+
+    int getConfirmKey();
+
+    void setConfirmKey(int confirmKey);
 }

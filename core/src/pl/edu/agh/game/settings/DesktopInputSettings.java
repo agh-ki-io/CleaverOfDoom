@@ -21,6 +21,7 @@ public class DesktopInputSettings implements InputSettings {
 
     //other
     public int menuKey = Keys.ESCAPE;
+    public int confirmKey = Keys.ENTER;
 
     @Override
     public int getMoveLeftKey() {
@@ -110,5 +111,15 @@ public class DesktopInputSettings implements InputSettings {
     @Override
     public void setMenuKey(int menuKey) {
         this.menuKey = menuKey;
+    }
+
+    @Override
+    public int getConfirmKey() {
+        return confirmKey;
+    }
+
+    @Override
+    public void setConfirmKey(int confirmKey) {
+        this.confirmKey = confirmKey;
     }
 }

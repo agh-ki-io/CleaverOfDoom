@@ -3,6 +3,7 @@ package pl.edu.agh.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,20 +12,28 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import pl.edu.agh.game.CleaverOfDoom;
+import pl.edu.agh.game.input.Input;
 import pl.edu.agh.game.input.InputState;
 import pl.edu.agh.game.settings.GameSettings;
+import pl.edu.agh.game.ui.UserInterface;
 
 public class MenuScreen implements Screen {
     private final CleaverOfDoom game;
     private final InputState inputState;
+    private final UserInterface userInterface;
+
     SpriteBatch batch;
     Texture img;
     private Stage stage;
 
     public MenuScreen(final CleaverOfDoom game) {
         this.game = game;
-        inputState = game.getUserInterface().getInput().getInputState();
+        userInterface = game.getUserInterface();
+        Input input = userInterface.getInput();
+        inputState = input.getInputState();
         if (inputState.getMusic() != null) inputState.getMusic().dispose();
         inputState.setMusic(Gdx.audio.newMusic(Gdx.files.internal("The_Losers_-_You_Bastard.mp3")));
         inputState.getMusic().setLooping(true);
@@ -32,7 +41,7 @@ public class MenuScreen implements Screen {
         inputState.getMusic().play();
         batch = new SpriteBatch();
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(input.getInputProcessor());
         Table table = new Table();
 
 
@@ -43,7 +52,7 @@ public class MenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                System.out.println("Begin Your Adventure! " + x + " " + y);
-                game.setScreen(new NewPlayableScreen(game));
+                inputState.startGame();
             }
         });
 
@@ -69,6 +78,8 @@ public class MenuScreen implements Screen {
         stage.addActor(table);
 
         img = new Texture("MenuBackground.png");
+
+        inputState.setMenu(this);
     }
 
     @Override
@@ -78,6 +89,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+//        if (inputState.) game.setScreen(new NewPlayableScreen(game));
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -111,4 +123,24 @@ public class MenuScreen implements Screen {
     public void dispose() {
         System.exit(0);
     }
+
+    public void setGame(NewPlayableScreen screen) {
+        game.setScreen(screen);
+    }
+
+    public CleaverOfDoom getGame() {
+        return game;
+    }
+
+//    private void initUI() {
+//        OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        Viewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+//        Stage stage = new Stage(viewport, batch);
+//
+////        labelXY.setPosition(player.getX(), player.getY());
+//        userInterface.setStage(stage);
+//        stage.addActor(userInterface);
+//
+//    }
+
 }

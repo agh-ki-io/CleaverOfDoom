@@ -70,8 +70,7 @@ public class NewPlayableScreen implements Screen {
 //        371.49826 2401.8855
         pathFinder.findPath(678, 3474, 371, 2401);
 
-
-
+        inputState.setScreen(this);
     }
 
     private void initUI() {
@@ -107,10 +106,10 @@ public class NewPlayableScreen implements Screen {
     }
 
     private void update(float delta) {
-        if (inputState.isMenuOn())  {
-            inputState.setMenuOn(false);
-            game.setScreen(new MenuScreen(game));
-        }
+//        if (inputState.isMenuOn())  {
+//            inputState.setMenuOn(false);
+//            game.setScreen(new MenuScreen(game));
+//        }
         List<Effect> effects = GameSettings.getInstance().getEffectsToUpdate();
         for (Effect effect : effects) {
             effect.getCooldown().update(delta);
@@ -162,5 +161,9 @@ public class NewPlayableScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public void showMenu() {
+        game.setScreen(new MenuScreen(game));
     }
 }

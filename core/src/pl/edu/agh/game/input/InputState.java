@@ -1,6 +1,7 @@
 package pl.edu.agh.game.input;
 
 import com.badlogic.gdx.audio.Music;
+import pl.edu.agh.game.screens.MenuScreen;
 import pl.edu.agh.game.screens.NewPlayableScreen;
 
 /**
@@ -12,7 +13,19 @@ public class InputState {
     private float yDirection;
     private Music music;
 
-    private boolean menuOn;
+    public void setMenu(MenuScreen menu) {
+        this.menu = menu;
+    }
+
+    public void setScreen(NewPlayableScreen screen) {
+        this.screen = screen;
+    }
+
+
+    private MenuScreen menu;
+    private NewPlayableScreen screen;
+
+//    private boolean menuOn;
     private boolean skill1Used;
     private boolean skill2Used;
     private boolean skill3Used;
@@ -34,9 +47,9 @@ public class InputState {
         this.yDirection = yDirection;
     }
 
-    public void setMenuOn(boolean menuOn) {
-        this.menuOn = menuOn;
-    }
+//    public void setMenuOn(boolean menuOn) {
+//        this.menuOn = menuOn;
+//    }
 
     void setSkill1Used(boolean skill1Used) {
         this.skill1Used = skill1Used;
@@ -54,10 +67,18 @@ public class InputState {
         this.skill4Used = skill4Used;
     }
 
-    public boolean isMenuOn() {
-        return menuOn;
+//    public boolean isMenuOn() {
+//        return menuOn;
+//    }
+
+    public void startGame() {
+        menu.setGame(new NewPlayableScreen(menu.getGame()));
     }
 
+    public void showMenu() {
+        screen.showMenu();
+    }
+    
     public boolean isSkill1Used() {
         if (skill1Used) {
             setSkill1Used(false);

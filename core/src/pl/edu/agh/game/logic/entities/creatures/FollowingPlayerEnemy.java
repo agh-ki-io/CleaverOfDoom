@@ -17,10 +17,10 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
     private final static float POINT_TTL_VALUE = 3f;
     private float point_ttl = POINT_TTL_VALUE;
     private final static float MOVE_DELTA = 200;
-    
+
     // At least this following two should depend on type of enemy.
     private final int CHASE_RANGE = 500;
-    private final int ATTACK_DISTANCE = 40;
+    private int ATTACK_DISTANCE = 40;
     private final int POSITION_INACCURACY = 15;
     
     private final int CHASE_RANGE_IN_TILES = (int)(Math.sqrt(2) * CHASE_RANGE / 75); // 75 should be taken from map.
@@ -94,4 +94,9 @@ public class FollowingPlayerEnemy extends OnePointEnemy {
     private float getRandom() {
         return (ThreadLocalRandom.current().nextFloat() - 0.5f) * MOVE_DELTA;
     }
+
+    public void setATTACK_DISTANCE(int ATTACK_DISTANCE) {
+        this.ATTACK_DISTANCE = ATTACK_DISTANCE;
+    }
+
 }

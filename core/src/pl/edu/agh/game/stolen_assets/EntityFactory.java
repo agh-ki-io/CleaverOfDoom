@@ -272,35 +272,44 @@ public class EntityFactory {
         CharacterProperties props = loadedProperties.get(name);
 
 //        String behavior = props.properties.getOrDefault("behavior", "melee");
-        String behavior = "melee";
+        Map<String,Integer> distances = new HashMap<>();
+        distances.put("boss",200);
+        distances.put("skeleton_1",250);
 
         ArrayList<SkillBuilder> skillBuilders = new ArrayList<>();
         ArrayList<Cooldown> cooldowns = new ArrayList<>();
 
 
-        switch (behavior) {
-            case "melee":
+        switch (name) {
+            case "boss":
                 skillBuilders.add(new SkillBuilder() {
                     @Override
                     public Skill build(Level level, Character skillUser) {
-                        return new MeleeAttackSkill(level, skillUser);
+                        return new ArrowCircleSkill(level,skillUser,0.01f,2,16);
                     }
                 });
-                cooldowns.add(new Cooldown(0.4f));
+                cooldowns.add(new Cooldown(0.5f));
+
                 break;
-            case "ranged":
+            case "skeleton_1":
                 skillBuilders.add(new SkillBuilder() {
                     @Override
                     public Skill build(Level level, Character skillUser) {
                         return new ShootArrowSkill(700, level, skillUser);
                     }
                 });
-                cooldowns.add(new Cooldown(0.1f));
-                break;
-            case "composite":
+                cooldowns.add(new Cooldown(1f));
                 break;
             default:
-                throw new RuntimeException("Unknown monster behavior.");
+                skillBuilders.add(new SkillBuilder() {
+                    @Override
+                    public Skill build(Level level, Character skillUser) {
+                        return new MeleeAttackSkill(level, skillUser);
+                    }
+                });
+                cooldowns.add(new Cooldown(2f));
+                break;
+//                throw new RuntimeException("Unknown monster behavior.");
         }
 
         SkillComponent skillComponent = new SkillComponent(
@@ -343,6 +352,9 @@ public class EntityFactory {
                 collisionGroups);
 
         skillComponent.setSkillUser(enemy);
+        if (distances.containsKey(name))
+        ((FollowingPlayerEnemy) enemy).setATTACK_DISTANCE(distances.get(name));
+        System.out.println(name+"  not here : "+distances.get(name));
 
         return enemy;
     }

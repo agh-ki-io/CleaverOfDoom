@@ -26,7 +26,8 @@ public class DesktopInputProcessor implements Input, InputProcessor {
         else if (keycode == inputSettings.getSkill2Key()) inputState.setSkill2Used(true);
         else if (keycode == inputSettings.getSkill3Key()) inputState.setSkill3Used(true);
         else if (keycode == inputSettings.getSkill4Key()) inputState.setSkill4Used(true);
-        else if (keycode == inputSettings.getMenuKey()) inputState.setMenuOn(true);
+        else if (keycode == inputSettings.getMenuKey()) inputState.showMenu();
+        else if (keycode == inputSettings.getConfirmKey()) inputState.startGame();
         return true;
     }
 
