@@ -1,5 +1,7 @@
 package pl.edu.agh.game.logic.entities.creatures;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Shape2D;
@@ -15,6 +17,7 @@ import pl.edu.agh.game.logic.drawable.DrawableComponent;
 import pl.edu.agh.game.logic.movement.MovementComponent;
 import pl.edu.agh.game.logic.skills.SkillComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
+import pl.edu.agh.game.settings.GameSettings;
 import pl.edu.agh.game.stolen_assets.Debug;
 
 /**
@@ -70,6 +73,10 @@ public class OnePointEnemy extends pl.edu.agh.game.logic.entities.Character<Circ
     @Override
     public void destroy() {
         destroyed = true;
+        GameSettings settings = GameSettings.getInstance();
+        Music sound = Gdx.audio.newMusic(Gdx.files.internal("death.wav"));
+        sound.setVolume(settings.getSfxVolume());
+        sound.play();
     }
 
     @Override

@@ -14,8 +14,8 @@ import java.util.Vector;
  */
 public class GameSettings {
     private static GameSettings ourInstance = new GameSettings();
-    private float musicVolume = 0.1f;
-    private float sfxVolume = 1.0f;
+    private float musicVolume = 0.2f;
+    private float sfxVolume = 0.04f;
     public Music fireSound = Gdx.audio.newMusic(Gdx.files.internal("fire.mp3"));
     public Music poisonSound = Gdx.audio.newMusic(Gdx.files.internal("poison.mp3"));
     public Music fireSoundStill = Gdx.audio.newMusic(Gdx.files.internal("fire2.mp3"));
