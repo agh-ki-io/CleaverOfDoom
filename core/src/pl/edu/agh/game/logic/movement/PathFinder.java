@@ -23,10 +23,13 @@ public class PathFinder {
             if (collidableComponent.collision(newX, newY, "blocked") || collidableComponent.collision(newX, newY, "pit") || collidableComponent.collision(newX, newY, "slime"))
                 return false;
 
-            if (collidableComponent.collision(newX, newY, "water") && !collidableComponent.collision(fromNode.getX(), fromNode.getY(), "stairs"))
+            if (collidableComponent.collision(newX, newY, "water") && !collidableComponent.collision(fromNode.getX(), fromNode.getY(), "water") && !collidableComponent.collision(fromNode.getX(), fromNode.getY(), "stairs"))
                 return false;
 
-            if (collidableComponent.collision(fromNode.getX(), fromNode.getY(), "water") && !(collidableComponent.collision(newX, newY, "water") || collidableComponent.collision(newX, newY, "stairs")))
+            if (collidableComponent.collision(fromNode.getX(), fromNode.getY(), "water") && !collidableComponent.collision(newX, newY, "water") && !collidableComponent.collision(newX, newY, "stairs"))
+                return false;
+
+            if (newX != fromNode.getX() && newY != fromNode.getY() && collidableComponent.collision(fromNode.getX(), fromNode.getY(), "stairs") && !(collidableComponent.collision(newX, fromNode.getY(), "water") && collidableComponent.collision(fromNode.getX(), newY, "water")))
                 return false;
 
             return true;
