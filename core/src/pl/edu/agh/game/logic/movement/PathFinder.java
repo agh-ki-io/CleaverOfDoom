@@ -9,22 +9,40 @@ import com.badlogic.gdx.utils.Array;
 import pl.edu.agh.game.logic.collisions.CollidableComponent;
 import pl.edu.agh.game.logic.stats.StatsComponent;
 
-/**
- * Created by kcpr on 15.05.15.
- */
 public class PathFinder {
 
     BetterDefaultIndexedGraph indexedGraph;
     Heuristic<IndexedNodeImplementation> heuristic;
 
-    private boolean canMove(IndexedNodeImplementation fromNode, MovementComponent movementComponent, float moveX, float moveY, int mapSize) {
-        if (fromNode.getX() + moveX >= 0 && fromNode.getX() + moveX < mapSize && fromNode.getY() + moveY >= 0 && fromNode.getY() + moveY < mapSize) {
-            movementComponent.setPosition(fromNode.getX(), fromNode.getY());
-            movementComponent.setVelocity(1, 1);
-            movementComponent.move(moveX, moveY, 1);
-            if (fromNode.getX() + moveX == movementComponent.getX() && fromNode.getY() + moveY == movementComponent.getY()
-                    && movementComponent.getVelocity() != -1 && movementComponent.getDiagonalVelocity() != -1)
-                return true;
+    private boolean canMove(IndexedNodeImplementation fromNode, CollidableComponent collidableComponent, float moveX, float moveY, int mapSize) {
+        float newX = fromNode.getX() + moveX;
+        float newY = fromNode.getY() + moveY;
+
+        if (newX >= 0 && newX < mapSize && newY >= 0 && newY < mapSize) { // Should be checked in collidableComponent.collision I believe.
+
+            if (collidableComponent.collision(newX, newY, "blocked") || collidableComponent.collision(newX, newY, "pit") || collidableComponent.collision(newX, newY, "slime"))
+                return false;
+
+            if (collidableComponent.collision(newX, newY, "water") && !collidableComponent.collision(fromNode.getX(), fromNode.getY(), "stairs"))
+                return false;
+
+            if (collidableComponent.collision(fromNode.getX(), fromNode.getY(), "water") && !(collidableComponent.collision(newX, newY, "water") || collidableComponent.collision(newX, newY, "stairs")))
+                return false;
+
+            return true;
+
+            //if (collidableComponent.collision(newX, newY, "blocked") ||)
+
+
+//            movementComponent.setPosition(fromNode.getX(), fromNode.getY());
+//            movementComponent.setVelocity(1, 1);
+//            movementComponent.move(moveX, moveY, 1);
+//            if (fromNode.getX() + moveX == movementComponent.getX() && fromNode.getY() + moveY == movementComponent.getY()
+//                    && movementComponent.getVelocity() != -1 && movementComponent.getDiagonalVelocity() != -1)
+//                return true;
+//        }
+//        return false;
+
         }
         return false;
     }
@@ -33,8 +51,8 @@ public class PathFinder {
 
         StatsComponent statsComponent = new StatsComponent(0, 1, 0, 0);
 //        float collisionRange = Float.valueOf(rangerAttributes.get("collision"));
-        final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(new Circle(0, 0, 1), map);
-        final MovementComponent movementComponent = new MovementComponent(1, 1, statsComponent, collidableComponent);
+        final CollidableComponent<Circle> collidableComponent = new CollidableComponent<>(null, map);
+//        final MovementComponent movementComponent = new MovementComponent(1, 1, statsComponent, collidableComponent);
 
 
         int height = ((TiledMapTileLayer) map.getLayers().get("background")).getHeight();
@@ -50,10 +68,10 @@ public class PathFinder {
         for (IndexedNodeImplementation fromNode : array) {
             int index = fromNode.getIndex();
 
-            boolean canMoveNorth = canMove(fromNode, movementComponent, 0, tileSize, mapSize);
-            boolean canMoveSouth = canMove(fromNode, movementComponent, 0, -tileSize, mapSize);
-            boolean canMoveEast = canMove(fromNode, movementComponent, tileSize, 0, mapSize);
-            boolean canMoveWest = canMove(fromNode, movementComponent, -tileSize, 0, mapSize);
+            boolean canMoveNorth = canMove(fromNode, collidableComponent, 0, tileSize, mapSize);
+            boolean canMoveSouth = canMove(fromNode, collidableComponent, 0, -tileSize, mapSize);
+            boolean canMoveEast = canMove(fromNode, collidableComponent, tileSize, 0, mapSize);
+            boolean canMoveWest = canMove(fromNode, collidableComponent, -tileSize, 0, mapSize);
 
             if (canMoveNorth)
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100)));
@@ -67,16 +85,16 @@ public class PathFinder {
             if (canMoveEast)
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 1)));
 
-            if (canMoveNorth && canMoveWest && canMove(fromNode, movementComponent, -tileSize, tileSize, mapSize))
+            if (canMoveNorth && canMoveWest && canMove(fromNode, collidableComponent, -tileSize, tileSize, mapSize))
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100 - 1)));
 
-            if (canMoveNorth && canMoveEast && canMove(fromNode, movementComponent, tileSize, tileSize, mapSize))
+            if (canMoveNorth && canMoveEast && canMove(fromNode, collidableComponent, tileSize, tileSize, mapSize))
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index + 100 + 1)));
 
-            if (canMoveSouth && canMoveWest && canMove(fromNode, movementComponent, -tileSize, -tileSize, mapSize))
+            if (canMoveSouth && canMoveWest && canMove(fromNode, collidableComponent, -tileSize, -tileSize, mapSize))
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100 - 1)));
 
-            if (canMoveSouth && canMoveEast && canMove(fromNode, movementComponent, tileSize, -tileSize, mapSize))
+            if (canMoveSouth && canMoveEast && canMove(fromNode, collidableComponent, tileSize, -tileSize, mapSize))
                 fromNode.addConnection(new DefaultConnection(fromNode, array.get(index - 100 + 1)));
 
         }

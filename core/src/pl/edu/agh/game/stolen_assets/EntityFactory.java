@@ -50,7 +50,7 @@ public class EntityFactory {
     private static final int[] archerSkillsUsageToLvl={7,5,5,5};
     private static final int[] wariorSkillsUsageToLvl={7,5,5,5};
     private static final ArrayList<Integer> archerSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{25, 200, 30, 40}));
-    private static final ArrayList<Integer> wariorSkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{20, 20, 200, 300}));
+    private static final ArrayList<Integer> warriorSkillCosts =new ArrayList<>(Arrays.asList(new Integer[]{20, 20, 200, 300}));
 
     private static final int[] enemySkillsUsageToLvl={100,100,100,100};
     private static final ArrayList<Integer> enemySkillCosts=new ArrayList<>(Arrays.asList(new Integer[]{30, 0, 0, 0}));
@@ -166,7 +166,7 @@ public class EntityFactory {
             }
         });
 
-        cooldowns.add(new Cooldown(3));
+        cooldowns.add(new Cooldown(0));
 
         return player;
     }
@@ -199,7 +199,7 @@ public class EntityFactory {
                 cooldowns,
                 level,
                 null,
-                wariorSkillCosts,
+                warriorSkillCosts,
                 wariorSkillsUsageToLvl
         );
 
