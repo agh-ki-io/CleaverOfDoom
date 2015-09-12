@@ -1,0 +1,355 @@
+<actor collision="3.5" behavior="composite" minimap="menus/minimap.xml:enemy">
+	<behavior>
+		<dictionary>
+			<entry name="hp"><int>75</int></entry>
+			<float name="aggro-range">10</float>
+			<float name="speed">0.5</float>
+			<float name="max-range">20</float>
+			<entry name="gib"><string>effects/gibs/gib_lich_2.xml</string></entry>
+			<dictionary name="movement">
+				<string name="type">ranged</string>
+				
+				<float name="speed">0.5</float>
+				<float name="range">4</float>
+			</dictionary>
+			
+			<array name="skills">
+				<dictionary>
+					<string name="type">spew</string>
+					<string name="anim-set">frost</string>
+					<int name="cooldown">3000</int>
+					<float name="range">3</float>
+					<string name="chnl-anim-set">froststatic</string>
+					<string name="proj">projectiles/enemy_lich_frostspray.xml</string>
+					<float name="spread">0.33</float>
+					<int name="rate">45</int>
+					<int name="duration">2500</int>
+				</dictionary>
+				
+				<dictionary>
+					<string name="type">blink</string>
+					<string name="anim-set">attack</string>
+					<int name="cooldown">1500</int>
+					<float name="range">3</float>
+					<string name="sound">sound/misc.xml:spawn_tele</string>
+					
+					<float name="dist">5</float>
+					<string name="effect">effects/particles.xml:flash</string>
+				</dictionary>
+				
+				<dictionary>
+					<string name="type">heal</string>
+					<string name="anim-set">attack</string>
+					<int name="cooldown">500</int>
+					<float name="range">40</float>
+					<string name="sound">sound/monsters.xml:lich_heal</string>
+					
+					<int name="heal">20</int>
+					<float name="cast-range">10</float>
+					<string name="particle">effects/particles.xml:player_heal</string>
+				</dictionary>
+			</array>
+
+			<array name="pskills">		
+				<dictionary>
+					<string name="type">armor</string>
+					<string name="sound">sound/monsters.xml:skill_enemy_magicshield</string>
+					<string name="effect">effects/misc.xml:magicshield</string>						
+					<int name="chance">50</int>
+					<int name="dmg-sub">0</int>
+					<float name="dmg-mul">0</float>
+				</dictionary>
+			</array>			
+			
+			<array name="loot">
+				<int>500</int><string>actors/tower_banner_3.xml</string>
+			</array>				
+			
+			<entry name="death-snd"><string>sound/monsters.xml:death_lich</string></entry>
+			<entry name="hit-effect"><string>effects/particles.xml:robe-green-hit</string></entry>
+			<entry name="hit-particle"><string>effects/particles.xml:robe-green-particle</string></entry>
+		</dictionary>
+	</behavior>
+
+
+	<!-- Idle -->
+	<sprite scale="16" name="east">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>0 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>24 0 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>48 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>72 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>96 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>120 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>144 0 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame>168 0 24 24</frame>
+	</sprite>
+	
+	
+	<!-- Walk -->
+	<sprite scale="16" name="east-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">0 24 24 24</frame>
+		<frame time="125">0 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">24 24 24 24</frame>
+		<frame time="125">24 48 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">48 24 24 24</frame>
+		<frame time="125">48 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">72 24 24 24</frame>
+		<frame time="125">72 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">96 24 24 24</frame>
+		<frame time="125">96 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">120 24 24 24</frame>
+		<frame time="125">120 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">144 24 24 24</frame>
+		<frame time="125">144 48 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-walk">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="125">168 24 24 24</frame>
+		<frame time="125">168 48 24 24</frame>
+	</sprite>
+	
+
+	<!-- Attack -->
+	<sprite scale="16" name="east-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">0 72 24 24</frame>
+		<frame time="500">0 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">24 72 24 24</frame>
+		<frame time="500">24 96 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">48 72 24 24</frame>
+		<frame time="500">48 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">72 72 24 24</frame>
+		<frame time="500">72 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">96 72 24 24</frame>
+		<frame time="500">96 96 24 24</frame>		
+	</sprite>
+	
+	<sprite scale="16" name="southwest-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">120 72 24 24</frame>
+		<frame time="500">120 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">144 72 24 24</frame>
+		<frame time="500">144 96 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-attack">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="500">168 72 24 24</frame>
+		<frame time="500">168 96 24 24</frame>
+	</sprite>
+	
+
+	<!-- Frost spray -->
+	<sprite scale="16" name="east-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">0 144 24 24</frame>
+		<frame time="200">0 168 24 24</frame>
+		<frame time="200">0 192 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">24 144 24 24</frame>
+		<frame time="200">24 168 24 24</frame>
+		<frame time="200">24 192 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">48 144 24 24</frame>
+		<frame time="200">48 168 24 24</frame>
+		<frame time="200">48 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">72 144 24 24</frame>
+		<frame time="200">72 168 24 24</frame>
+		<frame time="200">72 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">96 144 24 24</frame>
+		<frame time="200">96 168 24 24</frame>
+		<frame time="200">96 192 24 24</frame>	
+	</sprite>
+	
+	<sprite scale="16" name="southwest-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">120 144 24 24</frame>
+		<frame time="200">120 168 24 24</frame>
+		<frame time="200">120 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">144 144 24 24</frame>
+		<frame time="200">144 168 24 24</frame>
+		<frame time="200">144 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-frost">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">168 144 24 24</frame>
+		<frame time="200">168 168 24 24</frame>
+		<frame time="200">168 192 24 24</frame>
+	</sprite>	
+	
+	<!-- Frost spray static -->
+	<sprite scale="16" name="east-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">0 192 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">24 192 24 24</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">48 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">72 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">96 192 24 24</frame>	
+	</sprite>
+	
+	<sprite scale="16" name="southwest-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">120 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">144 192 24 24</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-froststatic">
+		<texture>actors/lich_2.png</texture>
+		<origin>12 14</origin>
+		<frame time="200">168 192 24 24</frame>
+	</sprite>		
+	
+</actor>

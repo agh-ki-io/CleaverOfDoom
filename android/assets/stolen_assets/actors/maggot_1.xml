@@ -1,0 +1,205 @@
+<actor collision="6" behavior="ranged" minimap="menus/minimap.xml:enemy">
+	<behavior>
+		<dictionary>
+			<entry name="hp"><int>500</int></entry>
+			<entry name="projectile"><string>projectiles/enemy_maggot_1.xml</string></entry>
+			<entry name="speed"><float>0.35</float></entry>
+			<entry name="range"><float>5</float></entry>
+			<entry name="aggro-range"><float>6</float></entry>
+			<entry name="max-range"><float>20</float></entry>
+			<entry name="death-snd"><string>sound/monsters.xml:death_maggot</string></entry>
+			<entry name="hit-effect"><string>effects/particles.xml:hit_maggot_1</string></entry>		
+			<entry name="hit-particle"><string>effects/particles.xml:particle_maggot_1</string></entry>
+			<entry name="blockable"><bool>true</bool></entry>
+			<entry name="gib"><string>effects/gibs/gib_maggot_1.xml</string></entry>
+			<array name="loot">
+				<int>200</int><string>items/valuable_1.xml</string>
+				<int>10</int><string>items/health_1.xml</string>
+				<int>5</int><string>items/mana_1.xml</string>
+			</array>
+		</dictionary>
+	</behavior>
+
+
+
+	<!-- Idle -->
+	<sprite scale="16" name="east">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame>64 32 32 32</frame>		
+	</sprite>
+
+	<sprite scale="16" name="northeast">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">64 0 32 32</frame>
+	</sprite>
+
+	<sprite scale="16" name="north">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">32 0 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">0 0 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame>0 32 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">0 64 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">32 64 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="150">64 64 32 32</frame>
+	</sprite>
+	
+	
+	<!-- Walk -->
+	<sprite scale="16" name="east-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">160 32 32 32</frame>
+		<frame time="200">256 32 32 32</frame>
+		<frame time="150">64 32 32 32</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">160 0 32 32</frame>
+		<frame time="200">256 0 32 32</frame>
+		<frame time="150">64 0 32 32</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">128 0 32 32</frame>
+		<frame time="200">224 0 32 32</frame>
+		<frame time="150">32 0 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="northwest-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">96 0 32 32</frame>
+		<frame time="200">192 0 32 32</frame>
+		<frame time="150">0 0 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="west-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">96 32 32 32</frame>
+		<frame time="200">192 32 32 32</frame>
+		<frame time="150">0 32 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southwest-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">96 64 32 32</frame>
+		<frame time="200">192 64 32 32</frame>
+		<frame time="150">0 64 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">128 64 32 32</frame>
+		<frame time="200">224 64 32 32</frame>
+		<frame time="150">32 64 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="southeast-walk">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="300">160 64 32 32</frame>
+		<frame time="200">256 64 32 32</frame>
+		<frame time="150">64 64 32 32</frame>	
+	</sprite>
+	
+
+	<!-- Attack -->
+	<sprite scale="16" name="east-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">64 128 32 32</frame>
+		<frame time="200">160 128 32 32</frame>
+		<frame time="200">256 128 32 32</frame>
+	</sprite>
+
+	<sprite scale="16" name="northeast-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">64 96 32 32</frame>
+		<frame time="200">160 96 32 32</frame>
+		<frame time="200">256 96 32 32</frame>
+	</sprite>
+
+	<sprite scale="16" name="north-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">32 96 32 32</frame>
+		<frame time="200">128 96 32 32</frame>
+		<frame time="200">224 96 32 32</frame>	
+	</sprite>
+	
+	<sprite scale="16" name="northwest-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">0 96 32 32</frame>
+		<frame time="200">96 96 32 32</frame>
+		<frame time="200">192 96 32 32</frame>	
+	</sprite>
+	
+	<sprite scale="16" name="west-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">0 128 32 32</frame>
+		<frame time="200">96 128 32 32</frame>
+		<frame time="200">192 128 32 32</frame>		
+	</sprite>
+	
+	<sprite scale="16" name="southwest-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">0 160 32 32</frame>
+		<frame time="200">96 160 32 32</frame>
+		<frame time="200">192 160 32 32</frame>
+	</sprite>
+	
+	<sprite scale="16" name="south-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">32 160 32 32</frame>
+		<frame time="200">128 160 32 32</frame>
+		<frame time="200">224 160 32 32</frame>	
+	</sprite>
+	
+	<sprite scale="16" name="southeast-attack">
+		<texture>actors/maggot_1.png</texture>
+		<origin>16 17</origin>
+		<frame time="800">64 160 32 32</frame>
+		<frame time="200">160 160 32 32</frame>
+		<frame time="200">256 160 32 32</frame>
+	</sprite>
+</actor>
