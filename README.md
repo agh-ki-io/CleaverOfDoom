@@ -23,6 +23,6 @@ dla przykładu:
 sdk.dir=/home/lgmyrek/SDK_RE/Android/android-sdk-linux .
 
 ##Po uruchomieniu programu
-Klawisz 'Enter' - rozpoczęcie.
-Klawisze 'w', 's', 'a' oraz 'd' - ruch w czterech kierunkach.
+Klawisz 'Enter' - rozpoczęcie.  
+Klawisze 'w', 's', 'a' oraz 'd' - ruch w czterech kierunkach.  
 Klawisze 'u', 'i' oraz 'o' - użycie umiejętności postaci.
