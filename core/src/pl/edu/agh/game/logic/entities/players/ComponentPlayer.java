@@ -36,7 +36,7 @@ public class ComponentPlayer extends Player {
     public void damage(Damage damage) {
         super.damage(damage);
         System.out.println(this + " received: " + damage.getValue() + " " + damage.getType() + " damage.");
-        System.out.println("Health left: " + statsComponent.getHealth());
+        System.out.println("Energy left: " + statsComponent.getHealth());
     }
 
     @Override
